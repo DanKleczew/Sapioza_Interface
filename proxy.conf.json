@@ -1,0 +1,39 @@
+{
+  "/papers": {
+    "target": "http://51.178.59.232:8082",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/paper": {
+    "target": "http://51.178.59.232:8082",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/review": {
+    "target": "http://51.178.59.232:8082",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/opinion": {
+    "target": "http://51.178.59.232:8082",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/notifications": {
+    "target": "http://51.178.59.232:8083",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/User": {
+    "target": "http://51.178.59.232:8084",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/user": {
+    "target": "http://51.178.59.232:8084",
+    "secure": false,
+    "changeOrigin": true
+  }
+}
+
+

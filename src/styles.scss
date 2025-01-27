@@ -1,1 +1,25 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Karla');
+@import url('https://fonts.googleapis.com/css?family=Mr+Dafoe');
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,500,700');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --title-font: 'Mr Dafoe', cursive;
+  --links-font: 'Roboto', sans-serif;
+  --body-font: 'Karla', 'Times';
+
+  --background-color: #1C1C1C;
+  --primary-grey:#323432;
+  --primary-white: #D2D2D2;
+  --primary-orange:#F5432D;
+  --primary-yellow:#FAC900;
+  --secondary-yellow:#FFEA2C;
+  --primary-red:#4A0018;
+  --secondary-red: #7f032c;
+
+}
