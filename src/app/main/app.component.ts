@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import {PaperQueryService} from "./paper-query.service";
+import {PaperQueryService} from "../Services/paper-query.service";
 
 @Component({
   selector: 'app-root',
