@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {PaperInfoComponent} from "../main/paper-info/paper-info.component";
+import {PaperInfoComponent} from "../main/widgets/paper-info/paper-info.component";
 
 @Component({
   selector: 'app-test',

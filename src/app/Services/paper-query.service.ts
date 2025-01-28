@@ -10,7 +10,7 @@ export class PaperQueryService {
   }
 
   public queryPapers(paperId: number) {
-    this.http.get('/notifications/' + 201).subscribe(paperMD => {
+    this.http.get('/papers/' + 201).subscribe(paperMD => {
       console.log(paperMD);
     });
   }

@@ -6,9 +6,9 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-}
 
-:root {
+  font-family: 'Karla', system-ui;
+
   --title-font: 'Mr Dafoe', cursive;
   --links-font: 'Roboto', sans-serif;
   --body-font: 'Karla', 'Times';
@@ -21,5 +21,4 @@
   --secondary-yellow:#FFEA2C;
   --primary-red:#4A0018;
   --secondary-red: #7f032c;
-
 }
