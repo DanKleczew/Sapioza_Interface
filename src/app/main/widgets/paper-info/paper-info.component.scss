@@ -9,6 +9,19 @@
   border-radius: 10px;
   background-color: var(--primary-grey);
   color: var(--primary-white);
+  position: relative;
+}
+
+.paper-title {
+  color : var(--secondary-red);
+  height:20%;
+  font-size: 1.5em;
+  padding-left: 2%;
+  padding-right: 2%;
+  padding-top: 2%;
+  text-decoration: underline;
+  position: absolute;
+  top: 0;
 }
 
 .inner-container{
@@ -16,7 +29,10 @@
   justify-content: space-evenly;
   align-items: center;
   flex-direction: row;
-  height: 90%;
+  height:80%;
+  width: 100%;
+  position: absolute;
+  bottom:0;
 }
 
 .metadata {
