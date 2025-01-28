@@ -10,13 +10,24 @@ import { PaperQueryService } from '../../../Services/paper-query.service';
 export class PaperInfoComponent {
   @Input() paperId!: number;
 
-  // private title: String;
-  // private authorId: number;
-  // private field: String;
-  // private date: Date;
+  title!: String;
+  authorName!: String;
+  field!: String;
+  date!: String;
 
   constructor(private paperQueryService : PaperQueryService){
   }
+
+  ngOnInit(){
+    this.paperQueryService.queryPaperMetaData(this.paperId).subscribe((response) => 
+      {
+        this.title = response.paperDTO.title;
+        this.authorName = response.userInfoDTO.firstName + " " + response.userInfoDTO.lastName;
+        this.field = response.paperDTO.field;
+        this.date = response.paperDTO.publicationDate;
+    }); 
+  }
+
 
 
 }

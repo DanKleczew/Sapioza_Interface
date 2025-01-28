@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {PaperInfoComponent} from "../main/widgets/paper-info/paper-info.component";
+import { PaperQueryService } from '../Services/paper-query.service';
 
 @Component({
   selector: 'app-test',
@@ -9,5 +10,6 @@ import {PaperInfoComponent} from "../main/widgets/paper-info/paper-info.componen
   styleUrl: './test.component.scss'
 })
 export class TestComponent {
-
+  constructor(){
+  }
 }
