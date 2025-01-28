@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { ButtonComponent } from "../widgets/button/button.component";
+import { ButtonComponent } from "../widgets/buttons/button/button.component";
 
 @Component({
   selector: 'app-header',

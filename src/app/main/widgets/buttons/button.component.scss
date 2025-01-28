@@ -1,10 +1,7 @@
 .button-container {
     display: flex;
-    justify-content: center;
     align-items: center;
     height: 50px;
-    padding-left: 20px;
-    padding-right: 20px;
     cursor: pointer;
     background-color: var(--primary-red);
     border-radius: 25px;
@@ -12,6 +9,8 @@
     transition: background-color 0.5s ease;
     margin-left: 25px;
     margin-right: 25px;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 .button-container:hover {
@@ -22,4 +21,26 @@ a {
     text-decoration: none;
     color: var(--primary-white);
     font-family: var(--links-font);
+}
+
+.classique {
+    
+    justify-content: center;
+}
+
+.rich {
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.icon {
+    justify-content: center;
+    border-radius: 100%;
+    padding: 0;
+    width: 50px;
+}
+
+img {
+    height: 40px;
+    filter: invert(0.8);
 }
