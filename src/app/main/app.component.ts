@@ -1,18 +1,15 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import {PaperQueryService} from "../Services/paper-query.service";
+import {HeaderComponent} from "./header/header.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, HeaderComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  constructor(private queryService: PaperQueryService) { }
-
-  protected queryTest(){
-    this.queryService.queryPapers(42);
-  }
+  constructor() { }
 }
