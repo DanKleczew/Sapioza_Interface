@@ -1,0 +1,25 @@
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    padding-left: 20px;
+    padding-right: 20px;
+    cursor: pointer;
+    background-color: var(--primary-red);
+    border-radius: 25px;
+    border: 1px solid var(--primary-white);
+    transition: background-color 0.5s ease;
+    margin-left: 25px;
+    margin-right: 25px;
+}
+
+.button-container:hover {
+    background-color: var(--secondary-red);
+}
+
+a {
+    text-decoration: none;
+    color: var(--primary-white);
+    font-family: var(--links-font);
+}

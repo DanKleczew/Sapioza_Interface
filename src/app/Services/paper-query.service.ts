@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import { Observable } from 'rxjs';
+import { PaperMetaData } from '../Interfaces/paper-meta-data';
 
 @Injectable({
   providedIn: 'root'
@@ -10,8 +11,8 @@ export class PaperQueryService {
   constructor(private http : HttpClient) {
   }
 
-  public queryPaperMetaData(paperId: number) : Observable<any> {
-    return this.http.get('/papers/' + paperId);
+  public queryPaperMetaData(paperId: number) : Observable<PaperMetaData> {
+    return this.http.get<PaperMetaData>('/papers/' + paperId);;
     };
 
   public postNewPaper(){
