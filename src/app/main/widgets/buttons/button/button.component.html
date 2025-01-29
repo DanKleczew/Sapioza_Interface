@@ -1,5 +1,11 @@
-<a routerLink={{link}}>
+@if (this.link !== undefined) {
+    <a routerLink={{link}}>
+      <div class="button-container classique">
+          <span><ng-content></ng-content></span>
+      </div>
+    </a> }
+@else {
     <div class="button-container classique">
         <span><ng-content></ng-content></span>
     </div>
-</a>
+}

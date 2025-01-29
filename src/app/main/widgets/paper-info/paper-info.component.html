@@ -1,4 +1,4 @@
-<div class="paper-info-container">
+<div class="paper-info-container" (click)="this.router.navigate(['/paper', paperId])">
 
   <div class="paper-title">
     <p>{{title}}</p>
@@ -10,7 +10,7 @@
       <p>{{field}}</p>
       <p>{{date}}</p>
     </div>
-    
+
     <img class="article-img" src="/article.png" alt="article"/>
   </div>
 </div>

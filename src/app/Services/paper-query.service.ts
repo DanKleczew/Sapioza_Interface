@@ -13,7 +13,7 @@ export class PaperQueryService {
   }
 
   public queryPaperMetaData(paperId: number) : Observable<PaperMetaData> {
-    return this.http.get<PaperMetaData>('/papers/' + paperId);;
+    return this.http.get<PaperMetaData>('/papers/' + paperId);
     };
 
   // public postNewPaper(){
@@ -31,9 +31,9 @@ export class PaperQueryService {
   //   console.log("envoyé");
   // }
 
-  public queryRecent() : Observable<PaperMetaData[]> {
+  public queryRecent() : Observable<number[]> {
     const params = new HttpParams().set('limit', 9).set('DescDate', true);
-    return this.http.get<PaperMetaData[]>('/papers/filter', { params });
+    return this.http.get<number[]>('/papers/filter', { params });
   }
 
   public queryByFilter(filter: Filter): Observable<PaperMetaData[]> {

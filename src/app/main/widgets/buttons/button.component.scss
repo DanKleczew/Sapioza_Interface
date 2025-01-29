@@ -11,6 +11,7 @@
     margin-right: 25px;
     padding-left: 20px;
     padding-right: 20px;
+    color: var(--primary-white);
 }
 
 .button-container:hover {
@@ -19,12 +20,11 @@
 
 a {
     text-decoration: none;
-    color: var(--primary-white);
-    font-family: var(--links-font);
+    font-family: var(--links-font), system-ui;
 }
 
 .classique {
-    
+
     justify-content: center;
 }
 

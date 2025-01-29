@@ -1,11 +1,15 @@
 import { Component } from '@angular/core';
 import {PaperQueryService} from "../../Services/paper-query.service";
-import { PaperMetaData } from '../../Interfaces/paper-meta-data';
+import {FiltersComponent} from "./filters/filters.component";
+import {QueryResultsComponent} from "./query-results/query-results.component";
 
 @Component({
   selector: 'app-search',
   standalone: true,
-  imports: [],
+  imports: [
+    FiltersComponent,
+    QueryResultsComponent
+  ],
   templateUrl: './search.component.html',
   styleUrl: './search.component.scss'
 })
@@ -13,13 +17,10 @@ export class SearchComponent {
   constructor(private paperQueryService : PaperQueryService) {
   }
 
-  papers!: PaperMetaData[];
+  papers!: number[];
 
   ngOnInit() {
     this.paperQueryService.queryRecent().subscribe((query) => {this.papers = query;});
   }
 
-  showPapers(){
-    console.log(this.papers);
-  }
 }
