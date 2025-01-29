@@ -24,11 +24,6 @@
     "secure": false,
     "changeOrigin": true
   },
-  "/User": {
-    "target": "http://51.178.59.232:8084",
-    "secure": false,
-    "changeOrigin": true
-  },
   "/user": {
     "target": "http://51.178.59.232:8084",
     "secure": false,
