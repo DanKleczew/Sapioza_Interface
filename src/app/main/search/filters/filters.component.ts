@@ -9,5 +9,23 @@ import {ButtonComponent} from "../../widgets/buttons/button/button.component";
   styleUrl: './filters.component.scss'
 })
 export class FiltersComponent {
-
+  fields: string[] = [
+    "COMPUTER_SCIENCE",
+    "MATHEMATICS",
+    "PHYSICS",
+    "CHEMISTRY",
+    "BIOLOGY",
+    "MEDICINE",
+    "ECONOMICS",
+    "LAW",
+    "LITERATURE",
+    "HISTORY",
+    "PHILOSOPHY",
+    "PSYCHOLOGY",
+    "SOCIOLOGY",
+    "POLITICAL_SCIENCE",
+    "EDUCATION",
+    "ENGINEERING",
+    "ART"
+  ]
 }
