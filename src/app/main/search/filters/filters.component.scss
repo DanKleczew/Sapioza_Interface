@@ -35,7 +35,9 @@
 .button-container {
   width: 30%;
 }
-
+form {
+  width:100%;
+}
 input, select {
   height : 30px;
   background-color: var(--secondary-red);

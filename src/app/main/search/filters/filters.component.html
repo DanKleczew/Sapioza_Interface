@@ -1,37 +1,39 @@
 <div class="outer-container">
   <h2 class="filters-title">Filtres</h2>
-  <div class="filters-container">
-    <div class="input-container">
-      <input type = "text" placeholder="Titre" class="input" />
-      <input type="text" placeholder="Abstract" class="input" />
-      <input type="text" placeholder="Mots Clés" class="input" />
-      <input type="text" placeholder="Revue" class="input" />
-      <input type="text" placeholder="DOI" class="input" />
-    </div>
-    <div class="input-container">
+  <form [formGroup]="formFilters">
+    <div class="filters-container">
+      <div class="input-container">
+        <input type="text" placeholder="Titre" class="input" formControlName="title"/>
+        <input type="text" placeholder="Abstract" class="input" formControlName="abstract_"/>
+        <input type="text" placeholder="Mots Clés" class="input" formControlName="keywords"/>
+        <input type="text" placeholder="Revue" class="input" formControlName="revue"/>
+        <input type="text" placeholder="DOI" class="input" formControlName="DOI"/>
+      </div>
+      <div class="input-container">
+        <select class="select" formControlName="field">
+          <option value="all">Tous domaines</option>
+          @for (field of fields ; track field){
+            <option value="{{field}}">{{field}}</option>
+          }
 
-      <select class="select">
-        @for (field of fields ; track field){
-        <option value="{{field}}">{{field}}</option>
-        }
-        <option value="all">Tous domaines</option>
-      </select>
-
-      <div>
-        <label for="dateAsc">Ascending Date</label>
-        <input type="checkbox" id="dateAsc" />
-      </div>
-      <div>
-        <label for="dateDesc">Descending Date</label>
-        <input type="checkbox" id="dateDesc" />
-      </div>
-      <div>
-        <label for="limit">Limit</label>
-        <input type="number" id="limit">
+        </select>
+        <div>
+          <label for="dateAsc">Ascending Date</label>
+          <input type="checkbox" id="dateAsc" formControlName="AscDate"/>
+        </div>
+        <div>
+          <label for="dateDesc">Descending Date</label>
+          <input type="checkbox" id="dateDesc" formControlName="DescDate"/>
+        </div>
+        <div>
+          <label for="limit">Limit</label>
+          <input type="number" id="limit" formControlName="limit"/>
+        </div>
       </div>
     </div>
-  </div>
+  </form>
+
   <div class="button-container">
-    <app-button>Rechercher</app-button>
+    <app-button (click)="findPapers()">Rechercher</app-button>
   </div>
 </div>

@@ -1,9 +1,9 @@
 <div class="fullscreen-container">
   <div class="filters-container">
-    <app-filters></app-filters>
+    <app-filters (filtersEvent)="queryPapers($event)"></app-filters>
   </div>
   <div class="results-container">
-    <!--
-    <app-query-results [papers]="papers"></app-query-results> -->
+
+    <app-query-results [papers]="papers"></app-query-results>
   </div>
 </div>

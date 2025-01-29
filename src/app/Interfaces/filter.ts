@@ -1,12 +1,12 @@
 export interface Filter {
-    title?: string,
-    authorId?: number,
-    abstract_?: string,
-    keywords?: string,
-    revue?: string,
-    field?: string,
-    AscDate?: boolean,
-    DescDate?: boolean,
-    DOI?: string,
-    limit?: number
+    title?: string | null,
+    authorId?: number | null,
+    abstract_?: string | null,
+    keywords?: string | null,
+    revue?: string | null,
+    field?: string | null,
+    AscDate?: boolean | null,
+    DescDate?: boolean | null,
+    DOI?: string | null,
+    limit?: number | null
 }
