@@ -4,6 +4,7 @@ import {UserInfoData} from "../../../Interfaces/user-info-data";
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {JsonPipe} from "@angular/common";
 import {ConnectionService} from "../../../Services/connection.service";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-modif-user-profile',
@@ -19,8 +20,9 @@ import {ConnectionService} from "../../../Services/connection.service";
 export class ModifUserProfileComponent {
   @Input() userId!: number;
   protected user !: UserInfoData;
+  protected searchUserId!: number;
 
-  constructor(private userService : UserService, private connectionService: ConnectionService) {
+  constructor(private userService : UserService, private connectionService: ConnectionService, private route: ActivatedRoute) {
   }
   ngOnInit() {
     if (this.connectionService.isLogged()) {
@@ -28,7 +30,6 @@ export class ModifUserProfileComponent {
       if (tokenInfo != null) {
         this.userId = Number(tokenInfo.id);
       }
-      console.log(this.userId)
       this.userService.userInfo(this.userId).subscribe(response => {
         this.user = response;
         console.log(this.user);

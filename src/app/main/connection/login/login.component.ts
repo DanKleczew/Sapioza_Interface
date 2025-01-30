@@ -1,10 +1,10 @@
 import {Component, Input} from '@angular/core';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
-import {UserInfoData} from "../../../Interfaces/user-info-data";
 import {UserService} from "../../../Services/user.service";
 import {LoginData} from "../../../Interfaces/login-data";
 import {ConnectionService} from "../../../Services/connection.service";
 import {TokenData} from "../../../Interfaces/token-data";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -14,15 +14,19 @@ import {TokenData} from "../../../Interfaces/token-data";
         ReactiveFormsModule
     ],
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss','../user-profile-register-login.component.scss']
+  styleUrls: ['./login.component.scss','../../user-profile/user-profile-register-login.component.scss']
 })
 export class LoginComponent {
   protected name!: string;
   protected firstName!: string;
   protected uuid!: string;
   protected id !: number;
+  protected searchUserId!: number;
 
-  constructor(private userService: UserService, private connectionService: ConnectionService) {
+  constructor(private userService: UserService,
+              private connectionService: ConnectionService,
+              private route: ActivatedRoute,
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -40,9 +44,7 @@ export class LoginComponent {
     this.firstName = "";
     this.uuid = "";
     this.id = 0;
-    console.log(this.uuid);
   }
-
 
   formLogin = new FormGroup({
     email: new FormControl('', [Validators.email, Validators.required]),
@@ -69,6 +71,7 @@ export class LoginComponent {
         id: this.id
       }
       this.connectionService.saveToken(tokenData);
+      this.router.navigate(['/profile/'+this.id]);
     });
   }
 }

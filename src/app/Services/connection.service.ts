@@ -24,12 +24,10 @@ export class ConnectionService {
         uuid: "",
         id: 0
       }
-      console.log(tokenData);
       tokenData.uuid = String(localStorage.getItem('tokenSapioza'));
       tokenData.name = String(localStorage.getItem('nameSapioza'));
       tokenData.firstName = String(localStorage.getItem('firstNameSapioza'));
       tokenData.id = Number(localStorage.getItem('idSapioza'));
-      console.log(tokenData);
       return !this.checkEmpty(tokenData);
     }
     catch (e) {
@@ -47,8 +45,6 @@ export class ConnectionService {
     if(tokenData.uuid == "" || tokenData.name == "" || tokenData.firstName == "" || tokenData.id == 0) {
       return true;
     }
-    console.log("tokenData.uuid == null", tokenData.uuid == null )
-    console.log("false in comming")
     return false;
   }
 

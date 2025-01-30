@@ -14,6 +14,7 @@ export class UserService {
   }
 
   public userInfo(userId: number | undefined): Observable<UserInfoData> {
+    console.log("user.service.ts: userInfo: userId: " + userId);
     return this.http.get<UserInfoData>('/user/getInfo/' + userId);
   }
 
@@ -32,7 +33,6 @@ export class UserService {
   public createAccount(registerData: RegisterData): void {
     this.http.post('/user/create/createAccount',
       {registerData}).subscribe(response => {
-      console.log(response);
     });
   }
 }

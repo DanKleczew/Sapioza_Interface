@@ -1,0 +1,7 @@
+<div class="block-container">
+  @for(paper of papersList; track paper.paperId){
+  <div class="paper-container">
+      <app-paper-info [queriedPaper]="paper"></app-paper-info>
+  </div>
+    }
+</div>

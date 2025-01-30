@@ -1,17 +1,9 @@
-
-{{uuid}}
-
-@if (uuid == "null" || uuid == "") {
-<div class="login-register">
-  <div class="login">
-    <app-login></app-login>
+<app-show-user-profile [userId]=searchUserId></app-show-user-profile>
+@if (searchUserId == id){
+  <button type="button" (click)="deleteCookie()">Logout</button>
+  <div>
+    <app-button [link]="'/profile/modify'">Modifier</app-button>
   </div>
-  <div class="register">
-    <app-register></app-register>
-  </div>
-</div>
-} @else {
-  <app-modif-user-profile [userId]=id></app-modif-user-profile>
-  <button type="button" (click)="deleteCookie()">supp cookies</button>
-}
+    }
+<app-user-paper-links [userId]=searchUserId></app-user-paper-links>
 
