@@ -37,7 +37,6 @@ export class ConnectionService {
       }
     }
 
-
   checkEmpty(tokenData: TokenData): boolean {
     if(tokenData.uuid == null || tokenData.name == null || tokenData.firstName == null || tokenData.id == null) {
       return true;
@@ -60,7 +59,7 @@ export class ConnectionService {
     this.router.navigate(['/']);
   }
 
-  getTokenInfo(): TokenData |null {
+  getTokenInfo(): TokenData | null {
     if(!this.isLogged()) {
       return null;
     }

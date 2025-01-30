@@ -3,6 +3,7 @@ import {PaperQueryService} from "../../Services/paper-query.service";
 import {FiltersComponent} from "./filters/filters.component";
 import {Filter} from "../../Interfaces/filter";
 import {QueryResultsComponent} from "./query-results/query-results.component";
+import {FilteredPaperMetaData} from "../../Interfaces/filtered-paper-meta-data";
 
 @Component({
   selector: 'app-search',
@@ -18,7 +19,7 @@ export class SearchComponent {
   constructor(private paperQueryService : PaperQueryService) {
   }
 
-  papers!: number[];
+  papers!: FilteredPaperMetaData[];
 
   ngOnInit() {
     this.paperQueryService.queryRecent(9).subscribe((query) => {this.papers = query;});

@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { PaperQueryService } from '../../../Services/paper-query.service';
 import {Router} from "@angular/router";
+import {FilteredPaperMetaData} from "../../../Interfaces/filtered-paper-meta-data";
 
 @Component({
   selector: 'app-paper-info',
@@ -10,6 +11,7 @@ import {Router} from "@angular/router";
 })
 export class PaperInfoComponent {
   @Input() paperId!: number;
+  @Input() queriedPaper?: FilteredPaperMetaData;
 
   title!: String;
   authorName!: String;
@@ -21,6 +23,15 @@ export class PaperInfoComponent {
   }
 
   ngOnInit(){
+    if (this.queriedPaper) {
+      this.title = this.queriedPaper.queriedPaperInfosDTO.paperDTO.title;
+      this.authorName = this.queriedPaper.queriedPaperInfosDTO.userInfoDTO.firstName +
+        " " + this.queriedPaper.queriedPaperInfosDTO.userInfoDTO.lastName;
+      this.authorId = this.queriedPaper.queriedPaperInfosDTO.userInfoDTO.id;
+      this.field = this.queriedPaper.queriedPaperInfosDTO.paperDTO.field;
+      this.date = this.queriedPaper.queriedPaperInfosDTO.paperDTO.publicationDate;
+      this.paperId = this.queriedPaper.paperId;
+    } else if (this.paperId !== undefined) {
     this.paperQueryService.queryPaperMetaData(this.paperId).subscribe((response) =>
       {
         this.title = response.paperDTO.title;
@@ -29,6 +40,11 @@ export class PaperInfoComponent {
         this.field = response.paperDTO.field;
         this.date = response.paperDTO.publicationDate;
     });
+  } else {
+      this.title = "Template article";
+      console.error("No paperId or queriedPaper provided to PaperInfoComponent");
+    }
+
   }
 
 

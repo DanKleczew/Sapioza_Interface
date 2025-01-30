@@ -47,7 +47,9 @@
 
 .clickable {
   cursor: pointer;
+  background: var(--primary-grey);
+  transition: background 0.5s ease;
 }
 .clickable:hover{
-  color: var(--primary-orange)
+  color: var(--primary-yellow);
 }

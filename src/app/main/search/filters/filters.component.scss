@@ -40,11 +40,10 @@ form {
 }
 input, select {
   height : 30px;
-  background-color: var(--secondary-red);
+  background-color: var(--primary-grey);
   color: var(--primary-white);
-  border-radius: 25px;
-  border: 1px solid var(--primary-white);
-
+  border-radius: 10px;
+  border: 1px inset var(--primary-red);
 }
 input {
   padding-left: 10px;
@@ -61,3 +60,6 @@ label {
   margin-right: 1rem;
 }
 
+.ng-invalid.ng-touched {
+  border-color : var(--primary-orange);
+}

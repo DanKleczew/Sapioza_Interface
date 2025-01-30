@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
-import {PaperMetaData} from "../../../Interfaces/paper-meta-data";
 import {PaperInfoComponent} from "../../widgets/paper-info/paper-info.component";
+import {FilteredPaperMetaData} from "../../../Interfaces/filtered-paper-meta-data";
 
 @Component({
   selector: 'app-query-results',
@@ -12,5 +12,5 @@ import {PaperInfoComponent} from "../../widgets/paper-info/paper-info.component"
   styleUrl: './query-results.component.scss'
 })
 export class QueryResultsComponent {
-  @Input() papers !: number[];
+  @Input() papers !: FilteredPaperMetaData[];
 }
