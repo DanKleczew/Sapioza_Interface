@@ -1,1 +1,19 @@
 <p>login works!</p>
+
+{{uuid}}
+@if (uuid == "null" || uuid == "") {
+  <form [formGroup]="formLogin">
+    <div class="form-body">
+      <div class="form-field">
+        <label for="email">Email</label>
+        <input type="email" id="email" formControlName="email">
+      </div>
+
+      <div class="form-field">
+        <label for="password">Password</label>
+        <input type="password" id="password" formControlName="password">
+      </div>
+      <button type="button" (click)="onSubmitLogin()">Se connecter</button>
+    </div>
+  </form>
+}

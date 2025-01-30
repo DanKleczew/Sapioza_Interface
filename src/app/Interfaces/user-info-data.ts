@@ -1,12 +1,12 @@
 export interface UserInfoData {
   id : number;
-  name : String;
-  firsName : String;
-  email : String;
-  password : String;
+  name : string;
+  firstName : string;
+  email : string;
+  password : string;
   UsersIds : number[];
-  creationDate : String;
-  deletionDate : String|null;
-  role : String;
-  uuid : String;
+  creationDate : string;
+  deletionDate : string|null;
+  role : string;
+  uuid : string;
 }

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import {HeaderComponent} from "./header/header.component";
+import {CookieService} from "ngx-cookie-service";
 
 @Component({
   selector: 'app-root',

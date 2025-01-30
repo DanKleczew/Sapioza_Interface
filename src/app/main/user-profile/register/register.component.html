@@ -1,1 +1,47 @@
 <p>register works!</p>
+
+<form [formGroup]="formUserRegister">
+  <div class="form-body">
+    <div class="form-field">
+      <label for="firstNameRegister">First Name</label>
+      <input type="text" id="firstNameRegister" formControlName="firstNameRegister">
+    </div>
+    <div class="form-field">
+      <label for="lastNameRegister">Last Name</label>
+      <input type="text" id="lastNameRegister" formControlName="lastNameRegister">
+    </div>
+
+    <div class="form-field">
+      <label for="emailRegister">Email</label>
+      <input type="email" id="emailRegister" formControlName="emailRegister">
+    </div>
+
+    <div class="form-field">
+      <label for="passwordRegister">Password</label>
+      <input type="password" id="passwordRegister" formControlName="passwordRegister">
+    </div>
+
+    <div class="form-field">
+      <label for="confirmPasswordRegister">Confirm Password</label>
+      <input type="password" id="confirmPasswordRegister" formControlName="confirmPasswordRegister">
+    </div>
+    <button type="button" (click)="onSubmitRegister()" [disabled]="!formUserRegister.valid">Register</button>
+  </div>
+</form>
+
+@if (showModal) {
+  <div id="myModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+
+        <h2>Register Error</h2>
+      </div>
+      <div class="modal-body">
+        <p>Your two password do not match</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" (click)="closeModal()">Close</button>
+      </div>
+    </div>
+  </div>
+}
