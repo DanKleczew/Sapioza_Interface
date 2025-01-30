@@ -108,6 +108,8 @@ button:disabled {
 
 input, textarea {
   padding: 1%;
+  font-family: Karla, system-ui;
+  font-size: 18px;
 }
 
 p, input, select {
@@ -117,6 +119,13 @@ p, input, select {
 
 .ng-invalid.ng-touched {
   border-color: var(--primary-orange);
+}
+
+:disabled {
+  background-color: var(--primary-grey);
+  color: var(--secondary-grey);
+  border-color: var(--secondary-grey);
+  cursor: not-allowed;
 }
 
 

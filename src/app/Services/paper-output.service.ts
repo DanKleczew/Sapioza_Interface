@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {PaperCreation} from "../Interfaces/paper-creation";
+import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -35,9 +36,8 @@ export class PaperOutputService {
     });
   }
 
-  public postNewPaper(publishedPaper : PaperCreation) : void  {
+  public postNewPaper(publishedPaper : PaperCreation) : Observable<any>  {
     console.log(publishedPaper);
-    this.http.post('/papers/submit', publishedPaper)
-      .subscribe(response=> console.log(response));
+    return this.http.post('/papers/submit', publishedPaper);
   }
 }

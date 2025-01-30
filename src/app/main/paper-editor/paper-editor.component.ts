@@ -35,6 +35,7 @@ export class PaperEditorComponent {
   })
 
   constructor(private route: ActivatedRoute,
+              private router: Router,
               private paperQueryService: PaperQueryService,
               private paperOutputService: PaperOutputService,
               private connectionService: ConnectionService) {
@@ -46,15 +47,12 @@ export class PaperEditorComponent {
     if (param !== null){
       this.paperId = Number(param);
       this.paperQueryService.queryPaperMetaData(this.paperId)
-        .subscribe(response => this.paperMetaData = response)
-      if (!this.paperMetaData) {
-        alert('Oops, ce papier n\'existe pas');
-        // TODO : Redirect
-      }
-      if (!this.connectionService.isLogged() ||
-        this.connectionService.getTokenInfo()?.id !== this.paperMetaData?.userInfoDTO.id){
-        alert('Identifiez-vous correctement pour modifier ce papier')
-      }
+        .subscribe(response => {
+          this.paperMetaData = response;
+          this.checkAllowedToModify();
+          this.fillForm();
+        }
+        );
       this.isUpdating = true
     }
     else {
@@ -62,34 +60,69 @@ export class PaperEditorComponent {
     }
   }
 
+  private checkAllowedToModify(){
+    if (!this.paperMetaData) {
+      alert('Oops, ce papier n\'existe pas');
+      this.router.navigate(['/']);
+    }
+    if (!this.connectionService.isLogged() ||
+      this.connectionService.getTokenInfo()?.id !== this.paperMetaData?.userInfoDTO.id){
+      alert('Identifiez-vous correctement pour modifier ce papier')
+      this.router.navigate(['/profile']);
+    }
+  }
+
+  private fillForm(){
+    if (!this.paperMetaData){
+      return;
+    }
+    this.formEditor.get('title')!.setValue(this.paperMetaData.paperDTO.title);
+    this.formEditor.get('title')?.disable({onlySelf: true, emitEvent: false});
+    this.formEditor.get('field')!.setValue(this.paperMetaData.paperDTO.field);
+    this.formEditor.get('field')?.disable({onlySelf: true, emitEvent: false});
+    this.formEditor.get('revue')!.setValue(this.paperMetaData.paperDTO.publishedIn);
+    this.formEditor.get('revue')?.disable({onlySelf: true, emitEvent: false});
+    this.formEditor.get('DOI')!.setValue(this.paperMetaData.paperDTO.DOI);
+    this.formEditor.get('DOI')?.disable({onlySelf: true, emitEvent: false});
+    this.formEditor.get('keywords')!.setValue(this.paperMetaData.paperDTO.keywords);
+    this.formEditor.get('keywords')?.disable({onlySelf: true, emitEvent: false});
+    this.formEditor.get('abstract_')!.setValue(this.paperMetaData.paperDTO.abstract_);
+    this.formEditor.get('abstract_')?.disable({onlySelf: true, emitEvent: false});
+  }
+
   submit(){
     if (!this.connectionService.isLogged()){
-      console.log("T'es pas coo ducon");
+      alert('Vous devez être connecté pour effectuer cette action')
+      this.router.navigate(['/profile']);
+    }
+    if (this.formEditor.invalid){
+      // Not possible : Submit button disabled if form is invalid
+      alert('Oups il y a eu une erreur');
+      this.router.navigate(['/']);
     }
     if (this.isUpdating){
       console.log("IsUpdating");
+      // TODO : Update
+      alert('Votre papier a bien été soumis')
+      this.router.navigate(['/paper/' + this.paperId]);
     } else {
-      if (this.formEditor.invalid){
-        alert('Oups il y a eu une erreur')
-      } else {
-        const paperCreationDto: PaperCreation = {
-          metaData : {
-            title : this.formEditor.get('title')!.value as string,
-            authorId : this.connectionService.getTokenInfo()!.id,
-            field: this.formEditor.get('field')!.value as string,
-            publishedIn: this.formEditor.get('revue')!.value as string,
-            keywords : this.formEditor.get('keywords')!.value as string,
-            abstract_ : this.formEditor.get('abstract_')!.value as string,
-            DOI : this.formEditor.get('DOI')!.value as string,
+      const paperCreationDto: PaperCreation = {
+        metaData : {
+          title : this.formEditor.get('title')!.value as string,
+          authorId : this.connectionService.getTokenInfo()!.id,
+          field: this.formEditor.get('field')!.value as string,
+          publishedIn: this.formEditor.get('revue')!.value as string,
+          keywords : this.formEditor.get('keywords')!.value as string,
+          abstract_ : this.formEditor.get('abstract_')!.value as string,
+          DOI : this.formEditor.get('DOI')!.value as string,
           },
-          body : this.formEditor.get('body')!.value as string
+        body : this.formEditor.get('body')!.value as string
         }
-        this.paperOutputService.postNewPaper(paperCreationDto);
-        // TODO : Redirect / Success Message
-      }
-
-
-
+        this.paperOutputService.postNewPaper(paperCreationDto)
+          .subscribe(response => {
+            alert('Votre papier a bien été soumis');
+            this.router.navigate(['/paper/' + response.PaperId]);
+          });
     }
   }
 }
