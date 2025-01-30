@@ -14,7 +14,7 @@ import {TokenData} from "../../../Interfaces/token-data";
         ReactiveFormsModule
     ],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+  styleUrls: ['./login.component.scss','../user-profile-register-login.component.scss']
 })
 export class LoginComponent {
   protected name!: string;
@@ -45,8 +45,8 @@ export class LoginComponent {
 
 
   formLogin = new FormGroup({
-    email: new FormControl('', Validators.email),
-    password: new FormControl(''),
+    email: new FormControl('', [Validators.email, Validators.required]),
+    password: new FormControl('', [Validators.required]),
   });
 
   onSubmitLogin(){

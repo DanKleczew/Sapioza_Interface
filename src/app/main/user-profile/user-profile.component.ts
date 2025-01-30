@@ -21,6 +21,7 @@ export class UserProfileComponent {
   protected firstName!: string;
   protected uuid!: string;
   protected id !: number;
+  protected showLoginRegister: boolean = true;
 
   constructor(private connectionService: ConnectionService) {
   }
@@ -47,6 +48,10 @@ export class UserProfileComponent {
     this.connectionService.logout();
     let tokenInfo = this.connectionService.getTokenInfo();
     console.log(tokenInfo);
+  }
+
+  switchLoginRegister(){
+    this.showLoginRegister = !this.showLoginRegister;
   }
 
 

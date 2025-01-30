@@ -1,13 +1,15 @@
-<p>user-profile works!</p>
-<!--
-<app-modif-user-profile [userId]="201"></app-modif-user-profile>
--->
 
 {{uuid}}
-sds
+
 @if (uuid == "null" || uuid == "") {
-  <app-login></app-login>
-  <app-register></app-register>
+<div class="login-register">
+  <div class="login">
+    <app-login></app-login>
+  </div>
+  <div class="register">
+    <app-register></app-register>
+  </div>
+</div>
 } @else {
   <app-modif-user-profile [userId]=id></app-modif-user-profile>
   <button type="button" (click)="deleteCookie()">supp cookies</button>
