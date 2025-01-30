@@ -58,7 +58,6 @@ export class FiltersComponent {
       DescDate: Boolean(this.formFilters.getRawValue().DescDate),
       limit: Number(this.formFilters.getRawValue().limit)
     }
-    console.log(filters);
     this.filtersEvent.emit(filters);
   }
 }

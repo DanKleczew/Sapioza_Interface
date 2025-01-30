@@ -13,5 +13,4 @@ import {PaperInfoComponent} from "../../widgets/paper-info/paper-info.component"
 })
 export class QueryResultsComponent {
   @Input() papers !: number[];
-
 }

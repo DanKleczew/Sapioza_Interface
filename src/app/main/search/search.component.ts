@@ -21,7 +21,7 @@ export class SearchComponent {
   papers!: number[];
 
   ngOnInit() {
-    this.paperQueryService.queryRecent().subscribe((query) => {this.papers = query;});
+    this.paperQueryService.queryRecent(9).subscribe((query) => {this.papers = query;});
   }
 
   protected queryPapers($filter: Filter) {

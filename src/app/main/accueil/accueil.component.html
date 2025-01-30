@@ -1,1 +1,15 @@
-<p>accueil works!</p>
+<div class="text-container">
+  <h1>Bienvenue sur Sapioza : la plateforme de partage de connaissance sociale</h1>
+  <p>Cherchez des articles, publiez les vôtres et interagissez avec la communauté</p>
+</div>
+<div class="tendances-container">
+  <p class="tendances-title">
+    Articles récents :
+  </p>
+  <div class="paper-container">
+    @for(paperId of papers; track paperId){
+      <app-paper-info [paperId]="paperId"></app-paper-info>
+    }
+  </div>
+</div>
+

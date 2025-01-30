@@ -1,0 +1,21 @@
+.text-container {
+  height: 25vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-content: center;
+}
+
+p, h1 {
+  width: 100%;
+  text-align: center;
+  color: var(--primary-white)
+}
+
+.paper-container {
+  margin-top: 10vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}

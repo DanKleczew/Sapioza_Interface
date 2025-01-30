@@ -31,8 +31,8 @@ export class PaperQueryService {
   //   console.log("envoyé");
   // }
 
-  public queryRecent() : Observable<number[]> {
-    const params = new HttpParams().set('limit', 9).set('DescDate', true);
+  public queryRecent(limit: number) : Observable<number[]> {
+    const params = new HttpParams().set('limit', limit).set('DescDate', true);
     return this.http.get<number[]>('/papers/filter', { params });
   }
 
