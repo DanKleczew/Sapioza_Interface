@@ -1,12 +1,12 @@
-<div class="paper-info-container" (click)="this.router.navigate(['/paper', paperId])">
+<div class="paper-info-container">
 
-  <div class="paper-title">
+  <div class="paper-title clickable" (click)="this.router.navigate(['/paper', paperId])">
     <p>{{title}}</p>
   </div>
 
   <div class="inner-container">
     <div class="metadata">
-      <p>{{authorName}}</p>
+      <p class="clickable" (click)="this.router.navigate(['/profile', authorId])">{{authorName}}</p>
       <p>{{field}}</p>
       <p>{{date}}</p>
     </div>

@@ -13,6 +13,7 @@ export class PaperInfoComponent {
 
   title!: String;
   authorName!: String;
+  authorId!: number;
   field!: String;
   date!: String;
 
@@ -24,6 +25,7 @@ export class PaperInfoComponent {
       {
         this.title = response.paperDTO.title;
         this.authorName = response.userInfoDTO.firstName + " " + response.userInfoDTO.lastName;
+        this.authorId = response.userInfoDTO.id;
         this.field = response.paperDTO.field;
         this.date = response.paperDTO.publicationDate;
     });

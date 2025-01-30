@@ -19,7 +19,6 @@
   padding-left: 2%;
   padding-right: 2%;
   padding-top: 2%;
-  text-decoration: underline;
   position: absolute;
   top: 0;
 }
@@ -44,4 +43,11 @@
 
 .article-img {
   height: 60%;
+}
+
+.clickable {
+  cursor: pointer;
+}
+.clickable:hover{
+  color: var(--primary-orange)
 }
