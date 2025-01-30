@@ -16,21 +16,6 @@ export class PaperQueryService {
     return this.http.get<PaperMetaData>('/papers/' + paperId);
     };
 
-  public postNewPaper(){
-     this.http.post('/papers/submit', {"metaData": {
-         "title": "Test Article Title",
-         "authorId": 202,
-         "field": "ART",
-         "publishedIn": "Test Journal",
-         "keywords": "Test keywords",
-         "abstract_": "Test Abstract",
-         "DOI": "https://test.com/doi/10.1000/182"
-         },
-         "body": "Test body Test body Test body Test body Test body Test body Test body Test bodyTest bodyTest body Test bodyTest bodyTest body Test body Test body"
-     }).subscribe(response => {console.log(response)})
-     console.log("envoyé");
-   }
-
   public queryRecent(limit: number) : Observable<number[]> {
     const params = new HttpParams().set('limit', limit).set('DescDate', true);
     return this.http.get<number[]>('/papers/filter', { params });

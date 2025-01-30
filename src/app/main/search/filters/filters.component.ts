@@ -3,6 +3,7 @@ import {ButtonComponent} from "../../widgets/buttons/button/button.component";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {Filter} from "../../../Interfaces/filter";
 import {PaperQueryService} from "../../../Services/paper-query.service";
+import {FieldsEnum} from "../../../Constantes/Fields";
 
 @Component({
   selector: 'app-filters',
@@ -26,25 +27,7 @@ export class FiltersComponent {
     limit: new FormControl('', [Validators.min(1)]),
   });
 
-  fields: string[] = [
-    "COMPUTER_SCIENCE",
-    "MATHEMATICS",
-    "PHYSICS",
-    "CHEMISTRY",
-    "BIOLOGY",
-    "MEDICINE",
-    "ECONOMICS",
-    "LAW",
-    "LITERATURE",
-    "HISTORY",
-    "PHILOSOPHY",
-    "PSYCHOLOGY",
-    "SOCIOLOGY",
-    "POLITICAL_SCIENCE",
-    "EDUCATION",
-    "ENGINEERING",
-    "ART"
-  ]
+  protected fields : string[] = FieldsEnum;
 
   protected findPapers(){
     let filters : Filter = {

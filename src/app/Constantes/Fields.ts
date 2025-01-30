@@ -1,0 +1,19 @@
+export const FieldsEnum = [
+    "COMPUTER_SCIENCE",
+    "MATHEMATICS",
+    "PHYSICS",
+    "CHEMISTRY",
+    "BIOLOGY",
+    "MEDICINE",
+    "ECONOMICS",
+    "LAW",
+    "LITERATURE",
+    "HISTORY",
+    "PHILOSOPHY",
+    "PSYCHOLOGY",
+    "SOCIOLOGY",
+    "POLITICAL_SCIENCE",
+    "EDUCATION",
+    "ENGINEERING",
+    "ART"
+  ]
