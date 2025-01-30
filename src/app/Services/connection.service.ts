@@ -42,10 +42,14 @@ export class ConnectionService {
     if(tokenData.uuid == null || tokenData.name == null || tokenData.firstName == null || tokenData.id == null) {
       return true;
     }
+    if(tokenData.uuid == "null" || tokenData.name == "null" || tokenData.firstName == "null") {
+      return true;
+    }
     if(tokenData.uuid == "" || tokenData.name == "" || tokenData.firstName == "" || tokenData.id == 0) {
       return true;
     }
-    console.log("TokenData is not empty");
+    console.log("tokenData.uuid == null", tokenData.uuid == null )
+    console.log("false in comming")
     return false;
   }
 
