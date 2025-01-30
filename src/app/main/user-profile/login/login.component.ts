@@ -3,7 +3,6 @@ import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} fr
 import {UserInfoData} from "../../../Interfaces/user-info-data";
 import {UserService} from "../../../Services/user.service";
 import {LoginData} from "../../../Interfaces/login-data";
-import {CookieService} from "ngx-cookie-service";
 import {ConnectionService} from "../../../Services/connection.service";
 import {TokenData} from "../../../Interfaces/token-data";
 
@@ -23,7 +22,7 @@ export class LoginComponent {
   protected uuid!: string;
   protected id !: number;
 
-  constructor(private userService: UserService, private cookieService: CookieService, private connectionService: ConnectionService) {
+  constructor(private userService: UserService, private connectionService: ConnectionService) {
   }
 
   ngOnInit() {
