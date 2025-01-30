@@ -2,7 +2,6 @@ import {Component, EventEmitter, Output} from '@angular/core';
 import {ButtonComponent} from "../../widgets/buttons/button/button.component";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {Filter} from "../../../Interfaces/filter";
-import {PaperQueryService} from "../../../Services/paper-query.service";
 import {FieldsEnum} from "../../../Constantes/Fields";
 
 @Component({
@@ -36,7 +35,7 @@ export class FiltersComponent {
       keywords: this.formFilters.getRawValue().keywords,
       revue: this.formFilters.getRawValue().revue,
       DOI: this.formFilters.getRawValue().DOI,
-      field: this.formFilters.getRawValue().field,
+      researchField: this.formFilters.getRawValue().field,
       AscDate: Boolean(this.formFilters.getRawValue().AscDate),
       DescDate: Boolean(this.formFilters.getRawValue().DescDate),
       limit: Number(this.formFilters.getRawValue().limit)

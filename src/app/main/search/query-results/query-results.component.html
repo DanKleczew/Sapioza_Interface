@@ -1,5 +1,5 @@
 <div class="results-container">
-  @for(id of papers; track id){
-    <app-paper-info [paperId]="id"></app-paper-info>
+  @for(paper of papers; track paper.paperId){
+    <app-paper-info [queriedPaper]="paper"></app-paper-info>
   }
 </div>

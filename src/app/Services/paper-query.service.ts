@@ -3,6 +3,7 @@ import {HttpClient, HttpParams} from "@angular/common/http";
 import { Observable } from 'rxjs';
 import { PaperMetaData } from '../Interfaces/paper-meta-data';
 import {Filter} from "../Interfaces/filter";
+import {FilteredPaperMetaData} from "../Interfaces/filtered-paper-meta-data";
 
 @Injectable({
   providedIn: 'root'
@@ -16,24 +17,27 @@ export class PaperQueryService {
     return this.http.get<PaperMetaData>('/papers/' + paperId);
     };
 
-  public queryRecent(limit: number) : Observable<number[]> {
+  public queryRecent(limit: number) : Observable<FilteredPaperMetaData[]> {
     const params = new HttpParams().set('limit', limit).set('DescDate', true);
-    return this.http.get<number[]>('/papers/filter', { params });
+    console.log(params.toString());
+    return this.http.get<FilteredPaperMetaData[]>('/papers/filter', { params });
   }
 
-  public queryByFilter(filter: Filter): Observable<number[]> {
+  public queryByFilter(filter: Filter): Observable<FilteredPaperMetaData[]> {
     let params = new HttpParams();
     if(filter.title) params = params.set('title', filter.title);
     if(filter.abstract_) params = params.set('abstract_', filter.abstract_);
     if(filter.keywords) params = params.set('keywords', filter.keywords);
     if(filter.revue) params = params.set('revue', filter.revue);
-    if(filter.field) params = params.set('field', filter.field);
+    if(filter.researchField && filter.researchField != "all") {
+      params = params.set('researchField', filter.researchField);
+    }
     if(filter.AscDate) params = params.set('AscDate', filter.AscDate);
     if(filter.DescDate) params = params.set('DescDate', filter.DescDate);
     if(filter.DOI) params = params.set('DOI', filter.DOI);
     if(filter.limit) params = params.set('limit', filter.limit);
     console.log(params.toString());
-    return this.http.get<number[]>('/papers/filter' , { params });
+    return this.http.get<FilteredPaperMetaData[]>('/papers/filter' , { params });
   }
 
 }

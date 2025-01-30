@@ -7,8 +7,8 @@
     Articles récents :
   </p>
   <div class="paper-container">
-    @for(paperId of papers; track paperId){
-      <app-paper-info [paperId]="paperId"></app-paper-info>
+    @for(paper of papers; track paper.paperId){
+      <app-paper-info [queriedPaper]="paper"></app-paper-info>
     }
   </div>
 </div>
