@@ -101,8 +101,11 @@ export class PaperEditorComponent {
       this.router.navigate(['/']);
     }
     if (this.isUpdating){
-      console.log("IsUpdating");
-      // TODO : Update
+      this.paperOutputService.modifyPaper(
+        this.paperId!,
+        this.formEditor.get('body')!.value as string,
+        this.connectionService.getTokenInfo()!.id
+      );
       alert('Votre papier a bien été soumis')
       this.router.navigate(['/paper/' + this.paperId]);
     } else {

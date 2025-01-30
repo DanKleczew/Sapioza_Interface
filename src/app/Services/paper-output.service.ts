@@ -40,4 +40,15 @@ export class PaperOutputService {
     console.log(publishedPaper);
     return this.http.post('/papers/submit', publishedPaper);
   }
+
+  public modifyPaper(paperId: number, body: string, authorId: number) : void {
+    this.http.patch('/paper/alter', {
+      "paperId": paperId,
+      "body": body,
+      "authorId": authorId
+    }).subscribe(response => {
+      console.log(response)
+    });
+  }
+
 }
