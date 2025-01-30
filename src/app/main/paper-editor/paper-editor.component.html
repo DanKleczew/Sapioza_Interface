@@ -1,1 +1,23 @@
-<p>paper-editor works!</p>
+<div class="fullscreen-container">
+  <div class="editor-title">
+    @if (this.paperId !== null) {
+      <h1>Modification d'un article</h1>
+    } @else {
+      <h1>Création d'un article</h1>
+    }
+  </div>
+  <div class="metadata-container">
+    <div class="inner-container">
+
+    </div>
+    <div class="inner-container">
+
+    </div>
+  </div>
+  <div class="body-container">
+    <label for="corps">Corps d'article</label>
+    <textarea id="corps">
+
+    </textarea>
+  </div>
+</div>

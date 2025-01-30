@@ -19,6 +19,9 @@ export const routes: Routes = [
   { path: 'profile', component: UserProfileComponent},
   { path: 'submit', component: PaperEditorComponent},
   { path: 'submit/:paperId', component: PaperEditorComponent},
+  { path: 'profile/:userId', component: UserProfileComponent},
+  { path: 'create', component: PaperEditorComponent},
+  { path: 'update/:paperId', component: PaperEditorComponent},
   { path: '', redirectTo: '/accueil', pathMatch: 'full'},
   { path: '**', component: AccueilComponent },
 ];
