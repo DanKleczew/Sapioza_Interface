@@ -107,7 +107,7 @@ export class PaperEditorComponent {
         this.connectionService.getTokenInfo()!.id
       );
       alert('Votre papier a bien été soumis')
-      this.router.navigate(['/paper/' + this.paperId]);
+      this.router.navigate(['/article/' + this.paperId]);
     } else {
       const paperCreationDto: PaperCreation = {
         metaData : {
@@ -124,7 +124,7 @@ export class PaperEditorComponent {
         this.paperOutputService.postNewPaper(paperCreationDto)
           .subscribe(response => {
             alert('Votre papier a bien été soumis');
-            this.router.navigate(['/paper/' + response.PaperId]);
+            this.router.navigate(['/article/' + response.PaperId]);
           });
     }
   }

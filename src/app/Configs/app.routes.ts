@@ -13,7 +13,7 @@ export const routes: Routes = [
   { path: 'test', component: TestComponent },
   { path: 'accueil', component: AccueilComponent },
   { path: 'search', component: SearchComponent},
-  { path: 'paper/:paperId', component: PaperFocusComponent},
+  { path: 'article/:paperId', component: PaperFocusComponent},
   { path: 'profile', component: UserProfileComponent},
   { path: 'submit', component: PaperEditorComponent},
   { path: 'submit/:paperId', component: PaperEditorComponent},
