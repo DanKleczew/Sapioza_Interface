@@ -23,6 +23,12 @@ export class PaperQueryService {
     return this.http.get<FilteredPaperMetaData[]>('/papers/filter', { params });
   }
 
+  public queryByAuthor(authorId: number, limit: number) : Observable<FilteredPaperMetaData[]> {
+    const params = new HttpParams().set('authorId', authorId).set('limit', limit);
+    console.log(params.toString());
+    return this.http.get<FilteredPaperMetaData[]>('/papers/filter', { params });
+  }
+
   public queryByFilter(filter: Filter): Observable<FilteredPaperMetaData[]> {
     let params = new HttpParams();
     if(filter.title) params = params.set('title', filter.title);
