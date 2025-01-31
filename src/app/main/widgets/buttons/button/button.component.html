@@ -1,11 +1,16 @@
 @if (this.link !== undefined) {
-    <a routerLink={{link}}>
-  *    <div class="button-container classique">
-          <span><ng-content></ng-content></span>
-      </div>
-    </a> }
-@else {
+  <a routerLink="{{link}}">
     <div class="button-container classique">
-        <span><ng-content></ng-content></span>
+      <ng-container [ngTemplateOutlet]="content"></ng-container>
     </div>
+  </a>
+} @else {
+  <div class="button-container classique">
+    <ng-container [ngTemplateOutlet]="content"></ng-container>
+  </div>
 }
+
+<!-- Nécessaire pour que le ng-content soit bien pris en compte dans les deux cas -->
+<ng-template #content>
+  <span><ng-content></ng-content></span>
+</ng-template>

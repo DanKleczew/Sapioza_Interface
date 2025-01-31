@@ -1,5 +1,11 @@
-<a routerLink={{link}}>
+@if (link) {
+  <a routerLink={{link}}>
     <div class="button-container icon">
-        <figure><img src="{{icon}}"></figure>
+      <figure><img src="{{icon}}"></figure>
     </div>
-</a>
+  </a>
+} @else {
+  <div class="button-container icon">
+    <figure><img src="{{icon}}"></figure>
+  </div>
+}

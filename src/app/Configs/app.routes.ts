@@ -1,10 +1,8 @@
 import { Routes } from '@angular/router';
 import {TestComponent} from "../test/test.component";
 import {AccueilComponent} from "../main/accueil/accueil.component";
-import {RegisterComponent} from "../main/connection/register/register.component";
 import {SearchComponent} from "../main/search/search.component";
 import {UserProfileComponent} from "../main/user-profile/user-profile.component";
-import {LoginComponent} from "../main/connection/login/login.component";
 import {PaperFocusComponent} from "../main/paper-focus/paper-focus.component";
 import {PaperEditorComponent} from "../main/paper-editor/paper-editor.component";
 import {ConnectionComponent} from "../main/connection/connection.component";
