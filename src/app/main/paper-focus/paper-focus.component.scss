@@ -105,13 +105,14 @@
   }
 }
 
-.single-button-container {
+.buttons-container {
   margin-top: 2em;
-  width: 45%;
+  width: 100%;
   display: flex;
-  justify-content: right;
+  flex-direction: row;
+  justify-content: space-evenly;
+
   .login-button {
-    width: 40%;
   }
 }
 

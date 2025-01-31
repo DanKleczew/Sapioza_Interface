@@ -7,6 +7,8 @@ import {PaperQueryService} from "../../Services/paper-query.service";
 import {PaperMetaData} from "../../Interfaces/paper-meta-data";
 import {OpinionService} from "../../Services/opinion.service";
 import {Opinion} from "../../Interfaces/opinion";
+import {PaperOutputService} from "../../Services/paper-output.service";
+import {SuppressionObject} from "../../Interfaces/suppression-object";
 
 @Component({
   selector: 'app-paper-focus',
@@ -20,19 +22,21 @@ import {Opinion} from "../../Interfaces/opinion";
 })
 export class PaperFocusComponent {
 
-  private paperId!: number;
+  protected paperId!: number;
   protected paperMetaData?: PaperMetaData;
 
   protected likes: number = 0;
   protected dislikes: number = 0;
   protected hasLiked: boolean = false;
   protected hasDisliked: boolean = false;
+  protected isOwnPaper: boolean = false;
 
   constructor(private route : ActivatedRoute,
               private router : Router,
               private paperQueryService: PaperQueryService,
               protected connectionService : ConnectionService,
-              private opinionService: OpinionService) {
+              private opinionService: OpinionService,
+              private paperOutputService: PaperOutputService) {
   }
 
   ngOnInit() {
@@ -45,6 +49,10 @@ export class PaperFocusComponent {
     }
     this.paperQueryService.queryPaperMetaData(this.paperId).subscribe((paperMetaData: PaperMetaData) => {
       this.paperMetaData = paperMetaData;
+      this.paperMetaData.userInfoDTO.id === this.connectionService.getTokenInfo()?.id
+        ? this.isOwnPaper = true
+        : this.isOwnPaper = false;
+
       this.likes = paperMetaData.paperDTO.likes;
       this.dislikes = paperMetaData.paperDTO.dislikes;
       if(this.connectionService.isLogged()) {
@@ -119,5 +127,20 @@ export class PaperFocusComponent {
       opinion.opinion = 'NO_OPINION';
     }
     this.opinionService.changeOpinion(opinion);
+  }
+
+  deletePaper() {
+    if (this.isOwnPaper) {
+      let supprObj: SuppressionObject = {
+        articleId: this.paperId,
+        userIdentificationDTO: {
+          userId: this.connectionService.getTokenInfo()!.id,
+          userUUID: this.connectionService.getTokenInfo()!.uuid,
+        }
+      }
+      this.paperOutputService.deletePaper(supprObj);
+      alert("Article supprimé.");
+      this.router.navigate(['/']);
+    }
   }
 }
