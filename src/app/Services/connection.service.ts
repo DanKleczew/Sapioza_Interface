@@ -83,4 +83,10 @@ export class ConnectionService {
       this.saveToken(tokenData);
     });
   }
+  getConnectionRoute(): string {
+    if(this.isLogged()) {
+      return '/profile/' + this.getTokenInfo()!.id;
+    }
+    return '/connection';
+  }
 }
