@@ -5,6 +5,8 @@ import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from "@angular
 import {JsonPipe} from "@angular/common";
 import {ConnectionService} from "../../../Services/connection.service";
 import {ActivatedRoute} from "@angular/router";
+import {NameEditorComponent} from "./name-editor/name-editor.component";
+import {PasswordEditorComponent} from "./password-editor/password-editor.component";
 
 @Component({
   selector: 'app-modif-user-profile',
@@ -12,7 +14,9 @@ import {ActivatedRoute} from "@angular/router";
   imports: [
     FormsModule,
     ReactiveFormsModule,
-    JsonPipe
+    JsonPipe,
+    NameEditorComponent,
+    PasswordEditorComponent
   ],
   templateUrl: './modif-user-profile.component.html',
   styleUrl: './modif-user-profile.component.scss'
@@ -25,23 +29,7 @@ export class ModifUserProfileComponent {
   constructor(private userService : UserService, private connectionService: ConnectionService, private route: ActivatedRoute) {
   }
   ngOnInit() {
-    if (this.connectionService.isLogged()) {
-      let tokenInfo = this.connectionService.getTokenInfo();
-      if (tokenInfo != null) {
-        this.userId = Number(tokenInfo.id);
-      }
-      this.userService.userInfo(this.userId).subscribe(response => {
-        this.user = response;
-        console.log(this.user);
-      });
-    }
+    this.connectionService.checkAccess();
   }
 
-    formUserProfile = new FormGroup({
-    firstName: new FormControl(''),
-    lastName: new FormControl(''),
-    email: new FormControl(''),
-    password: new FormControl(''),
-    confirmPassword: new FormControl(''),
-  });
 }
