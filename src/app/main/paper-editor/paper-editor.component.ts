@@ -38,7 +38,7 @@ export class PaperEditorComponent {
               private router: Router,
               private paperQueryService: PaperQueryService,
               private paperOutputService: PaperOutputService,
-              private connectionService: ConnectionService) {
+              protected connectionService: ConnectionService) {
   }
 
 
@@ -65,10 +65,15 @@ export class PaperEditorComponent {
       alert('Oops, ce papier n\'existe pas');
       this.router.navigate(['/']);
     }
-    if (!this.connectionService.isLogged() ||
-      this.connectionService.getTokenInfo()?.id !== this.paperMetaData?.userInfoDTO.id){
-      alert('Identifiez-vous correctement pour modifier ce papier')
-      this.router.navigate(['/profile']);
+    if (!this.connectionService.isLogged()){
+      alert('Connectez-vous pour modifier ce papier')
+      this.router.navigate(['/connection/']);
+      return;
+    }
+    if (this.connectionService.getTokenInfo()?.id !== this.paperMetaData?.userInfoDTO.id){
+      alert('Vous n\'êtes pas autorisé à modifier ce papier');
+      this.router.navigate(['/']);
+      return;
     }
   }
 
@@ -93,7 +98,7 @@ export class PaperEditorComponent {
   submit(){
     if (!this.connectionService.isLogged()){
       alert('Vous devez être connecté pour effectuer cette action')
-      this.router.navigate(['/profile']);
+      this.router.navigate(['/connection/']);
     }
     if (this.formEditor.invalid){
       // Not possible : Submit button disabled if form is invalid

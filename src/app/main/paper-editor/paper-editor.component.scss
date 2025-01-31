@@ -1,3 +1,10 @@
+.error-message {
+  background-color: var(--primary-red);
+  color: var(--primary-white);
+  text-align: center;
+  padding: 1%;
+}
+
 .fullscreen-container {
   width: 100%;
   padding-top: 3vh;
