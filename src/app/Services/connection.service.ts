@@ -71,4 +71,11 @@ export class ConnectionService {
     tokenData.id = Number(localStorage.getItem('idSapioza'));
     return tokenData;
   }
+
+  getConnectionRoute(): string {
+    if(this.isLogged()) {
+      return '/profile/' + this.getTokenInfo()!.id;
+    }
+    return '/connection';
+  }
 }
