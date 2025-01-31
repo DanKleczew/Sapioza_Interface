@@ -1,6 +1,5 @@
-import {ChangeDetectorRef, Component, Input} from '@angular/core';
+import {Component} from '@angular/core';
 import {ButtonComponent} from "../widgets/buttons/button/button.component";
-import {RichButtonComponent} from "../widgets/buttons/rich-button/rich-button.component";
 import {ActivatedRoute, Router} from "@angular/router";
 import {IconButtonComponent} from "../widgets/buttons/icon-button/icon-button.component";
 import {ConnectionService} from "../../Services/connection.service";
@@ -30,6 +29,7 @@ export class PaperFocusComponent {
   protected hasDisliked: boolean = false;
 
   constructor(private route : ActivatedRoute,
+              private router : Router,
               private paperQueryService: PaperQueryService,
               protected connectionService : ConnectionService,
               private opinionService: OpinionService) {
@@ -37,6 +37,12 @@ export class PaperFocusComponent {
 
   ngOnInit() {
     this.paperId = Number(this.route.snapshot.paramMap.get('paperId'));
+    console.log(this.paperId);
+    if (isNaN(this.paperId)) {
+      alert("Vous essayez d'accéder à un article qui n'existe pas.");
+      this.router.navigate(['/']);
+      return;
+    }
     this.paperQueryService.queryPaperMetaData(this.paperId).subscribe((paperMetaData: PaperMetaData) => {
       this.paperMetaData = paperMetaData;
       this.likes = paperMetaData.paperDTO.likes;
@@ -56,6 +62,10 @@ export class PaperFocusComponent {
               }
               );
       }
+    }, error => {
+      alert("Vous essayez d'accéder à un article qui n'existe pas.");
+      this.router.navigate(['/']);
+      return;
     });
   }
 
