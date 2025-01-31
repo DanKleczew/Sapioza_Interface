@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import {Router} from "@angular/router";
 import {TokenData} from "../Interfaces/token-data";
+import {UserService} from "./user.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ConnectionService {
 
-  constructor(private router: Router) {}
+  constructor(private router: Router,
+              private userSerivice : UserService) {}
 
   saveToken(tokenData: TokenData) {
     localStorage.setItem('tokenSapioza', tokenData.uuid);
@@ -19,19 +21,22 @@ export class ConnectionService {
   isLogged(): boolean {
     try {
       let tokenData: TokenData = {
-        name: "",
-        firstName: "",
-        uuid: "",
+        name: String(localStorage.getItem('tokenSapioza')),
+        firstName: String(localStorage.getItem('nameSapioza')),
+        uuid: String(localStorage.getItem('firstNameSapioza')),
         id: 0
       }
-      tokenData.uuid = String(localStorage.getItem('tokenSapioza'));
-      tokenData.name = String(localStorage.getItem('nameSapioza'));
-      tokenData.firstName = String(localStorage.getItem('firstNameSapioza'));
       tokenData.id = Number(localStorage.getItem('idSapioza'));
       return !this.checkEmpty(tokenData);
     }
     catch (e) {
         return false;
+      }
+    }
+
+    checkAccess(): void {
+      if (!this.isLogged()) {
+        this.router.navigate(['/connection']);
       }
     }
 
@@ -55,20 +60,27 @@ export class ConnectionService {
     this.router.navigate(['/']);
   }
 
-  getTokenInfo(): TokenData | null {
-    if(!this.isLogged()) {
-      return null;
-    }
+  getTokenInfo(): TokenData {
     let tokenData: TokenData = {
-      name: "",
-      firstName: "",
-      uuid: "",
+      name: String(localStorage.getItem('nameSapioza')),
+      firstName: String(localStorage.getItem('firstNameSapioza')),
+      uuid: String(localStorage.getItem('tokenSapioza')),
       id: 0
     };
-    tokenData.name = String(localStorage.getItem('nameSapioza'));
-    tokenData.firstName = String(localStorage.getItem('firstNameSapioza'));
-    tokenData.uuid = String(localStorage.getItem('tokenSapioza'));
     tokenData.id = Number(localStorage.getItem('idSapioza'));
     return tokenData;
+  }
+
+  updateTokenInfo(userId: number): void {
+    console.log(userId);
+    this.userSerivice.userInfo(userId).subscribe(user => {
+      let tokenData: TokenData = {
+        name: user.name,
+        firstName: user.firstName,
+        uuid: this.getTokenInfo().uuid,
+        id: this.getTokenInfo().id
+      }
+      this.saveToken(tokenData);
+    });
   }
 }
