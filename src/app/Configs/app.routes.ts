@@ -19,7 +19,7 @@ export const routes: Routes = [
   { path: 'connection', component: ConnectionComponent},
   { path: 'submit', component: PaperEditorComponent},
   { path: 'submit/:paperId', component: PaperEditorComponent},
-  { path: 'profile/modify/:userid', component: ModifUserProfileComponent},
+  { path: 'profile/modify/:userId', component: ModifUserProfileComponent},
   { path: 'profile/:userId', component: UserProfileComponent},
   { path: 'create', component: PaperEditorComponent},
   { path: 'update/:paperId', component: PaperEditorComponent},
