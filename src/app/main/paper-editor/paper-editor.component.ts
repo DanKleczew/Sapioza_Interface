@@ -62,7 +62,7 @@ export class PaperEditorComponent implements OnInit{
           this.checkAllowedToModify();
           this.fillForm();
           },
-        error: error => {
+        error: () => {
           alert('Ce papier n\'existe pas');
           this.router.navigate(['/']);
         }
