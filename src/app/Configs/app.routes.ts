@@ -7,6 +7,7 @@ import {PaperFocusComponent} from "../main/paper-focus/paper-focus.component";
 import {PaperEditorComponent} from "../main/paper-editor/paper-editor.component";
 import {ConnectionComponent} from "../main/connection/connection.component";
 import {ModifUserProfileComponent} from "../main/user-profile/modif-user-profile/modif-user-profile.component";
+import {ReviewsComponent} from "../main/reviews/reviews.component";
 
 export const routes: Routes = [
 
@@ -14,6 +15,7 @@ export const routes: Routes = [
   { path: 'accueil', component: AccueilComponent },
   { path: 'search', component: SearchComponent},
   { path: 'article/:paperId', component: PaperFocusComponent},
+  { path: 'comments/:paperId', component: ReviewsComponent},
   { path: 'connection', component: ConnectionComponent},
   { path: 'submit', component: PaperEditorComponent},
   { path: 'submit/:paperId', component: PaperEditorComponent},

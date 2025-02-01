@@ -55,10 +55,9 @@
           </div>
         </div>
         <div class="reviews">
-          <app-button>Voir les commentaires</app-button>
+          <app-button (click)="redirectToReviews()" >Voir les commentaires</app-button>
         </div>
       </div>
-
     </div>
     @if (!this.connectionService.isLogged()){
       <div class="single-button-container">

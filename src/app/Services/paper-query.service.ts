@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { PaperMetaData } from '../Interfaces/paper-meta-data';
 import {Filter} from "../Interfaces/filter";
 import {FilteredPaperMetaData} from "../Interfaces/filtered-paper-meta-data";
+import {Review} from "../Interfaces/review";
 
 @Injectable({
   providedIn: 'root'
@@ -19,13 +20,11 @@ export class PaperQueryService {
 
   public queryRecent(limit: number) : Observable<FilteredPaperMetaData[]> {
     const params = new HttpParams().set('limit', limit).set('DescDate', true);
-    console.log(params.toString());
     return this.http.get<FilteredPaperMetaData[]>('/papers/filter', { params });
   }
 
   public queryByAuthor(authorId: number, limit: number) : Observable<FilteredPaperMetaData[]> {
     const params = new HttpParams().set('authorId', authorId).set('limit', limit);
-    console.log(params.toString());
     return this.http.get<FilteredPaperMetaData[]>('/papers/filter', { params });
   }
 
@@ -42,8 +41,11 @@ export class PaperQueryService {
     if(filter.DescDate) params = params.set('DescDate', filter.DescDate);
     if(filter.DOI) params = params.set('DOI', filter.DOI);
     if(filter.limit) params = params.set('limit', filter.limit);
-    console.log(params.toString());
     return this.http.get<FilteredPaperMetaData[]>('/papers/filter' , { params });
+  }
+
+  public getReviews(paperId: number) : Observable<Review[]> {
+    return this.http.get<Review[]>('/papers/reviews/' + paperId);
   }
 
 }

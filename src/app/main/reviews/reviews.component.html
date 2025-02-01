@@ -1,0 +1,44 @@
+@if (reviews){
+  <div class="fullscreen-container">
+    <div class="paper-title">
+      <h1>{{ history.state.paperTitle }} - Commentaires </h1>
+    </div>
+    <div class="comments-container">
+    @if (!this.hasCommented && this.connectionService.isLogged()) {
+      <form [formGroup]="formComment">
+        <div class="add-comment">
+          <textarea id="comment" placeholder="Ajoutez un commentaire" formControlName="comment"></textarea>
+          <button (click)="submit()">Commenter</button>
+        </div>
+      </form>
+    }
+    <div class="comments">
+      <div class="comments-title">
+        <h2>Commentaires</h2>
+      </div>
+      @for (richReview of reviews; track richReview.review.authorId){
+        <div class="comment">
+          <div class="comment-author">
+            <a [href]="'/profile/' + richReview.review.authorId">{{richReview.authorFullName}}</a>
+          </div>
+          <div class="comment-content">
+            <p>{{richReview.review.comment}}</p>
+          </div>
+        </div>
+      } @empty {
+        <div class="empty-comments">
+          <p>Aucun commentaire, donnez votre avis !</p>
+          @if(!this.connectionService.isLogged()){
+            <app-button [link]="'/connection'">Connectez vous pour commenter</app-button>
+          }
+        </div>
+          }
+      </div>
+    </div>
+    <app-button [link]="'/article/' + this.paperId">Retourner à l'article</app-button>
+  </div>
+
+} @else {
+  <p>LOADING...</p>
+
+}

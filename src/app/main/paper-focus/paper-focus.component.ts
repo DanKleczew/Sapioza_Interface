@@ -143,4 +143,8 @@ export class PaperFocusComponent {
       this.router.navigate(['/']);
     }
   }
+
+  protected redirectToReviews() {
+    this.router.navigate(['/comments/' + this.paperId], { state: { paperTitle : this.paperMetaData?.paperDTO.title } });
+  }
 }
