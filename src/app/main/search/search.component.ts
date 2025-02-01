@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {PaperQueryService} from "../../Services/paper-query.service";
 import {FiltersComponent} from "./filters/filters.component";
 import {Filter} from "../../Interfaces/filter";
@@ -15,17 +15,35 @@ import {FilteredPaperMetaData} from "../../Interfaces/filtered-paper-meta-data";
   templateUrl: './search.component.html',
   styleUrl: './search.component.scss'
 })
-export class SearchComponent {
+export class SearchComponent implements OnInit {
   constructor(private paperQueryService : PaperQueryService) {
   }
 
-  papers!: FilteredPaperMetaData[];
+  protected papers!: FilteredPaperMetaData[];
 
   ngOnInit() {
-    this.paperQueryService.queryRecent(9).subscribe((query) => {this.papers = query;});
+    this.paperQueryService.queryRecent(9)
+      .subscribe({
+        next : (query) => {
+          this.papers = query;
+        },
+        error : () => {
+          alert("Il y a eu une erreur lors de la récupération des derniers articles, réessayez plus tard");
+          this.papers = [];
+        }
+      });
   }
 
-  protected queryPapers($filter: Filter) {
-    this.paperQueryService.queryByFilter($filter).subscribe((query) => {this.papers = query;});
+  protected queryPapers(filter: Filter) {
+    this.paperQueryService.queryByFilter(filter)
+      .subscribe({
+        next: (papers) => {
+          this.papers = papers;
+        },
+        error: () => {
+          alert("Il y a eu une erreur lors de la récupération des articles, réessayez plus tard");
+          this.papers = [];
+        }
+      });
   }
 }
