@@ -9,6 +9,8 @@
   <div class="paper-container">
     @for(paper of papers; track paper.paperId){
       <app-paper-info [queriedPaper]="paper"></app-paper-info>
+    } @empty {
+      <p>Aucun article récent</p>
     }
   </div>
 </div>

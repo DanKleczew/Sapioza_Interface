@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {PaperQueryService} from "../../Services/paper-query.service";
 import {FieldsEnum} from "../../Constantes/Fields";
@@ -17,7 +17,7 @@ import {PaperCreation} from "../../Interfaces/paper-creation";
   templateUrl: './paper-editor.component.html',
   styleUrl: './paper-editor.component.scss'
 })
-export class PaperEditorComponent {
+export class PaperEditorComponent implements OnInit{
   protected paperId: number|null = null;
   private isUpdating!: boolean;
   private paperMetaData?: PaperMetaData;
@@ -41,30 +41,36 @@ export class PaperEditorComponent {
               protected connectionService: ConnectionService) {
   }
 
-
   ngOnInit(){
     let param = this.route.snapshot.paramMap.get('paperId');
-    if (param !== null){
-      this.paperId = Number(param);
-      this.paperQueryService.queryPaperMetaData(this.paperId)
-        .subscribe(response => {
+    if (param === null){
+      this.isUpdating = false;
+      return;
+    }
+
+    this.paperId = Number(param);
+    if (isNaN(this.paperId)){
+      alert('Mauvais identifiant de papier');
+      this.router.navigate(['/']);
+      return;
+    }
+
+    this.paperQueryService.queryPaperMetaData(this.paperId)
+      .subscribe({
+        next: response => {
           this.paperMetaData = response;
           this.checkAllowedToModify();
           this.fillForm();
+          },
+        error: error => {
+          alert('Ce papier n\'existe pas');
+          this.router.navigate(['/']);
         }
-        );
+      });
       this.isUpdating = true
-    }
-    else {
-      this.isUpdating = false;
-    }
   }
 
   private checkAllowedToModify(){
-    if (!this.paperMetaData) {
-      alert('Oops, ce papier n\'existe pas');
-      this.router.navigate(['/']);
-    }
     if (!this.connectionService.isLogged()){
       alert('Connectez-vous pour modifier ce papier')
       this.router.navigate(['/connection/']);
@@ -99,21 +105,28 @@ export class PaperEditorComponent {
     if (!this.connectionService.isLogged()){
       alert('Vous devez être connecté pour effectuer cette action')
       this.router.navigate(['/connection/']);
+      return;
     }
     if (this.formEditor.invalid){
       // Not possible : Submit button disabled if form is invalid
-      alert('Oups il y a eu une erreur');
+      alert('Veuillez remplir tous les champs');
       this.router.navigate(['/']);
+      return;
     }
     if (this.isUpdating){
       this.paperOutputService.modifyPaper(
         this.paperId!,
         this.formEditor.get('body')!.value as string,
         this.connectionService.getTokenInfo()!.id
-      );
-      alert('Votre papier a bien été soumis')
-      this.router.navigate(['/article/' + this.paperId]);
-    } else {
+      ).subscribe({
+        next: () => {
+          alert('Votre papier a bien été modifié');
+          this.router.navigate(['/article/' + this.paperId]);
+        },
+        error: () => alert('Une erreur est survenue pendant la modification. Réessayez plus tard')
+      });
+    }
+    if (!this.isUpdating){
       const paperCreationDto: PaperCreation = {
         metaData : {
           title : this.formEditor.get('title')!.value as string,
@@ -127,9 +140,12 @@ export class PaperEditorComponent {
         body : this.formEditor.get('body')!.value as string
         }
         this.paperOutputService.postNewPaper(paperCreationDto)
-          .subscribe(response => {
-            alert('Votre papier a bien été soumis');
-            this.router.navigate(['/article/' + response.PaperId]);
+          .subscribe({
+            next: response => {
+              alert('Votre papier a bien été soumis');
+              this.router.navigate(['/article/' + response.PaperId]);
+            },
+            error: () => alert('Une erreur est survenue pendant la soumission. Réessayez plus tard')
           });
     }
   }

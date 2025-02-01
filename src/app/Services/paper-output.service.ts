@@ -13,33 +13,28 @@ export class PaperOutputService {
   constructor(private http : HttpClient) { }
 
   public postNewPaper(publishedPaper : PaperCreation) : Observable<any>  {
-    console.log(publishedPaper);
     return this.http.post('/papers/submit', publishedPaper);
   }
 
-  public modifyPaper(paperId: number, body: string, authorId: number) : void {
-    this.http.patch('/paper/alter', {
+  public modifyPaper(paperId: number, body: string, authorId: number) : Observable<any> {
+    return this.http.patch('/paper/alter', {
       "paperId": paperId,
       "body": body,
       "authorId": authorId
-    }).subscribe(response => {
-      console.log(response)
     });
   }
 
-  public deletePaper(suppressionObject: SuppressionObject): void {
-    console.log(suppressionObject);
-    this.http.delete('/papers/delete', {body: suppressionObject} ).subscribe();
-
+  public deletePaper(suppressionObject: SuppressionObject): Observable<any> {
+    return this.http.delete('/papers/delete', {body: suppressionObject});
   }
 
-  public addReview(paperId: number, userId: number, comment: string): void{
+  public addReview(paperId: number, userId: number, comment: string): Observable<any>{
     let review: Review = {
       paperId: paperId,
       authorId: userId,
       comment: comment
     }
-    this.http.post('/review/post', review).subscribe();
+    return this.http.post('/review/post', review);
   }
 
 }

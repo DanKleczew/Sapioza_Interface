@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ButtonComponent} from "../widgets/buttons/button/button.component";
 import {ActivatedRoute, Router} from "@angular/router";
 import {IconButtonComponent} from "../widgets/buttons/icon-button/icon-button.component";
@@ -20,7 +20,7 @@ import {SuppressionObject} from "../../Interfaces/suppression-object";
   templateUrl: './paper-focus.component.html',
   styleUrl: './paper-focus.component.scss'
 })
-export class PaperFocusComponent {
+export class PaperFocusComponent implements OnInit{
 
   protected paperId!: number;
   protected paperMetaData?: PaperMetaData;
@@ -41,52 +41,86 @@ export class PaperFocusComponent {
 
   ngOnInit() {
     this.paperId = Number(this.route.snapshot.paramMap.get('paperId'));
-    console.log(this.paperId);
     if (isNaN(this.paperId)) {
       alert("Vous essayez d'accéder à un article qui n'existe pas.");
       this.router.navigate(['/']);
       return;
     }
-    this.paperQueryService.queryPaperMetaData(this.paperId).subscribe((paperMetaData: PaperMetaData) => {
-      this.paperMetaData = paperMetaData;
-      this.paperMetaData.userInfoDTO.id === this.connectionService.getTokenInfo()?.id
-        ? this.isOwnPaper = true
-        : this.isOwnPaper = false;
 
-      this.likes = paperMetaData.paperDTO.likes;
-      this.dislikes = paperMetaData.paperDTO.dislikes;
-      if(this.connectionService.isLogged()) {
+    this.paperQueryService.queryPaperMetaData(this.paperId).subscribe({
+      next: (paperMetaData: PaperMetaData) => {
+        this.paperMetaData = paperMetaData;
+
+        (this.paperMetaData.userInfoDTO.id === this.connectionService.getTokenInfo()?.id)
+          ? this.isOwnPaper = true
+          : this.isOwnPaper = false;
+
+        this.likes = paperMetaData.paperDTO.likes;
+        this.dislikes = paperMetaData.paperDTO.dislikes;
+
+        if (this.connectionService.isLogged()) {
           this.opinionService.getOpinion(this.paperId, this.connectionService.getTokenInfo()!.id)
-            .subscribe(
-              next => {
-                console.log(next);
-                if (next.opinion === 'LIKE') {
+            .subscribe({
+              next: (opinion: Opinion) => {
+                if (opinion.opinion === 'LIKE') {
                   this.hasLiked = true;
-                } else if (next.opinion === 'DISLIKE') {
+                } else if (opinion.opinion === 'DISLIKE') {
                   this.hasDisliked = true;
                 }
-              },
-              error => {
               }
-              );
+            });
+        }
+      },
+      error: () => {
+        alert("Vous essayez d'accéder à un article qui n'existe pas.");
+        this.router.navigate(['/']);
+        return;
       }
-    }, error => {
-      alert("Vous essayez d'accéder à un article qui n'existe pas.");
-      this.router.navigate(['/']);
-      return;
-    });
+    })
   }
 
-
-  protected openArticle() {
+  protected openArticle(): void {
     window.open('http://51.178.59.232:8082/papers/pdf/' + this.paperId, '_blank');
   }
 
-  public changeOpinion(likePressed: boolean){
+  protected changeOpinion(likePressed: boolean): void {
     if (!this.connectionService.isLogged()) {
       return;
     }
     // Calcul (et affichage) du changement d'opinion
+    this.calculateOpinion(likePressed);
+    // Envoi de la nouvelle opinion au serveur
+    this.sendNewOpinion();
+  }
+
+  protected deletePaper(): void {
+    if (!this.isOwnPaper) {
+      alert("Vous n'êtes pas autorisé à supprimer cet article.");
+      return;
+    }
+    let supprObj: SuppressionObject = {
+      articleId: this.paperId,
+      userIdentificationDTO: {
+        userId: this.connectionService.getTokenInfo()!.id,
+        userUUID: this.connectionService.getTokenInfo()!.uuid,
+      }
+    }
+    this.paperOutputService.deletePaper(supprObj)
+      .subscribe({
+        next: () => {
+          alert("Article supprimé.");
+          this.router.navigate(['/']);},
+        error: () => {
+          alert("Erreur lors de la suppression de l'article. Veuillez réessayer ultérieurement.");
+        }
+      });
+  }
+
+  protected redirectToReviews(): void {
+    this.router.navigate(['/comments/' + this.paperId], { state: { paperTitle : this.paperMetaData?.paperDTO.title } });
+  }
+
+  private calculateOpinion(likePressed : boolean): void {
     if (this.hasLiked && likePressed) {
       this.likes--;
       this.hasLiked = false;
@@ -111,8 +145,9 @@ export class PaperFocusComponent {
         this.likes--;
       }
     }
+  }
 
-    // A partir du calcul, envoi au serveur de la nouvelle opinion
+  private sendNewOpinion(): void {
     let opinion: Opinion = {
       paperId: this.paperId,
       opinion: '',
@@ -126,25 +161,11 @@ export class PaperFocusComponent {
     } else {
       opinion.opinion = 'NO_OPINION';
     }
-    this.opinionService.changeOpinion(opinion);
-  }
-
-  deletePaper() {
-    if (this.isOwnPaper) {
-      let supprObj: SuppressionObject = {
-        articleId: this.paperId,
-        userIdentificationDTO: {
-          userId: this.connectionService.getTokenInfo()!.id,
-          userUUID: this.connectionService.getTokenInfo()!.uuid,
+    this.opinionService.changeOpinion(opinion)
+      .subscribe({
+        error: () => {
+          alert("Erreur lors de l'enregistrement de votre opinion. Veuillez réessayer ultérieurement")
         }
-      }
-      this.paperOutputService.deletePaper(supprObj);
-      alert("Article supprimé.");
-      this.router.navigate(['/']);
-    }
-  }
-
-  protected redirectToReviews() {
-    this.router.navigate(['/comments/' + this.paperId], { state: { paperTitle : this.paperMetaData?.paperDTO.title } });
+      });
   }
 }

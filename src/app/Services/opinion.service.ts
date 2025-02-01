@@ -14,7 +14,7 @@ export class OpinionService {
     return this.http.get<Opinion>('/opinion/getSingle/' + paperId + '/' + userId);
   }
 
-  public changeOpinion(opinion: Opinion) : void {
-    this.http.post('/opinion/change', opinion).subscribe(response => console.log(response));
+  public changeOpinion(opinion: Opinion) : Observable<any> {
+    return this.http.post('/opinion/change', opinion);
   }
 }

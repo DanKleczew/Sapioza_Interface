@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {PaperInfoComponent} from "../widgets/paper-info/paper-info.component";
 import {PaperQueryService} from "../../Services/paper-query.service";
 import {FilteredPaperMetaData} from "../../Interfaces/filtered-paper-meta-data";
@@ -12,12 +12,16 @@ import {FilteredPaperMetaData} from "../../Interfaces/filtered-paper-meta-data";
   templateUrl: './accueil.component.html',
   styleUrl: './accueil.component.scss'
 })
-export class AccueilComponent {
+export class AccueilComponent implements OnInit {
   constructor(private paperQueryService : PaperQueryService) {
   }
   protected papers!: FilteredPaperMetaData[];
 
   ngOnInit(){
-    this.paperQueryService.queryRecent(3).subscribe(response => this.papers = response);
+    this.paperQueryService.queryRecent(3)
+      .subscribe({
+        next: value => this.papers = value,
+        error: error => this.papers = []
+      });
   }
 }
