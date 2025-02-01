@@ -1,14 +1,16 @@
 <div class="paper-info-container">
 
   <div class="paper-title clickable" (click)="this.router.navigate(['/article', paperId])">
-    <p>{{title}}</p>
+    <p>{{paperInfos.paperDTO.title}}</p>
   </div>
 
   <div class="inner-container">
     <div class="metadata">
-      <p class="clickable" (click)="this.router.navigate(['/profile', authorId])">{{authorName}}</p>
-      <p>{{field}}</p>
-      <p>{{date}}</p>
+      <p class="clickable" (click)="this.router.navigate(['/profile', paperInfos.userInfoDTO.id])">
+        {{paperInfos.userInfoDTO.firstName}} {{paperInfos.userInfoDTO.lastName}}
+      </p>
+      <p>{{paperInfos.paperDTO.field}}</p>
+      <p>{{paperInfos.paperDTO.publicationDate}}</p>
     </div>
 
     <img class="article-img" src="/article.png" alt="article"/>

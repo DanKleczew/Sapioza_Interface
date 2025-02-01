@@ -17,47 +17,32 @@ export class PaperInfoComponent implements OnInit {
   @Input() paperId?: number;
   @Input() queriedPaper?: FilteredPaperMetaData;
 
-  title!: String;
-  authorName!: String;
-  authorId!: number;
-  field!: String;
-  date!: String;
+  protected paperInfos!: PaperMetaData;
 
-  constructor(private paperQueryService : PaperQueryService, protected router : Router){
+  constructor(private paperQueryService : PaperQueryService,
+              protected router : Router){
   }
 
   ngOnInit(){
     if (this.queriedPaper) {
-      this.title = this.queriedPaper.queriedPaperInfosDTO.paperDTO.title;
-      this.authorName = this.queriedPaper.queriedPaperInfosDTO.userInfoDTO.firstName +
-        " " + this.queriedPaper.queriedPaperInfosDTO.userInfoDTO.lastName;
-      this.authorId = this.queriedPaper.queriedPaperInfosDTO.userInfoDTO.id;
-      this.field = this.queriedPaper.queriedPaperInfosDTO.paperDTO.field;
-      this.date = this.queriedPaper.queriedPaperInfosDTO.paperDTO.publicationDate;
+      this.paperInfos = this.queriedPaper.queriedPaperInfosDTO;
       this.paperId = this.queriedPaper.paperId; // For the link
     } else if (this.paperId !== undefined) {
       this.paperQueryService.queryPaperMetaData(this.paperId)
         .subscribe({
-          next : (response : PaperMetaData) => {
-            this.title = response.paperDTO.title;
-            this.authorName = response.userInfoDTO.firstName + " " + response.userInfoDTO.lastName;
-            this.authorId = response.userInfoDTO.id;
-            this.field = response.paperDTO.field;
-            this.date = response.paperDTO.publicationDate;
-          }, error : () => {
+          next : (paperMetaData : PaperMetaData) => {
+            this.paperInfos = paperMetaData;
+          },
+          error : () => {
             alert("Il y a eu une erreur lors de la récupération des informations de l'article "
               + this.paperId + ", réessayez plus tard");
-            this.title = "Template article";
+            this.paperInfos.paperDTO.title = "Template article";
           }
         });
     } else {
       // Theoretically not possible
-      this.title = "Template article";
+      this.paperInfos.paperDTO.title = "Template article";
         console.error("No paperId or queriedPaper provided to PaperInfoComponent");
       }
-
   }
-
-
-
 }
