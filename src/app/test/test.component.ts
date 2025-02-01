@@ -1,19 +1,29 @@
-import { Component } from '@angular/core';
-import {PaperInfoComponent} from "../main/widgets/paper-info/paper-info.component";
-import { PaperQueryService } from '../Services/paper-query.service';
-import { ButtonComponent } from "../main/widgets/buttons/button/button.component";
-import { RichButtonComponent } from "../main/widgets/buttons/rich-button/rich-button.component";
-import { IconButtonComponent } from "../main/widgets/buttons/icon-button/icon-button.component";
+import {Component} from '@angular/core';
+import {ButtonComponent} from "../main/widgets/buttons/button/button.component";
 import {LoadingComponent} from "../main/widgets/loading/loading.component";
+import {BannerService} from "../Services/banner.service";
+import {BannerType} from "../Constantes/banner-type";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-test',
   standalone: true,
-  imports: [PaperInfoComponent, ButtonComponent, RichButtonComponent, IconButtonComponent, LoadingComponent],
+  imports: [ButtonComponent, LoadingComponent],
   templateUrl: './test.component.html',
   styleUrl: './test.component.scss'
 })
 export class TestComponent {
-  constructor(){
+
+  constructor(private bannerService: BannerService, private router: Router) {
+  }
+
+  cacherBanner(){
+    //this.bannerService.hideBanner();
+    //this.bannerService.bannerLifeCycle();
+  }
+
+  afficherBanner(){
+    //this.bannerService.showBanner("Message de la bannière", BannerType.SUCCESS);
+    //this.router.navigate(['/']);
   }
 }

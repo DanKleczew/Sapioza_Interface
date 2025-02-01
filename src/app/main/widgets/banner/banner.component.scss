@@ -1,0 +1,27 @@
+.banner {
+  height: 5vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font: 1.5em 'Roboto', sans-serif;
+  border-top: 1px solid var(--primary-white);
+  color: #1C1C1C;
+}
+
+.success {
+  background-color: var(--primary-green);
+}
+
+.info {
+  background-color: var(--primary-blue);
+}
+
+.warning {
+  background-color: var(--primary-yellow);
+}
+
+.error {
+  background-color: var(--secondary-red);
+}
+
+
