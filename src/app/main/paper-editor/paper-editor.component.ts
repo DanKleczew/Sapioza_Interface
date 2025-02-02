@@ -116,8 +116,7 @@ export class PaperEditorComponent implements OnInit{
 
   submit(){
     if (!this.connectionService.isLogged()){
-      this.bannerService.showPersistentBanner('Vous devez être connecté pour effectuer cette action', BannerType.INFO);
-      this.router.navigate(['/connection/']);
+      this.bannerService.showBanner('Vous devez être connecté pour effectuer cette action', BannerType.INFO);
       return;
     }
     if (this.formEditor.invalid){

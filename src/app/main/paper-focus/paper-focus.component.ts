@@ -9,6 +9,9 @@ import {OpinionService} from "../../Services/opinion.service";
 import {Opinion} from "../../Interfaces/opinion";
 import {PaperOutputService} from "../../Services/paper-output.service";
 import {SuppressionObject} from "../../Interfaces/suppression-object";
+import {BannerService} from "../../Services/banner.service";
+import {BannerType} from "../../Constantes/banner-type";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-paper-focus',
@@ -20,7 +23,7 @@ import {SuppressionObject} from "../../Interfaces/suppression-object";
   templateUrl: './paper-focus.component.html',
   styleUrl: './paper-focus.component.scss'
 })
-export class PaperFocusComponent implements OnInit{
+export class PaperFocusComponent implements OnInit {
 
   protected paperId!: number;
   protected paperMetaData?: PaperMetaData;
@@ -36,13 +39,15 @@ export class PaperFocusComponent implements OnInit{
               private paperQueryService: PaperQueryService,
               protected connectionService : ConnectionService,
               private opinionService: OpinionService,
-              private paperOutputService: PaperOutputService) {
+              private paperOutputService: PaperOutputService,
+              private bannerService: BannerService) {
   }
 
   ngOnInit() {
     this.paperId = Number(this.route.snapshot.paramMap.get('paperId'));
+
     if (isNaN(this.paperId)) {
-      alert("Vous essayez d'accéder à un article qui n'existe pas.");
+      this.bannerService.showPersistentBanner("Vous essayez d'accéder à un article qui n'existe pas.", BannerType.WARNING);
       this.router.navigate(['/']);
       return;
     }
@@ -59,6 +64,7 @@ export class PaperFocusComponent implements OnInit{
         this.dislikes = paperMetaData.paperDTO.dislikes;
 
         if (this.connectionService.isLogged()) {
+          // User opinion analyse for display and update
           this.opinionService.getOpinion(this.paperId, this.connectionService.getTokenInfo()!.id)
             .subscribe({
               next: (opinion: Opinion) => {
@@ -71,8 +77,17 @@ export class PaperFocusComponent implements OnInit{
             });
         }
       },
-      error: () => {
-        alert("Vous essayez d'accéder à un article qui n'existe pas.");
+      error: (error: HttpErrorResponse) => {
+        if (error.status === 404) {
+          this.bannerService
+            .showPersistentBanner("Vous essayez d'accéder à un article qui n'existe pas.", BannerType.WARNING);
+          this.router.navigate(['/']);
+          return;
+        } else {
+
+        }
+        this.bannerService
+          .showPersistentBanner("Erreur pendant la récupération des informations de l'article.", BannerType.ERROR);
         this.router.navigate(['/']);
         return;
       }
@@ -85,6 +100,7 @@ export class PaperFocusComponent implements OnInit{
 
   protected changeOpinion(likePressed: boolean): void {
     if (!this.connectionService.isLogged()) {
+      this.bannerService.showBanner("Vous devez être connecté pour donner votre avis.", BannerType.INFO);
       return;
     }
     // Calcul (et affichage) du changement d'opinion
@@ -95,7 +111,8 @@ export class PaperFocusComponent implements OnInit{
 
   protected deletePaper(): void {
     if (!this.isOwnPaper) {
-      alert("Vous n'êtes pas autorisé à supprimer cet article.");
+      // Theoretically Impossible since the button is hidden if the user is not the author
+      this.bannerService.showBanner("Vous n'êtes pas autorisé à supprimer cet article.", BannerType.ERROR);
       return;
     }
     let supprObj: SuppressionObject = {
@@ -108,10 +125,13 @@ export class PaperFocusComponent implements OnInit{
     this.paperOutputService.deletePaper(supprObj)
       .subscribe({
         next: () => {
-          alert("Article supprimé.");
+          this.bannerService.showPersistentBanner("Article supprimé avec succès", BannerType.SUCCESS);
           this.router.navigate(['/']);},
         error: () => {
-          alert("Erreur lors de la suppression de l'article. Veuillez réessayer ultérieurement.");
+          // 404 and 500 errors should be handled the same way in this case
+          this.bannerService
+            .showBanner("Erreur lors de la suppression de l'article. Veuillez réessayer ultérieurement.",
+              BannerType.ERROR);
         }
       });
   }
@@ -148,6 +168,7 @@ export class PaperFocusComponent implements OnInit{
   }
 
   private sendNewOpinion(): void {
+    // Send the new opinion to the server
     let opinion: Opinion = {
       paperId: this.paperId,
       opinion: '',
@@ -164,7 +185,8 @@ export class PaperFocusComponent implements OnInit{
     this.opinionService.changeOpinion(opinion)
       .subscribe({
         error: () => {
-          alert("Erreur lors de l'enregistrement de votre opinion. Veuillez réessayer ultérieurement")
+          this.bannerService.showBanner("Erreur lors de l'enregistrement de votre opinion. Veuillez réessayer ultérieurement",
+            BannerType.ERROR);
         }
       });
   }
