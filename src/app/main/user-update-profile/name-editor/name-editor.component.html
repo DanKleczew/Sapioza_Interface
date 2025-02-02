@@ -19,6 +19,6 @@
       <label for="password">Password</label>
       <input type="password" id="password" formControlName="password">
     </div>
-    <button (click)="onSubmit()">enregistrer</button>
+    <button (click)="onSubmit()" [disabled]="!formUserProfile.valid">enregistrer</button>
   </div>
 </form>
