@@ -26,7 +26,7 @@ export class TestComponent {
   }
 
   afficherBanner(){
-    this.bannerService.showBanner("Message de la bannière", BannerType.ERROR);
+    this.bannerService.showBanner("Message de la bannière", BannerType.WARNING);
     //this.router.navigate(['/']);
   }
 

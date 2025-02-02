@@ -5,23 +5,22 @@
   align-items: center;
   font: 1.5em 'Roboto', sans-serif;
   border-top: 1px solid var(--primary-white);
-  color: #1C1C1C;
 }
 
 .success {
-  background-color: var(--primary-green);
+  background-color: var(--banner-green);
 }
 
 .info {
-  background-color: var(--primary-blue);
+  background-color: var(--banner-blue);
 }
 
 .warning {
-  background-color: var(--primary-yellow);
+  background-color: var(--banner-yellow);
 }
 
 .error {
-  background-color: var(--secondary-red);
+  background-color: var(--banner-red);
 }
 
 
