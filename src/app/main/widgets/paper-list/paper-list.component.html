@@ -1,0 +1,9 @@
+<div class="papers-container">
+  @for(paper of papersMetaData; track paper.paperId){
+      <app-paper-info [queriedPaper]="paper"></app-paper-info>
+  } @empty {
+    <div class="no-results">
+      <span> <ng-content></ng-content> </span>
+    </div>
+  }
+</div>
