@@ -1,20 +1,22 @@
 import { Component } from '@angular/core';
+import {Router} from "@angular/router";
+import {ConnectionService} from "../../Services/connection.service";
 import {LoginComponent} from "./login/login.component";
 import {RegisterComponent} from "./register/register.component";
-import {ConnectionService} from "../../Services/connection.service";
-import {Router} from "@angular/router";
 
 @Component({
-  selector: 'app-connection',
+  selector: 'app-user-authentication',
   standalone: true,
   imports: [
     LoginComponent,
+    RegisterComponent,
+    LoginComponent,
     RegisterComponent
   ],
-  templateUrl: './connection.component.html',
-  styleUrl: './connection.component.scss'
+  templateUrl: './user-authentication.component.html',
+  styleUrl: './user-authentication.component.scss'
 })
-export class ConnectionComponent {
+export class UserAuthenticationComponent {
   constructor(private connectionService: ConnectionService,
               private router: Router) {
   }

@@ -1,8 +1,8 @@
 import {Component, Input} from '@angular/core';
-import {UserInfoData} from "../../../../Interfaces/user-info-data";
-import {UserService} from "../../../../Services/user.service";
 import {JsonPipe, NgOptimizedImage} from "@angular/common";
-import {IconButtonComponent} from "../../buttons/icon-button/icon-button.component";
+import {UserInfoData} from "../../../Interfaces/user-info-data";
+import {UserService} from "../../../Services/user.service";
+import {IconButtonComponent} from "../../widgets/buttons/icon-button/icon-button.component";
 
 @Component({
   selector: 'app-show-user-profile',

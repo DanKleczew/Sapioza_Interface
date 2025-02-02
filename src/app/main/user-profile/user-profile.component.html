@@ -2,7 +2,7 @@
 @if (searchUserId == id){
   <button type="button" (click)="deleteCookie()">Logout</button>
   <div>
-    <app-button [link]="'/profile/modify/'+searchUserId">Modifier</app-button>
+    <app-button [link]="'/profile/update/'+searchUserId">Modifier</app-button>
   </div>
     }
 <app-user-paper-links [userId]=searchUserId></app-user-paper-links>

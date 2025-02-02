@@ -1,23 +1,15 @@
 import { Component } from '@angular/core';
-import {ModifUserProfileComponent} from "./modif-user-profile/modif-user-profile.component";
-import {LoginComponent} from "../connection/login/login.component";
-import {CookieService} from "ngx-cookie-service";
 import {ConnectionService} from "../../Services/connection.service";
-import {RegisterComponent} from "../connection/register/register.component";
 import {ActivatedRoute, Router} from "@angular/router";
-import {ShowUserProfileComponent} from "../widgets/user-info/show-user-profile/show-user-profile.component";
 import {UserService} from "../../Services/user.service";
-import {PaperQueryService} from "../../Services/paper-query.service";
 import {UserPaperLinksComponent} from "../widgets/user-info/user-paper-links/user-paper-links.component";
 import {ButtonComponent} from "../widgets/buttons/button/button.component";
+import {ShowUserProfileComponent} from "./show-user-profile/show-user-profile.component";
 
 @Component({
   selector: 'app-user-profile',
   standalone: true,
   imports: [
-    ModifUserProfileComponent,
-    LoginComponent,
-    RegisterComponent,
     ShowUserProfileComponent,
     UserPaperLinksComponent,
     ButtonComponent
@@ -34,8 +26,7 @@ export class UserProfileComponent {
 
   constructor(private connectionService: ConnectionService,
               private route: ActivatedRoute,
-              private userservice: UserService,
-              private paperQueryService: PaperQueryService,
+              private userService: UserService,
               private router: Router) {
   }
 
@@ -55,7 +46,7 @@ export class UserProfileComponent {
       }
     }
     if(this.searchUserId != 0) {
-      this.userservice.userInfo(this.searchUserId).subscribe(response => {
+      this.userService.userInfo(this.searchUserId).subscribe(response => {
         this.searchUserId = response.id;
       });
     }

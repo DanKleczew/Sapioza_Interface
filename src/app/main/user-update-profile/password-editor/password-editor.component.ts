@@ -1,10 +1,9 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {UserService} from "../../../../Services/user.service";
-import {ConnectionService} from "../../../../Services/connection.service";
-import {PasswordUpdateData} from "../../../../Interfaces/updateUser/password-update-data";
-import {PaperInfoComponent} from "../../../widgets/paper-info/paper-info.component";
-import {UserPaperLinksComponent} from "../../../widgets/user-info/user-paper-links/user-paper-links.component";
+import {UserService} from "../../../Services/user.service";
+import {ConnectionService} from "../../../Services/connection.service";
+import {PasswordUpdateData} from "../../../Interfaces/updateUser/password-update-data";
+
 
 @Component({
   selector: 'app-password-editor',

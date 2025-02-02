@@ -1,27 +1,22 @@
 import {Component, Input} from '@angular/core';
-import {UserService} from "../../../Services/user.service";
-import {UserInfoData} from "../../../Interfaces/user-info-data";
-import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {JsonPipe} from "@angular/common";
-import {ConnectionService} from "../../../Services/connection.service";
+import {UserInfoData} from "../../Interfaces/user-info-data";
+import {UserService} from "../../Services/user.service";
+import {ConnectionService} from "../../Services/connection.service";
 import {ActivatedRoute} from "@angular/router";
 import {NameEditorComponent} from "./name-editor/name-editor.component";
 import {PasswordEditorComponent} from "./password-editor/password-editor.component";
 
 @Component({
-  selector: 'app-modif-user-profile',
+  selector: 'app-user-update-profile',
   standalone: true,
   imports: [
-    FormsModule,
-    ReactiveFormsModule,
-    JsonPipe,
     NameEditorComponent,
     PasswordEditorComponent
   ],
-  templateUrl: './modif-user-profile.component.html',
-  styleUrl: './modif-user-profile.component.scss'
+  templateUrl: './user-update-profile.component.html',
+  styleUrl: './user-update-profile.component.scss'
 })
-export class ModifUserProfileComponent {
+export class UserUpdateProfileComponent {
   @Input() userId!: number;
   protected user !: UserInfoData;
   protected searchUserId!: number;

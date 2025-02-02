@@ -36,7 +36,7 @@ export class UserService {
   }
 
   public createAccount(registerData: RegisterData): Observable<any> {
-    return this.http.post('/user/create/createAccount', {registerData});
+    return this.http.post('/user/create/createAccount', registerData, {responseType : "text"});
   }
 
   public updateAccount(updateUserData: UpdateUserData): void {

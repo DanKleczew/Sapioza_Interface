@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
-import {ConnectionService} from "../../../../Services/connection.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {TokenData} from "../../../../Interfaces/token-data";
-import {UserService} from "../../../../Services/user.service";
-import {UpdateUserData} from "../../../../Interfaces/updateUser/update-user-data";
+import {ConnectionService} from "../../../Services/connection.service";
+import {UserService} from "../../../Services/user.service";
+import {TokenData} from "../../../Interfaces/token-data";
+import {UpdateUserData} from "../../../Interfaces/updateUser/update-user-data";
 
 @Component({
   selector: 'app-name-editor',

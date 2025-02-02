@@ -18,12 +18,12 @@ export class TestComponent {
   }
 
   cacherBanner(){
-    //this.bannerService.hideBanner();
+    this.bannerService.hideBanner();
     //this.bannerService.bannerLifeCycle();
   }
 
   afficherBanner(){
-    //this.bannerService.showBanner("Message de la bannière", BannerType.SUCCESS);
+    this.bannerService.showBanner("Message de la bannière", BannerType.ERROR);
     //this.router.navigate(['/']);
   }
 }
