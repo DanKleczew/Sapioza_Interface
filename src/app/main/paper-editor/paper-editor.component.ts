@@ -7,6 +7,9 @@ import {PaperMetaData} from "../../Interfaces/paper-meta-data";
 import {ConnectionService} from "../../Services/connection.service";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {PaperCreation} from "../../Interfaces/paper-creation";
+import {BannerService} from "../../Services/banner.service";
+import {BannerType} from "../../Constantes/banner-type";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-paper-editor',
@@ -38,10 +41,15 @@ export class PaperEditorComponent implements OnInit{
               private router: Router,
               private paperQueryService: PaperQueryService,
               private paperOutputService: PaperOutputService,
-              protected connectionService: ConnectionService) {
+              protected connectionService: ConnectionService,
+              private bannerService: BannerService) {
   }
 
   ngOnInit(){
+    if (!this.connectionService.isLogged()) {
+      this.bannerService.showBanner('Vous devez être connecté pour utiliser ce service', BannerType.INFO);
+    }
+
     let param = this.route.snapshot.paramMap.get('paperId');
     if (param === null){
       this.isUpdating = false;
@@ -50,7 +58,7 @@ export class PaperEditorComponent implements OnInit{
 
     this.paperId = Number(param);
     if (isNaN(this.paperId)){
-      alert('Mauvais identifiant de papier');
+      this.bannerService.showPersistentBanner('Identifiant de papier invalide', BannerType.WARNING);
       this.router.navigate(['/']);
       return;
     }
@@ -62,9 +70,14 @@ export class PaperEditorComponent implements OnInit{
           this.checkAllowedToModify();
           this.fillForm();
           },
-        error: () => {
-          alert('Ce papier n\'existe pas');
-          this.router.navigate(['/']);
+        error: (error: HttpErrorResponse) => {
+          if (error.status === 404) {
+            this.bannerService.showPersistentBanner('Ce papier n\'existe pas', BannerType.WARNING);
+            this.router.navigate(['/']);
+          } else {
+            this.bannerService.showPersistentBanner('Une erreur est survenue', BannerType.ERROR);
+            this.router.navigate(['/']);
+          }
         }
       });
       this.isUpdating = true
@@ -72,12 +85,12 @@ export class PaperEditorComponent implements OnInit{
 
   private checkAllowedToModify(){
     if (!this.connectionService.isLogged()){
-      alert('Connectez-vous pour modifier ce papier')
+      this.bannerService.showPersistentBanner('Connectez-vous pour modifier ce papier', BannerType.INFO);
       this.router.navigate(['/connection/']);
       return;
     }
     if (this.connectionService.getTokenInfo()?.id !== this.paperMetaData?.userInfoDTO.id){
-      alert('Vous n\'êtes pas autorisé à modifier ce papier');
+      this.bannerService.showPersistentBanner('Vous n\'êtes pas autorisé à modifier ce papier', BannerType.WARNING);
       this.router.navigate(['/']);
       return;
     }
@@ -103,14 +116,13 @@ export class PaperEditorComponent implements OnInit{
 
   submit(){
     if (!this.connectionService.isLogged()){
-      alert('Vous devez être connecté pour effectuer cette action')
+      this.bannerService.showPersistentBanner('Vous devez être connecté pour effectuer cette action', BannerType.INFO);
       this.router.navigate(['/connection/']);
       return;
     }
     if (this.formEditor.invalid){
       // Not possible : Submit button disabled if form is invalid
-      alert('Veuillez remplir tous les champs');
-      this.router.navigate(['/']);
+      this.bannerService.showBanner('Veuillez remplir tous les champs', BannerType.WARNING);
       return;
     }
     if (this.isUpdating){
@@ -120,12 +132,14 @@ export class PaperEditorComponent implements OnInit{
         this.connectionService.getTokenInfo()!.id
       ).subscribe({
         next: () => {
-          alert('Votre papier a bien été modifié');
+          this.bannerService.showPersistentBanner('Votre papier a bien été modifié', BannerType.SUCCESS);
           this.router.navigate(['/article/' + this.paperId]);
         },
-        error: () => alert('Une erreur est survenue pendant la modification. Réessayez plus tard')
+        error: () => this.bannerService
+          .showBanner('Une erreur est survenue pendant la modification. Réessayez plus tard', BannerType.ERROR)
       });
     }
+
     if (!this.isUpdating){
       const paperCreationDto: PaperCreation = {
         metaData : {
@@ -138,14 +152,18 @@ export class PaperEditorComponent implements OnInit{
           DOI : this.formEditor.get('DOI')!.value as string,
           },
         body : this.formEditor.get('body')!.value as string
-        }
+        };
+
         this.paperOutputService.postNewPaper(paperCreationDto)
           .subscribe({
             next: response => {
-              alert('Votre papier a bien été soumis');
+              this.bannerService.showPersistentBanner('Votre papier a bien été soumis', BannerType.SUCCESS);
               this.router.navigate(['/article/' + response.PaperId]);
             },
-            error: () => alert('Une erreur est survenue pendant la soumission. Réessayez plus tard')
+            error: () => {
+              this.bannerService
+              .showBanner('Une erreur est survenue pendant la soumission. Réessayez plus tard', BannerType.ERROR);
+            }
           });
     }
   }
