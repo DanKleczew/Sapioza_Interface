@@ -19,7 +19,7 @@ export class UserService {
   }
 
   public userInfo(userId: number | undefined): Observable<UserInfoData> {
-    console.log("user.service.ts: userInfo: userId: " + userId);
+    console.log("user.service.ts: userInfo: userId: " , userId);
     return this.http.get<UserInfoData>('/user/getInfo/' + userId);
   }
 
@@ -39,36 +39,15 @@ export class UserService {
     return this.http.post('/user/create/createAccount', registerData, {responseType : "text"});
   }
 
-  public updateAccount(updateUserData: UpdateUserData): void {
-    let nameUpdateData : NameUpdateData = {
-      id: updateUserData.id,
-      password: updateUserData.password,
-      name: updateUserData.name
-    }
-    console.log(nameUpdateData);
-    this.http.post('/user/update/name', nameUpdateData, {responseType : "text"}).subscribe(response => {
-      let firstNameUpdateData : FirstNameUpdateData = {
-        firstName: updateUserData.firstName,
-        password: updateUserData.password,
-        id: updateUserData.id
-      }
-      this.http.post('/user/update/firstName', firstNameUpdateData, {responseType : "text"}).subscribe(response => {
-      });
-    });
+  public updateName(nameUpdateData: NameUpdateData): Observable<any> {
+    return this.http.post('/user/update/name', nameUpdateData, {responseType: "text"});
+  }
 
-    }
+  public updateFirstName(firstNameUpdateData: FirstNameUpdateData): Observable<any> {
+    return this.http.post('/user/update/firstName', firstNameUpdateData, {responseType: "text"});
+  }
 
-    public changePassword(passwordUpdateData: PasswordUpdateData): void {
-      this.http.post('/user/update/password', passwordUpdateData, {responseType : "text"}).subscribe(
-        response => {
-
-        },
-        error => {
-          throw new error("Error in changePassword");
-        }
-      );
-
-
-      }
-
+  public changePassword(passwordUpdateData: PasswordUpdateData): Observable<any> {
+    return this.http.post('/user/update/password', passwordUpdateData, {responseType: "text"});
+  }
 }
