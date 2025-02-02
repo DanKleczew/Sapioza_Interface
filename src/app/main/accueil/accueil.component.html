@@ -7,10 +7,13 @@
     Articles récents :
   </p>
   <div class="paper-container">
-    @for(paper of papers; track paper.paperId){
-      <app-paper-info [queriedPaper]="paper"></app-paper-info>
-    } @empty {
-      <p>Aucun article récent</p>
+    @if (papers){
+    <app-paper-list [papersMetaData]="papers">
+      Aucun article récent
+    </app-paper-list>
+    }
+    @else {
+      <app-loading>Chargement des articles récents</app-loading>
     }
   </div>
 </div>

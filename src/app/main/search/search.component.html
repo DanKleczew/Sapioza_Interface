@@ -3,7 +3,10 @@
     <app-filters (filtersEvent)="queryPapers($event)"></app-filters>
   </div>
   <div class="results-container">
-
-    <app-query-results [papers]="papers"></app-query-results>
+    @if (papers){
+      <app-paper-list [papersMetaData]="papers">Aucun papier ne correspond à vos critères</app-paper-list>
+    } @else {
+      <app-loading>Chargement des papiers</app-loading>
+    }
   </div>
 </div>

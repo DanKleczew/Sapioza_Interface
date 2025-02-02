@@ -2,24 +2,28 @@ import {Component, OnInit} from '@angular/core';
 import {PaperQueryService} from "../../Services/paper-query.service";
 import {FiltersComponent} from "./filters/filters.component";
 import {Filter} from "../../Interfaces/filter";
-import {QueryResultsComponent} from "./query-results/query-results.component";
 import {FilteredPaperMetaData} from "../../Interfaces/filtered-paper-meta-data";
+import {PaperListComponent} from "../widgets/paper-list/paper-list.component";
+import {LoadingComponent} from "../widgets/loading/loading.component";
+import {BannerService} from "../../Services/banner.service";
+import {BannerType} from "../../Constantes/banner-type";
 
 @Component({
   selector: 'app-search',
   standalone: true,
   imports: [
     FiltersComponent,
-    QueryResultsComponent,
+    PaperListComponent,
+    LoadingComponent,
   ],
   templateUrl: './search.component.html',
   styleUrl: './search.component.scss'
 })
 export class SearchComponent implements OnInit {
-  constructor(private paperQueryService : PaperQueryService) {
+  constructor(private paperQueryService : PaperQueryService, private bannerService: BannerService) {
   }
 
-  protected papers!: FilteredPaperMetaData[];
+  protected papers?: FilteredPaperMetaData[];
 
   ngOnInit() {
     this.paperQueryService.queryRecent(9)
@@ -28,21 +32,28 @@ export class SearchComponent implements OnInit {
           this.papers = query;
         },
         error : () => {
-          alert("Il y a eu une erreur lors de la récupération des derniers articles, réessayez plus tard");
-          this.papers = [];
+          this.bannerService
+            .showBanner(
+              "Il y a eu une erreur lors de la récupération des articles récents, réessayez plus tard",
+              BannerType.WARNING
+            );
         }
       });
   }
 
   protected queryPapers(filter: Filter) {
+    this.papers = undefined;
     this.paperQueryService.queryByFilter(filter)
       .subscribe({
         next: (papers) => {
           this.papers = papers;
         },
         error: () => {
-          alert("Il y a eu une erreur lors de la récupération des articles, réessayez plus tard");
-          this.papers = [];
+          this.bannerService
+            .showBanner(
+              "Il y a eu une erreur lors de la récupération des articles, réessayez plus tard",
+              BannerType.ERROR
+            );
         }
       });
   }

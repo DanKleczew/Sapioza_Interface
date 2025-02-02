@@ -13,5 +13,5 @@ import {PaperInfoComponent} from "../paper-info/paper-info.component";
 })
 export class PaperListComponent {
 
-  @Input() papersMetaData: FilteredPaperMetaData[] = [];
+  @Input() papersMetaData?: FilteredPaperMetaData[] = [];
 }
