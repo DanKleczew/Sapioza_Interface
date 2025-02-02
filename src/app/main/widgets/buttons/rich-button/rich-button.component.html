@@ -1,6 +1,18 @@
-<a routerLink={{link}}>
+@if (link !== undefined) {
+  <a routerLink="{{link}}">
     <div class="button-container rich">
-        <span><ng-content></ng-content></span>
-        <figure><img src="{{icon}}"></figure>
+      <ng-container [ngTemplateOutlet]="content"></ng-container>
     </div>
-</a>
+  </a>
+} @else {
+  <div class="button-container rich">
+    <ng-container [ngTemplateOutlet]="content"></ng-container>
+  </div>
+}
+
+<ng-template #content>
+  <span><ng-content></ng-content></span>
+  <figure><img src="{{icon}}"></figure>
+</ng-template>
+
+

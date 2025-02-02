@@ -1,7 +1,7 @@
 <div class="paper-info-container">
 
-  <div class="paper-title clickable" (click)="this.router.navigate(['/article', paperId])">
-    <p>{{paperInfos.paperDTO.title}}</p>
+  <div class="paper-title" (click)="this.router.navigate(['/article', paperId])">
+    <p class="clickable">{{paperInfos.paperDTO.title}}</p>
   </div>
 
   <div class="inner-container">
