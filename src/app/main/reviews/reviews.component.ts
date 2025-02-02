@@ -9,25 +9,31 @@ import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/
 import {PaperOutputService} from "../../Services/paper-output.service";
 import {Review} from "../../Interfaces/review";
 import {UserInfoData} from "../../Interfaces/user-info-data";
+import {BannerService} from "../../Services/banner.service";
+import {BannerType} from "../../Constantes/banner-type";
+import {HttpErrorResponse} from "@angular/common/http";
+import {LoadingComponent} from "../widgets/loading/loading.component";
 
 @Component({
   selector: 'app-reviews',
   standalone: true,
   imports: [
     ButtonComponent,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    LoadingComponent
   ],
   templateUrl: './reviews.component.html',
   styleUrl: './reviews.component.scss'
 })
 export class ReviewsComponent implements OnInit {
   protected paperId!: number;
-  protected reviews?: RichReview[] = [];
+  protected reviews?: RichReview[];
 
   protected hasCommented: boolean = false;
 
+  protected readonly history = history;
   protected formComment = new FormGroup({
-    comment: new FormControl('', Validators.required)
+    comment: new FormControl('', [Validators.required, Validators.minLength(5), Validators.maxLength(500)])
   });
 
   constructor(private route: ActivatedRoute,
@@ -35,14 +41,17 @@ export class ReviewsComponent implements OnInit {
               private router: Router,
               private userQueryService: UserService,
               private paperOutputService: PaperOutputService,
-              protected connectionService: ConnectionService) {
+              protected connectionService: ConnectionService,
+              private bannerService: BannerService) {
   }
 
   ngOnInit() {
     this.paperId = Number(this.route.snapshot.paramMap.get('paperId'));
 
     if (isNaN(this.paperId)) {
-      alert('Ce papier n\'existe pas');
+      this.bannerService
+        .showPersistentBanner('L\'identifiant du papier est invalide',
+          BannerType.WARNING);
       this.router.navigate(['/']);
       return;
     }
@@ -54,58 +63,74 @@ export class ReviewsComponent implements OnInit {
             if (this.connectionService.isLogged() && review.authorId === this.connectionService.getTokenInfo().id) {
               this.hasCommented = true;
             }
-            let richReview: RichReview = {review: review, authorFullName: '-Compte Supprimé-'};
+            let richReview: RichReview = {review: review, authorFullName: ''};
             richReview.review = review;
-
             this.userQueryService.userInfo(review.authorId)
               .subscribe({
                 next : (response: UserInfoData) => {
                   richReview.authorFullName = response.firstName + " " + response.name;
                   this.reviews?.push(richReview);
                 },
-                error: () => {
+                error: (error : HttpErrorResponse) => {
+                  if (error.status === 404) {
+                    richReview.authorFullName = '-Compte Supprimé-';
+                  } else {
+                    this.bannerService.showBanner('Erreur lors de la récupération de l\'identité d\'un commentateur',
+                      BannerType.WARNING);
+                    richReview.authorFullName = '-Utilisateur inconnu-';
+                  }
                   this.reviews?.push(richReview);
                 }
               });
           }
+          if (this.reviews === undefined){
+            this.reviews = [];
+          }
         },
-        error: () => {
-          alert('Ce papier n\'existe pas');
-          this.router.navigate(['/']);
+        error: (error: HttpErrorResponse) => {
+          if (error.status === 404) {
+            this.bannerService
+              .showPersistentBanner('Vous essayez de consulter les commentaires d\'un papier qui n\'existe pas',
+                BannerType.WARNING);
+            this.router.navigate(['/']);
+            return;
+          }
+          this.bannerService.showBanner('Erreur lors de la récupération des commentaires', BannerType.ERROR);
           return;
         }
       });
   }
 
   protected submit(): void{
-    if (this.formComment.valid){
-      if (!this.connectionService.isLogged()) {
-        //Impossible théoriquement
-        alert('Vous devez être connecté pour commenter');
-        return;
-      }
-      if (this.hasCommented) {
-        // Impossible théoriquement
-        alert('Vous avez déjà commenté ce papier');
-        return;
-      }
-      this.paperOutputService.addReview(
-        this.paperId,
-        this.connectionService.getTokenInfo().id,
-        this.formComment.get('comment')!.value!)
-          .subscribe({
-            next: () => {
-              alert('Commentaire ajouté');
-              this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
-                this.router.navigate(['/comments/' + this.paperId], { state: this.history.state });
-              });
-            },
-            error: () => {
-              alert('Erreur lors de l\'ajout du commentaire, veuillez réessayer plus tard');
-            }
-          });
+    if (!this.formComment.valid) {
+      this.bannerService.showBanner('Le commentaire doit contenir entre 5 et 500 caractères', BannerType.INFO);
+      return;
     }
+    if (!this.connectionService.isLogged()) {
+      //Impossible théoriquement
+      this.bannerService.showBanner('Vous devez être connecté pour commenter', BannerType.INFO);
+      return;
+    }
+    if (this.hasCommented) {
+      // Impossible théoriquement
+      this.bannerService.showBanner('Vous avez déjà commenté ce papier', BannerType.INFO);
+      return;
+    }
+    this.paperOutputService.addReview(
+      this.paperId,
+      this.connectionService.getTokenInfo().id,
+      this.formComment.get('comment')!.value!)
+      .subscribe({
+        next: () => {
+          this.bannerService.showPersistentBanner('Commentaire ajouté', BannerType.SUCCESS);
+          this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
+            this.router.navigate(['/comments/' + this.paperId], { state: this.history.state });
+          });
+          },
+        error: () => {
+          this.bannerService
+            .showBanner('Erreur lors de l\'ajout du commentaire, veuillez réessayer plus tard', BannerType.ERROR);
+        }
+      });
   }
-
-  protected readonly history = history;
 }

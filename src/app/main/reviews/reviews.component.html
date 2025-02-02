@@ -1,5 +1,5 @@
-@if (reviews){
-  <div class="fullscreen-container">
+ <div class="fullscreen-container">
+   @if (reviews){
     <div class="paper-title">
       <h1>{{ history.state.paperTitle }} - Commentaires </h1>
     </div>
@@ -36,9 +36,9 @@
       </div>
     </div>
     <app-button [link]="'/article/' + this.paperId">Retourner à l'article</app-button>
-  </div>
-
 } @else {
-  <p>LOADING...</p>
-
+     <div class="loading">
+      <app-loading>Chargement des commentaires</app-loading>
+    </div>
 }
+ </div>

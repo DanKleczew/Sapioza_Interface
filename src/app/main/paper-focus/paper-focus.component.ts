@@ -12,13 +12,15 @@ import {SuppressionObject} from "../../Interfaces/suppression-object";
 import {BannerService} from "../../Services/banner.service";
 import {BannerType} from "../../Constantes/banner-type";
 import {HttpErrorResponse} from "@angular/common/http";
+import {LoadingComponent} from "../widgets/loading/loading.component";
 
 @Component({
   selector: 'app-paper-focus',
   standalone: true,
   imports: [
     ButtonComponent,
-    IconButtonComponent
+    IconButtonComponent,
+    LoadingComponent
   ],
   templateUrl: './paper-focus.component.html',
   styleUrl: './paper-focus.component.scss'
@@ -73,7 +75,8 @@ export class PaperFocusComponent implements OnInit {
                 } else if (opinion.opinion === 'DISLIKE') {
                   this.hasDisliked = true;
                 }
-              }
+              },
+              error: () => {}
             });
         }
       },
