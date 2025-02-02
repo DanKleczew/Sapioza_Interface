@@ -41,6 +41,19 @@ export class BannerService {
   }
 
   /**
+   * Affiche une bannière qui survit à n redirections
+   * @param message Le message à afficher sur la bannière
+   * @param type Le type de bannière
+   * @param life Le nombre de redirections auxquelles la bannière survit
+   */
+  public showPersistentBannerWithLife(message: string, type: BannerType, life: number): void {
+    this.bannerLife = life;
+    this.message = message;
+    this.type = type;
+    this.bannerCountdownTick();
+  }
+
+  /**
    * Cache la bannière
    */
   public hideBanner(): void {

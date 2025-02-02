@@ -122,7 +122,7 @@ export class ReviewsComponent implements OnInit {
       this.formComment.get('comment')!.value!)
       .subscribe({
         next: () => {
-          this.bannerService.showPersistentBanner('Commentaire ajouté', BannerType.SUCCESS);
+          this.bannerService.showPersistentBannerWithLife('Commentaire ajouté', BannerType.SUCCESS, 3);
           this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
             this.router.navigate(['/comments/' + this.paperId], { state: this.history.state });
           });
