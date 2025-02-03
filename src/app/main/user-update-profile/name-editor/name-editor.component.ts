@@ -86,7 +86,7 @@ export class NameEditorComponent {
       name: this.formUserProfile.value.lastName
     }
     this.userService.updateName(nameUpdateData).subscribe({
-      next: data => {
+      next: ()=> {
         localStorage.setItem('nameSapioza', this.formUserProfile.value.lastName);
         let firstNameUpdateData: FirstNameUpdateData = {
           id: this.userTokenInfo!.id,
@@ -94,13 +94,13 @@ export class NameEditorComponent {
           firstName: this.formUserProfile.value.firstName
         };
         this.userService.updateFirstName(firstNameUpdateData).subscribe({
-          next: data => {
+          next: () => {
             localStorage.setItem('firstNameSapioza', this.formUserProfile.value.firstName);
             console.log(localStorage.getItem('firstNameSapioza'));
             this.updateFormAfterSubmit();
             this.bannerService.showBanner("Your update have been updated with success", BannerType.SUCCESS);
           },
-          error: error => {
+          error: () => {
             this.bannerService.showBanner("Error while processing the firstName update", BannerType.ERROR);
           }
         });

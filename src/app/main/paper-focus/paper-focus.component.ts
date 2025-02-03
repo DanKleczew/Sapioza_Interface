@@ -13,6 +13,8 @@ import {BannerService} from "../../Services/banner.service";
 import {BannerType} from "../../Constantes/banner-type";
 import {HttpErrorResponse} from "@angular/common/http";
 import {LoadingComponent} from "../widgets/loading/loading.component";
+import {PaperFieldPipe} from "../../Pipe/paper-field.pipe";
+import {IsoToFrenchDatePipe} from "../../Pipe/iso-to-french-date.pipe";
 
 @Component({
   selector: 'app-paper-focus',
@@ -20,7 +22,9 @@ import {LoadingComponent} from "../widgets/loading/loading.component";
   imports: [
     ButtonComponent,
     IconButtonComponent,
-    LoadingComponent
+    LoadingComponent,
+    PaperFieldPipe,
+    IsoToFrenchDatePipe
   ],
   templateUrl: './paper-focus.component.html',
   styleUrl: './paper-focus.component.scss'

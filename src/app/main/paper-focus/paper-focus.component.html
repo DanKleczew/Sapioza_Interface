@@ -20,13 +20,13 @@
             <td>Auteur</td> <td>{{paperMetaData!.userInfoDTO.firstName + " " +  paperMetaData!.userInfoDTO.lastName}}</td>
           </tr>
           <tr>
-            <td>Domaine</td> <td>{{paperMetaData!.paperDTO.field}}</td>
+            <td>Domaine</td> <td>{{paperMetaData!.paperDTO.field | paperField}}</td>
           </tr>
           <tr>
             <td>Publication originelle</td> <td>{{paperMetaData!.paperDTO.publishedIn}}</td>
           </tr>
           <tr>
-            <td>Publié sur Sapioza le</td> <td>{{paperMetaData!.paperDTO.publicationDate}}</td>
+            <td>Publié sur Sapioza le</td> <td>{{paperMetaData!.paperDTO.publicationDate | isoToFrenchDate}}</td>
           </tr>
           <tr>
             <td>Mots clés</td> <td>{{ paperMetaData!.paperDTO.keywords }}</td>

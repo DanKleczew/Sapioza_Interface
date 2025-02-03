@@ -52,7 +52,6 @@ export class PasswordEditorComponent implements OnInit{
       password: this.formChangePassword.value.password,
       newPassword: this.formChangePassword.value.newPassword,
     }
-
     this.userService.changePassword(passwordUpdateData).subscribe({
       next: (data) => {
         this.bannerService.showBanner("your password has been updated", BannerType.SUCCESS);

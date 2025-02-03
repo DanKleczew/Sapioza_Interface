@@ -3,11 +3,15 @@ import { PaperQueryService } from '../../../Services/paper-query.service';
 import {Router} from "@angular/router";
 import {FilteredPaperMetaData} from "../../../Interfaces/filtered-paper-meta-data";
 import {PaperMetaData} from "../../../Interfaces/paper-meta-data";
+import {PaperFieldPipe} from "../../../Pipe/paper-field.pipe";
 
 @Component({
   selector: 'app-paper-info',
   standalone: true,
   templateUrl: './paper-info.component.html',
+  imports: [
+    PaperFieldPipe
+  ],
   styleUrl: './paper-info.component.scss'
 })
 export class PaperInfoComponent implements OnInit {

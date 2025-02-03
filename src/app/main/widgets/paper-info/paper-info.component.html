@@ -9,7 +9,7 @@
       <p class="clickable" (click)="this.router.navigate(['/profile', paperInfos.userInfoDTO.id])">
         {{paperInfos.userInfoDTO.firstName}} {{paperInfos.userInfoDTO.lastName}}
       </p>
-      <p>{{paperInfos.paperDTO.field}}</p>
+      <p>{{paperInfos.paperDTO.field| paperField}}</p>
       <p>{{paperInfos.paperDTO.publicationDate}}</p>
     </div>
     <img class="article-img" src="/article.png" alt="article"/>
