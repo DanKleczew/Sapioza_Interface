@@ -10,12 +10,14 @@ import {PaperCreation} from "../../Interfaces/paper-creation";
 import {BannerService} from "../../Services/banner.service";
 import {BannerType} from "../../Constantes/banner-type";
 import {HttpErrorResponse} from "@angular/common/http";
+import {PaperFieldPipe} from "../../Pipe/paper-field.pipe";
 
 @Component({
   selector: 'app-paper-editor',
   standalone: true,
   imports: [
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    PaperFieldPipe
   ],
   templateUrl: './paper-editor.component.html',
   styleUrl: './paper-editor.component.scss'

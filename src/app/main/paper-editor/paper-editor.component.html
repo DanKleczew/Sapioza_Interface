@@ -22,7 +22,7 @@
         <div class="sub-container inputs">
           <select formControlName="field">
             @for (field of fields; track field) {
-              <option value="{{field}}">{{field}}</option>
+              <option value="{{field}}">{{field | paperField}}</option>
             }
           </select>
           <input type="text" formControlName="revue">

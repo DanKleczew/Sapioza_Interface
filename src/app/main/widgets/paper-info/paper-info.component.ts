@@ -4,13 +4,15 @@ import {Router} from "@angular/router";
 import {FilteredPaperMetaData} from "../../../Interfaces/filtered-paper-meta-data";
 import {PaperMetaData} from "../../../Interfaces/paper-meta-data";
 import {PaperFieldPipe} from "../../../Pipe/paper-field.pipe";
+import {IsoToFrenchDatePipe} from "../../../Pipe/iso-to-french-date.pipe";
 
 @Component({
   selector: 'app-paper-info',
   standalone: true,
   templateUrl: './paper-info.component.html',
   imports: [
-    PaperFieldPipe
+    PaperFieldPipe,
+    IsoToFrenchDatePipe
   ],
   styleUrl: './paper-info.component.scss'
 })

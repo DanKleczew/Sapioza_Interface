@@ -10,10 +10,10 @@
         <input type="text" placeholder="DOI" class="input" formControlName="DOI"/>
       </div>
       <div class="input-container">
-        <select class="select" formControlName="field">
+        <select class="select" formControlName="field" value="all">
           <option value="all">Tous domaines</option>
           @for (field of fields ; track field){
-            <option value="{{field}}">{{field}}</option>
+            <option value="{{field}}">{{field | paperField}}</option>
           }
 
         </select>

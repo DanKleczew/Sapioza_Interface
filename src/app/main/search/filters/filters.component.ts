@@ -3,11 +3,12 @@ import {ButtonComponent} from "../../widgets/buttons/button/button.component";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {Filter} from "../../../Interfaces/filter";
 import {FieldsEnum} from "../../../Constantes/Fields";
+import {PaperFieldPipe} from "../../../Pipe/paper-field.pipe";
 
 @Component({
   selector: 'app-filters',
   standalone: true,
-  imports: [ButtonComponent, ReactiveFormsModule],
+  imports: [ButtonComponent, ReactiveFormsModule, PaperFieldPipe],
   templateUrl: './filters.component.html',
   styleUrl: './filters.component.scss'
 })

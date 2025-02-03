@@ -31,3 +31,7 @@
   scrollbar-color: var(--primary-white) var(--primary-grey);
   scrollbar-width: thin;
 }
+
+.ng-invalid.ng-touched {
+  border-color : var(--primary-orange);
+}
