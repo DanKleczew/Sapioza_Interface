@@ -5,6 +5,10 @@
   align-items: center;
   font: 1.5em 'Roboto', sans-serif;
   border-top: 1px solid var(--primary-white);
+  color: var(--primary-white);
+  animation-duration: 1s;
+  animation-name: slide-in;
+  animation-direction: alternate;
 }
 
 .success {
