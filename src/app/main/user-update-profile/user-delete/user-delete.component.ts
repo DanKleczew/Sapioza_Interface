@@ -41,11 +41,11 @@ export class UserDeleteComponent implements OnInit{
     this.showModal = !this.showModal;
   }
 
-  public deleteUser(){
+  public deleteUser():void{
     this.showModal = true;
   }
 
-  public confirmDeleteUser(){
+  public confirmDeleteUser():void{
     if(this.confirmDeleteForm.get("password")!.value != this.confirmDeleteForm.get("confirmPassword")!.value){
       this.bannerService.showBanner("The Password and Confirm Password do not match", BannerType.ERROR);
       this.swapModal();

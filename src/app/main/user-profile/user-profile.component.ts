@@ -5,6 +5,8 @@ import {UserService} from "../../Services/user.service";
 import {UserPaperLinksComponent} from "../widgets/user-info/user-paper-links/user-paper-links.component";
 import {ButtonComponent} from "../widgets/buttons/button/button.component";
 import {ShowUserProfileComponent} from "./show-user-profile/show-user-profile.component";
+import {BannerService} from "../../Services/banner.service";
+import {BannerType} from "../../Constantes/banner-type";
 
 @Component({
   selector: 'app-user-profile',
@@ -28,12 +30,12 @@ export class UserProfileComponent implements OnInit{
   constructor(private connectionService: ConnectionService,
               private route: ActivatedRoute,
               private userService: UserService,
-              private router: Router) {
+              private router: Router,
+              private bannerService: BannerService) {
   }
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
-      let id = params.get('userId');
       this.searchUserId = Number(params.get('userId'));
     });
     this.userService.getFollowers(this.searchUserId).subscribe({
@@ -66,19 +68,29 @@ export class UserProfileComponent implements OnInit{
     return;
   }
 
-  deleteCookie(){
+  deleteCookie():void{
     this.connectionService.logout();
     this.router.navigate(['/']);
   }
 
 
-  followUser() {
+  followUser():void {
     this.userService.followUser(this.id,this.searchUserId).subscribe({
-      next: data => {
-        console.log(data);
-      },
-      error: error => {
-        console.error('There was an error!', error);
+      next: () => {
+        this.userService.userInfo(this.searchUserId).subscribe({
+          next: response => {
+            this.bannerService.showPersistentBanner("You are now following " + response.firstName + " " + response.name, BannerType.SUCCESS);
+          },
+          error: ()=> {
+            this.bannerService.showBanner("Your are now following a new user", BannerType.SUCCESS);
+          }
+        });
+        this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
+          this.router.navigate(['/user/profile/'+this.searchUserId]);
+        });
+        },
+      error: () => {
+        this.bannerService.showBanner("An error occurred while following this user", BannerType.ERROR);
       }
     });
   }

@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ConnectionService} from "../../../Services/connection.service";
@@ -19,7 +19,7 @@ import {BannerType} from "../../../Constantes/banner-type";
   templateUrl: './name-editor.component.html',
   styleUrl: './name-editor.component.scss'
 })
-export class NameEditorComponent {
+export class NameEditorComponent implements OnInit{
   constructor(private connectionService: ConnectionService,
               private router: Router,
               private route: ActivatedRoute,
@@ -55,7 +55,7 @@ export class NameEditorComponent {
     })
   }
 
-  initializeForm() {
+  initializeForm():void{
     this.formUserProfile = new FormGroup({
       firstName: new FormControl('', [Validators.required]),
       lastName: new FormControl('', [Validators.required]),
@@ -64,14 +64,14 @@ export class NameEditorComponent {
     });
   }
 
-  updateForm(tokenData: TokenData, email: string) {
+  updateForm(tokenData: TokenData, email: string):void{
     this.formUserProfile.patchValue({
       firstName: tokenData.firstName,
       lastName: tokenData.name,
       email: email
     })
   }
-  updateFormAfterSubmit(){
+  updateFormAfterSubmit():void{
     this.formUserProfile.patchValue({
       firstName: localStorage.getItem('firstNameSapioza'),
       lastName: localStorage.getItem('nameSapioza')
@@ -79,7 +79,7 @@ export class NameEditorComponent {
   }
 
 
-  onSubmit(){
+  onSubmit():void{
     let nameUpdateData : NameUpdateData = {
       id: this.userTokenInfo!.id,
       password: this.formUserProfile.value.password,
@@ -97,8 +97,11 @@ export class NameEditorComponent {
           next: () => {
             localStorage.setItem('firstNameSapioza', this.formUserProfile.value.firstName);
             console.log(localStorage.getItem('firstNameSapioza'));
-            this.updateFormAfterSubmit();
-            this.bannerService.showBanner("Your update have been updated with success", BannerType.SUCCESS);
+            this.bannerService.showPersistentBannerWithLife("Your update have been updated with success", BannerType.SUCCESS,3);
+            this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
+              this.router.navigate(['/user/profile/'+this.connectionService.getTokenInfo().id]);
+            });
+            return;
           },
           error: () => {
             this.bannerService.showBanner("Error while processing the firstName update", BannerType.ERROR);

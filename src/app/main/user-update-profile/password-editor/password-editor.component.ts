@@ -44,7 +44,7 @@ export class PasswordEditorComponent implements OnInit{
     });
   }
 
-  onSubmit() {
+  onSubmit():void{
     if (this.formChangePassword.value.newPassword !== this.formChangePassword.value.confirmNewPassword) {
       this.bannerService.showBanner("The New Password and Confirm Password do not match", BannerType.ERROR);
       return;
