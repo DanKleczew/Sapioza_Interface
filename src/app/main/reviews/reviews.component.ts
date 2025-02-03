@@ -103,7 +103,8 @@ export class ReviewsComponent implements OnInit {
         next: (title: string)=> {
           this.title = title;
           },
-        error: () => {
+        error: (error: HttpErrorResponse) => {
+          console.log(error);
           this.bannerService.showBanner('Erreur lors de la récupération du titre du papier', BannerType.WARNING);
         }
       });

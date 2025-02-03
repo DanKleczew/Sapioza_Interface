@@ -55,7 +55,7 @@
           </div>
         </div>
         <div class="reviews">
-          <app-button (click)="redirectToReviews()" >Voir les commentaires</app-button>
+          <app-button (click)="this.router.navigate(['/comments/' + this.paperId]);" >Voir les commentaires</app-button>
         </div>
       </div>
     </div>

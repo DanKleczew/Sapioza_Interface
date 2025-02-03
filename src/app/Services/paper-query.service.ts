@@ -49,7 +49,6 @@ export class PaperQueryService {
   }
 
   getTitle(paperId: number): Observable<string> {
-    console.log(paperId);
-    return this.http.get<string>('/papers/title/' + paperId);
+    return this.http.get('/papers/title/' + paperId, {responseType: 'text'});
   }
 }

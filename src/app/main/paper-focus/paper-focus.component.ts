@@ -41,7 +41,7 @@ export class PaperFocusComponent implements OnInit {
   protected isOwnPaper: boolean = false;
 
   constructor(private route : ActivatedRoute,
-              private router : Router,
+              protected router : Router,
               private paperQueryService: PaperQueryService,
               protected connectionService : ConnectionService,
               private opinionService: OpinionService,
@@ -144,7 +144,7 @@ export class PaperFocusComponent implements OnInit {
   }
 
   protected redirectToReviews(): void {
-    this.router.navigate(['/comments/' + this.paperId], { state: { paperTitle : this.paperMetaData?.paperDTO.title } });
+
   }
 
   private calculateOpinion(likePressed : boolean): void {
