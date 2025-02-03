@@ -23,4 +23,8 @@ export class BannerComponent {
   protected banner: { visible: boolean; message?: string; type?: BannerType } = {
     visible: false
   }
+
+  protected hide(): void {
+    this.bannerService.hideBanner();
+  }
 }

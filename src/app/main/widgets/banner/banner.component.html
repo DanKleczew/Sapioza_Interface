@@ -1,5 +1,5 @@
 @if (banner.visible) {
   <div [ngClass]="['banner', banner.type]">
-    <p>{{banner.message}}</p>
+    <p (click)="hide()">{{banner.message}}</p>
   </div>
 }
