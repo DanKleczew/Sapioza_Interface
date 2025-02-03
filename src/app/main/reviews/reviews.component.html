@@ -1,7 +1,7 @@
  <div class="fullscreen-container">
    @if (reviews){
     <div class="paper-title">
-      <h1>{{ history.state.paperTitle }} - Commentaires </h1>
+      <h1>{{ this.title }} - Commentaires </h1>
     </div>
     <div class="comments-container">
     @if (!this.hasCommented && this.connectionService.isLogged()) {

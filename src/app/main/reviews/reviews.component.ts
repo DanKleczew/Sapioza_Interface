@@ -30,8 +30,8 @@ export class ReviewsComponent implements OnInit {
   protected reviews?: RichReview[];
 
   protected hasCommented: boolean = false;
+  protected title: string = '';
 
-  protected readonly history = history;
   protected formComment = new FormGroup({
     comment: new FormControl('', [Validators.required, Validators.minLength(5), Validators.maxLength(500)])
   });
@@ -99,7 +99,16 @@ export class ReviewsComponent implements OnInit {
           return;
         }
       });
+      this.paperQueryService.getTitle(this.paperId).subscribe({
+        next: (title: string)=> {
+          this.title = title;
+          },
+        error: () => {
+          this.bannerService.showBanner('Erreur lors de la récupération du titre du papier', BannerType.WARNING);
+        }
+      });
   }
+
 
   protected submit(): void{
     if (!this.formComment.valid) {
@@ -124,7 +133,7 @@ export class ReviewsComponent implements OnInit {
         next: () => {
           this.bannerService.showPersistentBannerWithLife('Commentaire ajouté', BannerType.SUCCESS, 3);
           this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
-            this.router.navigate(['/comments/' + this.paperId], { state: this.history.state });
+            this.router.navigate(['/comments/' + this.paperId]);
           });
           },
         error: () => {

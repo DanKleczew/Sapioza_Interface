@@ -48,4 +48,8 @@ export class PaperQueryService {
     return this.http.get<Review[]>('/papers/reviews/' + paperId);
   }
 
+  getTitle(paperId: number): Observable<string> {
+    console.log(paperId);
+    return this.http.get<string>('/papers/title/' + paperId);
+  }
 }
