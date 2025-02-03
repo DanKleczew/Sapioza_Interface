@@ -1,7 +1,10 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {UserService} from "../../../Services/user.service";
 import {RegisterData} from "../../../Interfaces/register-data";
+import {BannerService} from "../../../Services/banner.service";
+import {BannerType} from "../../../Constantes/banner-type";
+import {ConnectionService} from "../../../Services/connection.service";
 
 @Component({
   selector: 'app-register',
@@ -11,12 +14,13 @@ import {RegisterData} from "../../../Interfaces/register-data";
     ReactiveFormsModule
   ],
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss']
+  styleUrls: ['../form-components.scss']
 })
 export class RegisterComponent {
-  protected showModal!: boolean;
 
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService,
+              private bannerService: BannerService,
+              private connectionService: ConnectionService) {
   }
 
   formUserRegister = new FormGroup({
@@ -27,33 +31,35 @@ export class RegisterComponent {
     confirmPasswordRegister: new FormControl('', [Validators.required, Validators.minLength(4)]),
   });
 
-  onSubmitRegister(){
-    if(!this.formUserRegister.valid){
-      this.showModal = true;
+  onSubmitRegister(): void {
+    if (this.formUserRegister.invalid) {
+      this.bannerService.showBanner("Les champs ne sont pas correctement remplis", BannerType.WARNING);
       return;
     }
-    if(this.formUserRegister.get("passwordRegister")!.value != this.formUserRegister.get("confirmPasswordRegister")!.value){
-      this.showModal = true;
+    if (this.formUserRegister.get('passwordRegister')!.value !==
+      this.formUserRegister.get('confirmPasswordRegister')!.value) {
+      this.bannerService.showBanner("Les mots de passe ne correspondent pas", BannerType.WARNING);
       return;
     }
-    let registerData : RegisterData = {
-      firstName: this.formUserRegister.get("firstNameRegister")!.value as string,
-      name: this.formUserRegister.get("lastNameRegister")!.value as string,
-      email: this.formUserRegister.get("emailRegister")!.value as string,
-      password: this.formUserRegister.get("passwordRegister")!.value as string,
-    }
+
+    const registerData : RegisterData = {
+      firstName: this.formUserRegister.get("firstNameRegister")!.value,
+      name: this.formUserRegister.get("lastNameRegister")!.value,
+      email: this.formUserRegister.get("emailRegister")!.value,
+      password: this.formUserRegister.get("passwordRegister")!.value,
+    } as RegisterData;
     this.userService.createAccount(registerData).subscribe({
-      next: data => {
-        console.log(data);
+      next: () => {
+        this.connectionService.login(registerData.email, registerData.password);
+        this.bannerService.showPersistentBanner("Compte créé avec succès", BannerType.SUCCESS);
       },
       error: error => {
-        console.error('There was an error!', error);
+        this.bannerService
+          .showBanner("Erreur lors de la création du compte, veuillez réessayer plus tard", BannerType.ERROR)
       }
     }
     );
   }
 
-  closeModal(){
-    this.showModal = false;
-  }
+
 }

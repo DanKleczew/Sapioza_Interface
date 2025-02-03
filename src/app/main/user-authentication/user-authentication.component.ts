@@ -3,6 +3,8 @@ import {Router} from "@angular/router";
 import {ConnectionService} from "../../Services/connection.service";
 import {LoginComponent} from "./login/login.component";
 import {RegisterComponent} from "./register/register.component";
+import {BannerService} from "../../Services/banner.service";
+import {BannerType} from "../../Constantes/banner-type";
 
 @Component({
   selector: 'app-user-authentication',
@@ -18,12 +20,15 @@ import {RegisterComponent} from "./register/register.component";
 })
 export class UserAuthenticationComponent implements OnInit{
   constructor(private connectionService: ConnectionService,
-              private router: Router) {
+              private router: Router,
+              private bannerService: BannerService) {
   }
 
   ngOnInit() {
     if (this.connectionService.isLogged()) {
-      this.router.navigate(['']);
+      this.bannerService.showPersistentBanner("Vous êtes déjà connecté. Déconnectez vous pour changer de compte.",
+        BannerType.INFO);
+      this.router.navigate(['/']);
     }
   }
 }

@@ -1,10 +1,14 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {UserService} from "../../../Services/user.service";
 import {LoginData} from "../../../Interfaces/login-data";
 import {ConnectionService} from "../../../Services/connection.service";
 import {TokenData} from "../../../Interfaces/token-data";
-import {ActivatedRoute, Router} from "@angular/router";
+import {Router} from "@angular/router";
+import {BannerService} from "../../../Services/banner.service";
+import {BannerType} from "../../../Constantes/banner-type";
+import {UserInfoData} from "../../../Interfaces/user-info-data";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-login',
@@ -14,64 +18,51 @@ import {ActivatedRoute, Router} from "@angular/router";
         ReactiveFormsModule
     ],
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss',]
+  styleUrls: ['../form-components.scss',]
 })
 export class LoginComponent {
-  protected name!: string;
-  protected firstName!: string;
-  protected uuid!: string;
-  protected id !: number;
-  protected searchUserId!: number;
 
   constructor(private userService: UserService,
               private connectionService: ConnectionService,
-              private route: ActivatedRoute,
-              private router: Router) {
+              private router: Router,
+              private bannerService: BannerService) {
   }
 
-  ngOnInit() {
-    if(this.connectionService.isLogged()){
-      let tokenInfo = this.connectionService.getTokenInfo();
-      if(tokenInfo != null){
-        this.name = tokenInfo.name;
-        this.firstName = tokenInfo.firstName;
-        this.uuid = tokenInfo.uuid;
-        this.id = tokenInfo.id;
-        return;
-      }
-    }
-    this.name = "";
-    this.firstName = "";
-    this.uuid = "";
-    this.id = 0;
-  }
 
   formLogin = new FormGroup({
     email: new FormControl('', [Validators.email, Validators.required]),
     password: new FormControl('', [Validators.required]),
   });
 
-  onSubmitLogin(){
-    let formData: LoginData = {
-      email: "",
-      password: ""
-    }
-    formData.email = String(this.formLogin.getRawValue().email);
-    formData.password = String(this.formLogin.getRawValue().password);
 
-    this.userService.userLoginLoginData(formData).subscribe(response => {
-      this.name = response.name;
-      this.firstName = response.firstName;
-      this.uuid = response.uuid;
-      this.id = response.id;
-      let tokenData: TokenData = {
-        name: this.name,
-        firstName: this.firstName,
-        uuid: this.uuid,
-        id: this.id
+  onSubmitLogin(){
+    if (this.formLogin.invalid) {
+      this.bannerService.showBanner("Veuillez remplir les champs correctement.", BannerType.WARNING);
+      return;
+    }
+    const formData : LoginData = {
+      email : this.formLogin.get('email')!.value,
+      password : this.formLogin.get('password')!.value
+    } as LoginData;
+
+    this.userService.userLoginLoginData(formData).subscribe({
+      next: (response: UserInfoData) => {
+        const tokenData: TokenData = {
+          name: response.name,
+          firstName: response.firstName,
+          uuid: response.uuid,
+          id: response.id
+        }
+        this.connectionService.saveToken(tokenData);
+        this.router.navigate(['/profile/' + response.id]);
+      }, error: (error : HttpErrorResponse)=> {
+        // 401 = Do not match; 404 = Email not found
+        if (error.status === 401 || error.status === 404) {
+          this.bannerService.showBanner("Couple Email / Mot de passe erroné.", BannerType.WARNING);
+        } else {
+          this.bannerService.showBanner("Une erreur est survenue. Veuillez réessayer plus tard.", BannerType.ERROR);
+        }
       }
-      this.connectionService.saveToken(tokenData);
-      this.router.navigate(['/profile/'+this.id]);
     });
   }
 }

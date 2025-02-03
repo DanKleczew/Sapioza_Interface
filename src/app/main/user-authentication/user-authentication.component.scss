@@ -1,18 +1,30 @@
+.fullscreen-container {
+  margin-top: 5vh;
+  width: 100%;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: var(--primary-white);
+}
+
 .login-register {
   width: 100%;
-  height: 70vh;
+  height: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
-}
+  gap: 10vw;
 
-.login-register login {
-  width: 100%;
-  height: 100%;
-}
-
-.login-register register {
-  width: 100%;
-  height: 100%;
+    .bordered-container {
+      display: flex;
+      flex-direction: column;
+      gap: 5vh;
+      border-radius: 15px;
+      border: 1px inset var(--primary-red);
+      background-color: var(--darker-grey);
+      padding: 2%;
+    }
 }

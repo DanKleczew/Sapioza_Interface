@@ -1,45 +1,24 @@
 <form [formGroup]="formUserRegister">
   <div class="form-body">
     <div class="form-field">
-      <label for="firstNameRegister">First Name</label>
-      <input type="text" id="firstNameRegister" formControlName="firstNameRegister">
-    </div>
-    <div class="form-field">
-      <label for="lastNameRegister">Last Name</label>
-      <input type="text" id="lastNameRegister" formControlName="lastNameRegister">
-    </div>
-
-    <div class="form-field">
+      <label for="firstNameRegister">Prénom</label>
+      <label for="lastNameRegister">Nom</label>
       <label for="emailRegister">Email</label>
+      <label for="passwordRegister">Mot de passe</label>
+      <label for="confirmPasswordRegister">Confirmez le mot de passe</label>
+
+    </div>
+    <div class="form-field">
+      <input type="text" id="firstNameRegister" formControlName="firstNameRegister">
+      <input type="text" id="lastNameRegister" formControlName="lastNameRegister">
       <input type="email" id="emailRegister" formControlName="emailRegister">
-    </div>
-
-    <div class="form-field">
-      <label for="passwordRegister">Password</label>
       <input type="password" id="passwordRegister" formControlName="passwordRegister">
-    </div>
-
-    <div class="form-field">
-      <label for="confirmPasswordRegister">Confirm Password</label>
       <input type="password" id="confirmPasswordRegister" formControlName="confirmPasswordRegister">
     </div>
-    <button type="button" (click)="onSubmitRegister()" [disabled]="!formUserRegister.valid">Register</button>
+  </div>
+  <div class="form-submit">
+    <button type="submit" (click)="onSubmitRegister()" [disabled]="!formUserRegister.valid">S'enregistrer</button>
   </div>
 </form>
 
-@if (showModal) {
-  <div id="myModal" class="modal">
-    <div class="modal-content">
-      <div class="modal-header">
 
-        <h2>Register Error</h2>
-      </div>
-      <div class="modal-body">
-        <p>Your two password do not match</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" (click)="closeModal()">Close</button>
-      </div>
-    </div>
-  </div>
-}

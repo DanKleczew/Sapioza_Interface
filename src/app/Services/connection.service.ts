@@ -9,7 +9,7 @@ import {UserService} from "./user.service";
 export class ConnectionService {
 
   constructor(private router: Router,
-              private userSerivice : UserService) {}
+              private userService : UserService) {}
 
   saveToken(tokenData: TokenData) {
     localStorage.setItem('tokenSapioza', tokenData.uuid);
@@ -60,6 +60,19 @@ export class ConnectionService {
     this.router.navigate(['/']);
   }
 
+  login(email: string, password: string): void {
+    this.userService.userLogin(email, password).subscribe(user => {
+      let tokenData: TokenData = {
+        name: user.name,
+        firstName: user.firstName,
+        uuid: user.uuid,
+        id: user.id
+      }
+      this.saveToken(tokenData);
+      this.router.navigate(['/profile/' + user.id]);
+    });
+  }
+
   getTokenInfo(): TokenData {
     let tokenData: TokenData = {
       name: String(localStorage.getItem('nameSapioza')),
@@ -73,7 +86,7 @@ export class ConnectionService {
 
   updateTokenInfo(userId: number): void {
     console.log(userId);
-    this.userSerivice.userInfo(userId).subscribe(user => {
+    this.userService.userInfo(userId).subscribe(user => {
       let tokenData: TokenData = {
         name: user.name,
         firstName: user.firstName,

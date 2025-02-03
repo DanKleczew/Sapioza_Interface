@@ -1,9 +1,15 @@
-<div class="show-user-profile">
-  <div class="user-picture">
-    <img src="/person.png" alt="user-image">
+@if (user){
+  <div class="show-user-profile">
+    <div class="user-picture">
+      <img src="/person.png" alt="user-image">
+    </div>
+    <div class="user-infos">
+      <p>{{user.firstName}} {{user.name}}</p>
+      <p>Contact : {{user.email}}</p>
+    </div>
   </div>
-  <div class="user-infos">
-    <p>{{user.firstName}} {{user.name}}</p>
-    <p>Contact : {{user.email}}</p>
+} @else {
+  <div class="loading">
+    <app-loading>Recherche des informations sur cet utilisateur...</app-loading>
   </div>
-</div>
+}
