@@ -1,0 +1,24 @@
+<button (click)="deleteUser()">Delete</button>
+{{showModal}}
+@if (showModal){
+  <div id="myModal" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <form [formGroup]="confirmDeleteForm">
+        <div class="form-body">
+          <div class="form-field">
+            <label for="password">Password</label>
+            <input type="password" id="password" formControlName="password">
+          </div>
+          <div class="form-field">
+            <label for="confirmPassword">confirmPassword</label>
+            <input type="password" id="confirmPassword" formControlName="confirmPassword">
+          </div>
+          <button (click)="confirmDeleteUser()" [disabled]="!confirmDeleteForm.valid">Delete</button>
+          <button (click)="swapModal()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+}
