@@ -1,14 +1,30 @@
-<app-show-user-profile [userId]=searchUserId></app-show-user-profile>
-@if (searchUserId == id){
-  <button type="button" (click)="deleteCookie()">Logout</button>
-  <div>
-    <app-button [link]="'/profile/update/'+searchUserId">Modifier</app-button>
+@if (this.followers){
+  <div class="user-container">
+    <app-show-user-profile [userId]="searchUserId"></app-show-user-profile>
   </div>
+  <div class="button-container">
+    @if (this.connectionService.isLogged()){
+      @if (searchUserId === loggedOnUserId){
+        <app-button (click)="deleteCookie()">Se déconnecter</app-button>
+        <div>
+          <app-button [link]="'/profile/update/'+ searchUserId">Modifier votre profil / Supprimer votre compte</app-button>
+        </div>
+      } @else {
+        @if (!followers!.includes(loggedOnUserId!)){
+          <app-rich-button icon="/follow.png" (click)="followUser()">Follow</app-rich-button>
+        }
+      }
     }
-@if (searchUserId != null && id != 0 && searchUserId != id){
-  @if (!followers.includes(id)){
-    <button type="button" (click)="followUser()">Follow</button>
-  }
+  </div>
+
+  <div class="articles-container">
+    <h1>Papiers publiés</h1>
+    <app-paper-list [papersMetaData]="publishedPapers">Cet utilisateur n'a publié aucun article</app-paper-list>
+  </div>
 }
-<app-user-paper-links [userId]=searchUserId></app-user-paper-links>
+@else {
+  <div class="loading">
+    <app-loading>Recherche des informations sur cet utilisateur...</app-loading>
+  </div>
+}
 

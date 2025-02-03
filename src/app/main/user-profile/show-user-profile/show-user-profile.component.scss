@@ -1,32 +1,36 @@
 .show-user-profile {
-  border: 1px solid gold;
   width: 100%;
-  height: 70vh;
+  height: 50vh;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
+
+  .user-infos {
+    border-radius: 15px;
+    color: var(--primary-white);
+    font-size: 2em;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 100%;
+  }
+
+
+  .show-user-profile user-info {
+    width: 100%;
+    height: 100%;
+  }
+
+  .user-picture {
+    background-color: var(--primary-grey);
+    border-radius: 15px;
+    height: 80%;
+  }
+
+  img {
+    height: 100%;
+    filter: invert(0.8);
+  }
 }
 
-.show-user-profile .table {
-  border-radius: 15px;
-  color: white;
-  font-family: var(--body-font);
-}
-
-.show-user-profile user-info {
-  width: 100%;
-  height: 100%;
-}
-
-.user-picture{
-  border: 1px solid gold;
-  border-radius: 15px;
-  width: 100%;
-  height: 100%;
-}
-
-img {
-  filter: invert(0.8);
-  //background-color: var(--primary-grey);
-}

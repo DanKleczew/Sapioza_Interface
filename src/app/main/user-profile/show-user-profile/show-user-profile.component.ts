@@ -10,6 +10,9 @@ import {UserService} from "../../../Services/user.service";
   templateUrl: './show-user-profile.component.html',
   styleUrl: './show-user-profile.component.scss'
 })
+/**
+ * Do not use this component without a working userId
+ */
 export class ShowUserProfileComponent implements OnInit{
   @Input() userId!: number;
   protected user!: UserInfoData;

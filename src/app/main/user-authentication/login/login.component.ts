@@ -14,7 +14,7 @@ import {ActivatedRoute, Router} from "@angular/router";
         ReactiveFormsModule
     ],
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss','../../user-profile/user-profile-register-login.component.scss']
+  styleUrls: ['./login.component.scss',]
 })
 export class LoginComponent {
   protected name!: string;

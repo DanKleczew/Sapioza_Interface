@@ -11,7 +11,7 @@ import {RegisterData} from "../../../Interfaces/register-data";
     ReactiveFormsModule
   ],
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss','../../user-profile/user-profile-register-login.component.scss']
+  styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent {
   protected showModal!: boolean;

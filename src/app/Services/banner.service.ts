@@ -41,7 +41,7 @@ export class BannerService {
   }
 
   /**
-   * Affiche une bannière qui survit à n redirections
+   * Affiche une bannière qui se supprime après 'life' redirections
    * @param message Le message à afficher sur la bannière
    * @param type Le type de bannière
    * @param life Le nombre de redirections auxquelles la bannière survit

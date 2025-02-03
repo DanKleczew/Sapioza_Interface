@@ -2,91 +2,106 @@ import {Component, OnInit} from '@angular/core';
 import {ConnectionService} from "../../Services/connection.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {UserService} from "../../Services/user.service";
-import {UserPaperLinksComponent} from "../widgets/user-info/user-paper-links/user-paper-links.component";
 import {ButtonComponent} from "../widgets/buttons/button/button.component";
 import {ShowUserProfileComponent} from "./show-user-profile/show-user-profile.component";
 import {BannerService} from "../../Services/banner.service";
 import {BannerType} from "../../Constantes/banner-type";
+import {HttpErrorResponse} from "@angular/common/http";
+import {SubscribeResponse} from "../../Interfaces/subscribe-response";
+import {LoadingComponent} from "../widgets/loading/loading.component";
+import {RichButtonComponent} from "../widgets/buttons/rich-button/rich-button.component";
+import {FilteredPaperMetaData} from "../../Interfaces/filtered-paper-meta-data";
+import {PaperQueryService} from "../../Services/paper-query.service";
+import {PaperListComponent} from "../widgets/paper-list/paper-list.component";
 
 @Component({
   selector: 'app-user-profile',
   standalone: true,
   imports: [
     ShowUserProfileComponent,
-    UserPaperLinksComponent,
-    ButtonComponent
+    ButtonComponent,
+    LoadingComponent,
+    RichButtonComponent,
+    PaperListComponent
   ],
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.scss'
 })
 export class UserProfileComponent implements OnInit{
-  protected name!: string;
-  protected firstName!: string;
-  protected uuid!: string;
-  protected id !: number;
-  protected searchUserId!: number;
-  protected followers: number[] = [];
 
-  constructor(private connectionService: ConnectionService,
+  protected loggedOnUserId?: number;
+  protected searchUserId!: number;
+  protected followers?: number[];
+  protected publishedPapers: FilteredPaperMetaData[] = [];
+
+  constructor(protected connectionService: ConnectionService,
               private route: ActivatedRoute,
               private userService: UserService,
+              private paperQueryService: PaperQueryService,
               private router: Router,
               private bannerService: BannerService) {
   }
 
   ngOnInit() {
-    this.route.paramMap.subscribe(params => {
-      this.searchUserId = Number(params.get('userId'));
+    this.searchUserId = Number(this.route.snapshot.params['userId']);
+    if (isNaN(this.searchUserId)) {
+      this.bannerService.showPersistentBanner("L'identifiant d'utilisateur est invalide", BannerType.WARNING);
+      this.router.navigate(['/']);
+      return;
+    }
+    if (this.connectionService.isLogged()){
+      this.loggedOnUserId = this.connectionService.getTokenInfo().id;
+    }
+
+    this.getUserInfos();
+  }
+
+  private getUserInfos(): void {
+      this.userService.userInfo(this.searchUserId).subscribe({
+      next: () => {
+        this.getFollowers();
+        this.paperQueryService.queryByAuthor(this.searchUserId , 10).subscribe(response => {
+          this.publishedPapers = response;
+        });
+      },
+      error: (error: HttpErrorResponse) => {
+        if (error.status === 404) {
+          this.bannerService.showPersistentBanner("L'utilisateur n'existe pas", BannerType.INFO);
+          this.router.navigate(['/']);
+          return;
+        } else {
+          this.bannerService.showBanner("Impossible de récupérer les informations de l'utilisateur", BannerType.ERROR);
+        }
+      }
     });
+  }
+
+  private getFollowers(): void {
     this.userService.getFollowers(this.searchUserId).subscribe({
       next: data => {
         this.followers = data;
+        console.log("Followers : ", this.followers);
       },
-      error: error => {
-        console.error('There was an error!', error);
-      }
-    })
-    if (this.connectionService.isLogged()) {
-      let tokenInfo = this.connectionService.getTokenInfo();
-      if (tokenInfo != null) {
-        this.name = tokenInfo.name;
-        this.firstName = tokenInfo.firstName;
-        this.uuid = tokenInfo.uuid;
-        this.id = tokenInfo.id;
+      error: () => {
+        this.bannerService.showBanner("Impossible de récupérer les informations de l'utilisateur", BannerType.ERROR);
         return;
       }
-    }
-    if(this.searchUserId != 0) {
-      this.userService.userInfo(this.searchUserId).subscribe(response => {
-        this.searchUserId = response.id;
-      });
-    }
-    this.name = "";
-    this.firstName = "";
-    this.uuid = "";
-    this.id = 0;
-    return;
+    });
   }
 
-  deleteCookie():void{
+  protected deleteCookie(): void{
     this.connectionService.logout();
     this.router.navigate(['/']);
   }
 
-
-  followUser():void {
-    this.userService.followUser(this.id,this.searchUserId).subscribe({
-      next: () => {
-        this.userService.userInfo(this.searchUserId).subscribe({
-          next: response => {
-            this.bannerService.showPersistentBanner("You are now following " + response.firstName + " " + response.name, BannerType.SUCCESS);
-          },
-          error: ()=> {
-            this.bannerService.showBanner("Your are now following a new user", BannerType.SUCCESS);
-          }
-        });
+  protected followUser(): void {
+    this.userService.followUser(this.loggedOnUserId!, this.searchUserId).subscribe({
+      next: (response: SubscribeResponse) => {
+        this.bannerService
+          .showPersistentBannerWithLife("Vous êtes désormais abonné aux publications de : " + response.firstName + " " + response.name,
+            BannerType.SUCCESS, 3);
         this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
-          this.router.navigate(['/user/profile/'+this.searchUserId]);
+          this.router.navigate(['/profile/' + this.searchUserId]);
         });
         },
       error: () => {

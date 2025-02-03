@@ -10,6 +10,7 @@ import {FirstNameUpdateData} from "../Interfaces/updateUser/first-name-update-da
 import {log} from "@angular-devkit/build-angular/src/builders/ssr-dev-server";
 import {PasswordUpdateData} from "../Interfaces/updateUser/password-update-data";
 import {DeleteUserData} from "../Interfaces/updateUser/delete-user-data";
+import {SubscribeResponse} from "../Interfaces/subscribe-response";
 
 @Injectable({
   providedIn: 'root'
@@ -52,8 +53,8 @@ export class UserService {
     return this.http.post('/user/update/password', passwordUpdateData, {responseType: "text"});
   }
 
-  public followUser(userId: number, followedId: number): Observable<any> {
-    return this.http.patch('/user/subscribe/' + followedId + '/' + userId, null);
+  public followUser(userId: number, followedId: number): Observable<SubscribeResponse> {
+    return this.http.patch<SubscribeResponse>('/user/subscribe/' + followedId + '/' + userId, null);
   }
 
   public getFollowers(userId: number): Observable<number[]> {

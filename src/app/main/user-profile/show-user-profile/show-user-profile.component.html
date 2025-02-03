@@ -1,11 +1,9 @@
 <div class="show-user-profile">
-  @if (user !== undefined){
-  <div class="user-info">
-    <img src="/person.png" alt="user-image" class="user-picture">
+  <div class="user-picture">
+    <img src="/person.png" alt="user-image">
   </div>
-  <div class="table">
+  <div class="user-infos">
     <p>{{user.firstName}} {{user.name}}</p>
-    <p>{{user.email}}</p>
+    <p>Contact : {{user.email}}</p>
   </div>
-  }
 </div>
