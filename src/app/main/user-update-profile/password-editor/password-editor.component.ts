@@ -5,6 +5,7 @@ import {ConnectionService} from "../../../Services/connection.service";
 import {PasswordUpdateData} from "../../../Interfaces/updateUser/password-update-data";
 import {BannerService} from "../../../Services/banner.service";
 import {BannerType} from "../../../Constantes/banner-type";
+import {Router} from "@angular/router";
 
 
 @Component({
@@ -19,7 +20,8 @@ import {BannerType} from "../../../Constantes/banner-type";
 export class PasswordEditorComponent implements OnInit{
   constructor(private userService: UserService,
               private connectionService: ConnectionService,
-              private bannerService: BannerService) {
+              private bannerService: BannerService,
+              private router: Router) {
   }
 
   protected formChangePassword!: FormGroup;
@@ -53,8 +55,11 @@ export class PasswordEditorComponent implements OnInit{
       newPassword: this.formChangePassword.value.newPassword,
     }
     this.userService.changePassword(passwordUpdateData).subscribe({
-      next: (data) => {
-        this.bannerService.showBanner("your password has been updated", BannerType.SUCCESS);
+      next: () => {
+        this.bannerService.showPersistentBannerWithLife("your password has been updated", BannerType.SUCCESS, 3);
+        this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
+          this.router.navigate(['/user/profile/'+this.connectionService.getTokenInfo().id]);
+        });
       },
       error: (error) => {
         if(error.status == 403){

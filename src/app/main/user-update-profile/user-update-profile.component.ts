@@ -5,13 +5,15 @@ import {ConnectionService} from "../../Services/connection.service";
 import {ActivatedRoute} from "@angular/router";
 import {NameEditorComponent} from "./name-editor/name-editor.component";
 import {PasswordEditorComponent} from "./password-editor/password-editor.component";
+import {UserDeleteComponent} from "./user-delete/user-delete.component";
 
 @Component({
   selector: 'app-user-update-profile',
   standalone: true,
   imports: [
     NameEditorComponent,
-    PasswordEditorComponent
+    PasswordEditorComponent,
+    UserDeleteComponent
   ],
   templateUrl: './user-update-profile.component.html',
   styleUrl: './user-update-profile.component.scss'

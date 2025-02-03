@@ -5,5 +5,10 @@
     <app-button [link]="'/profile/update/'+searchUserId">Modifier</app-button>
   </div>
     }
+@if (searchUserId != null && id != 0 && searchUserId != id){
+  @if (!followers.includes(id)){
+    <button type="button" (click)="followUser()">Follow</button>
+  }
+}
 <app-user-paper-links [userId]=searchUserId></app-user-paper-links>
 

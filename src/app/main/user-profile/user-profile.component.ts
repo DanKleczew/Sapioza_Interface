@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ConnectionService} from "../../Services/connection.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {UserService} from "../../Services/user.service";
@@ -17,12 +17,13 @@ import {ShowUserProfileComponent} from "./show-user-profile/show-user-profile.co
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.scss'
 })
-export class UserProfileComponent {
+export class UserProfileComponent implements OnInit{
   protected name!: string;
   protected firstName!: string;
   protected uuid!: string;
   protected id !: number;
   protected searchUserId!: number;
+  protected followers: number[] = [];
 
   constructor(private connectionService: ConnectionService,
               private route: ActivatedRoute,
@@ -35,6 +36,14 @@ export class UserProfileComponent {
       let id = params.get('userId');
       this.searchUserId = Number(params.get('userId'));
     });
+    this.userService.getFollowers(this.searchUserId).subscribe({
+      next: data => {
+        this.followers = data;
+      },
+      error: error => {
+        console.error('There was an error!', error);
+      }
+    })
     if (this.connectionService.isLogged()) {
       let tokenInfo = this.connectionService.getTokenInfo();
       if (tokenInfo != null) {
@@ -59,9 +68,18 @@ export class UserProfileComponent {
 
   deleteCookie(){
     this.connectionService.logout();
-    let tokenInfo = this.connectionService.getTokenInfo();
     this.router.navigate(['/']);
   }
 
 
+  followUser() {
+    this.userService.followUser(this.id,this.searchUserId).subscribe({
+      next: data => {
+        console.log(data);
+      },
+      error: error => {
+        console.error('There was an error!', error);
+      }
+    });
+  }
 }
