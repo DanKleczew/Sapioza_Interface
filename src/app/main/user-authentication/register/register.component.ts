@@ -5,6 +5,7 @@ import {RegisterData} from "../../../Interfaces/register-data";
 import {BannerService} from "../../../Services/banner.service";
 import {BannerType} from "../../../Constantes/banner-type";
 import {ConnectionService} from "../../../Services/connection.service";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-register',
@@ -53,7 +54,11 @@ export class RegisterComponent {
         this.bannerService.showPersistentBanner("Compte créé avec succès", BannerType.SUCCESS);
         this.connectionService.login(registerData.email, registerData.password);
       },
-      error: () => {
+      error: (error: HttpErrorResponse) => {
+        if (error.status === 409) {
+          this.bannerService.showBanner("Adresse email déjà utilisée", BannerType.WARNING);
+          return;
+        }
         this.bannerService
           .showBanner("Erreur lors de la création du compte, veuillez réessayer plus tard", BannerType.ERROR)
       }
