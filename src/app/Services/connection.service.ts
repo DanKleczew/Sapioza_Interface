@@ -20,7 +20,7 @@ export class ConnectionService {
 
   isLogged(): boolean {
     try {
-      let tokenData: TokenData = {
+      const tokenData: TokenData = {
         name: String(localStorage.getItem('tokenSapioza')),
         firstName: String(localStorage.getItem('nameSapioza')),
         uuid: String(localStorage.getItem('firstNameSapioza')),
@@ -34,13 +34,7 @@ export class ConnectionService {
       }
     }
 
-    checkAccess(): void {
-      if (!this.isLogged()) {
-        this.router.navigate(['/connection']);
-      }
-    }
-
-  checkEmpty(tokenData: TokenData): boolean {
+  private checkEmpty(tokenData: TokenData): boolean {
     if(tokenData.uuid == null || tokenData.name == null || tokenData.firstName == null || tokenData.id == null) {
       return true;
     }

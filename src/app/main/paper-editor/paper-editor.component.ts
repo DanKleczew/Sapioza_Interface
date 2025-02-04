@@ -30,12 +30,12 @@ export class PaperEditorComponent implements OnInit{
   protected fields : string[] = FieldsEnum;
 
   formEditor = new FormGroup({
-    title:      new FormControl('', Validators.required),
-    field:      new FormControl('', Validators.required),
+    title:      new FormControl('', [Validators.required, Validators.maxLength(100)]),
+    field:      new FormControl('', Validators.required ),
     revue:      new FormControl('', Validators.required),
-    DOI:        new FormControl('', Validators.required),
+    DOI:        new FormControl('', [Validators.required, Validators.pattern('/^https?:\\/\\/')]),
     keywords:   new FormControl('', Validators.required),
-    abstract_:  new FormControl('', Validators.required),
+    abstract_:  new FormControl('', [Validators.required, Validators.maxLength(300)]),
     body:       new FormControl('', Validators.required)
   })
 
@@ -58,20 +58,24 @@ export class PaperEditorComponent implements OnInit{
       return;
     }
 
+    this.isUpdating = true
     this.paperId = Number(param);
     if (isNaN(this.paperId)){
       this.bannerService.showPersistentBanner('Identifiant de papier invalide', BannerType.WARNING);
       this.router.navigate(['/']);
       return;
     }
+      this.fetchPaperMetaData();
+  }
 
-    this.paperQueryService.queryPaperMetaData(this.paperId)
+  private fetchPaperMetaData(): void {
+    this.paperQueryService.queryPaperMetaData(this.paperId!)
       .subscribe({
         next: response => {
           this.paperMetaData = response;
           this.checkAllowedToModify();
           this.fillForm();
-          },
+        },
         error: (error: HttpErrorResponse) => {
           if (error.status === 404) {
             this.bannerService.showPersistentBanner('Ce papier n\'existe pas', BannerType.WARNING);
@@ -82,7 +86,6 @@ export class PaperEditorComponent implements OnInit{
           }
         }
       });
-      this.isUpdating = true
   }
 
   private checkAllowedToModify(){

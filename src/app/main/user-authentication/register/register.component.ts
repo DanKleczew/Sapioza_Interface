@@ -50,16 +50,14 @@ export class RegisterComponent {
     } as RegisterData;
     this.userService.createAccount(registerData).subscribe({
       next: () => {
-        this.connectionService.login(registerData.email, registerData.password);
         this.bannerService.showPersistentBanner("Compte créé avec succès", BannerType.SUCCESS);
+        this.connectionService.login(registerData.email, registerData.password);
       },
-      error: error => {
+      error: () => {
         this.bannerService
           .showBanner("Erreur lors de la création du compte, veuillez réessayer plus tard", BannerType.ERROR)
       }
     }
     );
   }
-
-
 }

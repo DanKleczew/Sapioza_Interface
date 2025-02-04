@@ -37,6 +37,10 @@ export class NotificationsComponent implements OnInit{
       this.bannerService.showPersistentBanner('Connectez-vous pour consulter vos notifications', BannerType.INFO)
       this.router.navigate(["/connection"])
     }
+    this.fetchNotifications();
+  }
+
+  private fetchNotifications(): void {
     this.notificationService.getPapers(this.connectionService.getTokenInfo().id).subscribe({
       next: (value: NotificationResponse[]) => {
         this.paperMetaData = [];
@@ -58,7 +62,7 @@ export class NotificationsComponent implements OnInit{
         }
       }
     });
-
   }
+
 
 }

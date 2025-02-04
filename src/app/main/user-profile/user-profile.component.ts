@@ -60,7 +60,7 @@ export class UserProfileComponent implements OnInit{
       this.userService.userInfo(this.searchUserId).subscribe({
       next: () => {
         this.getFollowers();
-        this.paperQueryService.queryByAuthor(this.searchUserId , 10).subscribe(response => {
+        this.paperQueryService.queryByAuthor(this.searchUserId , 9).subscribe(response => {
           this.publishedPapers = response;
         });
       },
@@ -78,9 +78,8 @@ export class UserProfileComponent implements OnInit{
 
   private getFollowers(): void {
     this.userService.getFollowers(this.searchUserId).subscribe({
-      next: data => {
+      next: (data: number[]) => {
         this.followers = data;
-        console.log("Followers : ", this.followers);
       },
       error: () => {
         this.bannerService.showBanner("Impossible de récupérer les informations de l'utilisateur", BannerType.ERROR);
@@ -91,10 +90,14 @@ export class UserProfileComponent implements OnInit{
 
   protected deleteCookie(): void{
     this.connectionService.logout();
+    this.bannerService.showPersistentBanner("Vous êtes déconnecté(e)", BannerType.INFO);
     this.router.navigate(['/']);
   }
 
   protected followUser(): void {
+    if (!this.connectionService.isLogged()){
+      this.bannerService.showBanner("Connectez vous pour vous abonner à cet utilisateur", BannerType.WARNING);
+    }
     this.userService.followUser(this.loggedOnUserId!, this.searchUserId).subscribe({
       next: (response: SubscribeResponse) => {
         this.bannerService

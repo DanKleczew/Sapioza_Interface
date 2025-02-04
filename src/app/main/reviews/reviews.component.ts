@@ -47,7 +47,6 @@ export class ReviewsComponent implements OnInit {
 
   ngOnInit() {
     this.paperId = Number(this.route.snapshot.paramMap.get('paperId'));
-
     if (isNaN(this.paperId)) {
       this.bannerService
         .showPersistentBanner('L\'identifiant du papier est invalide',
@@ -55,16 +54,23 @@ export class ReviewsComponent implements OnInit {
       this.router.navigate(['/']);
       return;
     }
+    
+    this.fetchAllReviews();
+    this.fetchTitle();
+  }
 
+  private fetchAllReviews(): void {
     this.paperQueryService.getReviews(this.paperId)
       .subscribe({
         next: (reviews : Review[]) => {
+          if (this.reviews === undefined){
+            this.reviews = [];
+          }
           for (let review of reviews) {
             if (this.connectionService.isLogged() && review.authorId === this.connectionService.getTokenInfo().id) {
               this.hasCommented = true;
             }
             let richReview: RichReview = {review: review, authorFullName: ''};
-            richReview.review = review;
             this.userQueryService.userInfo(review.authorId)
               .subscribe({
                 next : (response: UserInfoData) => {
@@ -83,9 +89,6 @@ export class ReviewsComponent implements OnInit {
                 }
               });
           }
-          if (this.reviews === undefined){
-            this.reviews = [];
-          }
         },
         error: (error: HttpErrorResponse) => {
           if (error.status === 404) {
@@ -99,17 +102,18 @@ export class ReviewsComponent implements OnInit {
           return;
         }
       });
-      this.paperQueryService.getTitle(this.paperId).subscribe({
-        next: (title: string)=> {
-          this.title = title;
-          },
-        error: (error: HttpErrorResponse) => {
-          console.log(error);
-          this.bannerService.showBanner('Erreur lors de la récupération du titre du papier', BannerType.WARNING);
-        }
-      });
   }
 
+  private fetchTitle(): void {
+    this.paperQueryService.getTitle(this.paperId).subscribe({
+      next: (title: string)=> {
+        this.title = title;
+      },
+      error: () => {
+        this.bannerService.showBanner('Erreur lors de la récupération du titre du papier', BannerType.WARNING);
+      }
+    });
+  }
 
   protected submit(): void{
     if (!this.formComment.valid) {

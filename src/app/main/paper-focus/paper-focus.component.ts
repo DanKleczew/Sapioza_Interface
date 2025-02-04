@@ -58,47 +58,51 @@ export class PaperFocusComponent implements OnInit {
       return;
     }
 
-    this.paperQueryService.queryPaperMetaData(this.paperId).subscribe({
-      next: (paperMetaData: PaperMetaData) => {
-        this.paperMetaData = paperMetaData;
+    this.fetchMetaData();
+  }
 
-        (this.paperMetaData.userInfoDTO.id === this.connectionService.getTokenInfo()?.id)
-          ? this.isOwnPaper = true
-          : this.isOwnPaper = false;
 
-        this.likes = paperMetaData.paperDTO.likes;
-        this.dislikes = paperMetaData.paperDTO.dislikes;
 
-        if (this.connectionService.isLogged()) {
-          // User opinion analyse for display and update
-          this.opinionService.getOpinion(this.paperId, this.connectionService.getTokenInfo()!.id)
-            .subscribe({
-              next: (opinion: Opinion) => {
-                if (opinion.opinion === 'LIKE') {
-                  this.hasLiked = true;
-                } else if (opinion.opinion === 'DISLIKE') {
-                  this.hasDisliked = true;
-                }
-              },
-              error: () => {}
-            });
-        }
-      },
-      error: (error: HttpErrorResponse) => {
-        if (error.status === 404) {
+  private fetchMetaData(): void {
+      this.paperQueryService.queryPaperMetaData(this.paperId).subscribe({
+        next: (paperMetaData: PaperMetaData) => {
+          this.paperMetaData = paperMetaData;
+
+          (this.paperMetaData.userInfoDTO.id === this.connectionService.getTokenInfo()?.id)
+            ? this.isOwnPaper = true
+            : this.isOwnPaper = false;
+
+          this.likes = paperMetaData.paperDTO.likes;
+          this.dislikes = paperMetaData.paperDTO.dislikes;
+
+          if (this.connectionService.isLogged()) {
+            // User opinion analyse for display and update
+            this.opinionService.getOpinion(this.paperId, this.connectionService.getTokenInfo()!.id)
+              .subscribe({
+                next: (opinion: Opinion) => {
+                  if (opinion.opinion === 'LIKE') {
+                    this.hasLiked = true;
+                  } else if (opinion.opinion === 'DISLIKE') {
+                    this.hasDisliked = true;
+                  }
+                },
+                error: () => {}
+              });
+          }
+        },
+        error: (error: HttpErrorResponse) => {
+          if (error.status === 404) {
+            this.bannerService
+              .showPersistentBanner("Vous essayez d'accéder à un article qui n'existe pas.", BannerType.WARNING);
+            this.router.navigate(['/']);
+            return;
+          }
           this.bannerService
-            .showPersistentBanner("Vous essayez d'accéder à un article qui n'existe pas.", BannerType.WARNING);
+            .showPersistentBanner("Erreur pendant la récupération des informations de l'article.", BannerType.ERROR);
           this.router.navigate(['/']);
           return;
-        } else {
-
         }
-        this.bannerService
-          .showPersistentBanner("Erreur pendant la récupération des informations de l'article.", BannerType.ERROR);
-        this.router.navigate(['/']);
-        return;
-      }
-    })
+      });
   }
 
   protected openArticle(): void {

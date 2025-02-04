@@ -61,3 +61,11 @@ label {
 }
 
 
+// To hide the arrows of the number input
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+

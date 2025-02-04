@@ -21,12 +21,7 @@ export class UserService {
   }
 
   public userInfo(userId: number | undefined): Observable<UserInfoData> {
-    console.log("user.service.ts: userInfo: userId: " , userId);
     return this.http.get<UserInfoData>('/user/getInfo/' + userId);
-  }
-
-  public userInfoByUuid(uuid: string): Observable<UserInfoData> {
-    return this.http.get<UserInfoData>('/user/getInfoByUuid/' + uuid);
   }
 
   public userLogin(email: string, password: string): Observable<UserInfoData> {

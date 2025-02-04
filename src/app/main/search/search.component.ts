@@ -26,9 +26,13 @@ export class SearchComponent implements OnInit {
   protected papers?: FilteredPaperMetaData[];
 
   ngOnInit() {
+    this.queryRecent();
+  }
+
+  private queryRecent(): void {
     this.paperQueryService.queryRecent(9)
       .subscribe({
-        next : (query) => {
+        next : (query: FilteredPaperMetaData[]) => {
           this.papers = query;
         },
         error : () => {

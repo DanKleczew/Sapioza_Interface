@@ -13,6 +13,7 @@ import {BannerService} from "../Services/banner.service";
 })
 export class AppComponent {
   constructor(private router: Router, private bannerService: BannerService) {
+
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.bannerService.bannerCountdownTick();

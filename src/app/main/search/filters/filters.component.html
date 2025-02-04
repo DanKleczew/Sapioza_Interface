@@ -10,7 +10,7 @@
         <input type="text" placeholder="DOI" class="input" formControlName="DOI"/>
       </div>
       <div class="input-container">
-        <select class="select" formControlName="field" value="all">
+        <select class="select" formControlName="field">
           <option value="all">Tous domaines</option>
           @for (field of fields ; track field){
             <option value="{{field}}">{{field | paperField}}</option>
@@ -18,11 +18,11 @@
 
         </select>
         <div>
-          <label for="dateAsc">Ascending Date</label>
+          <label for="dateAsc">Plus anciens</label>
           <input type="checkbox" id="dateAsc" formControlName="AscDate"/>
         </div>
         <div>
-          <label for="dateDesc">Descending Date</label>
+          <label for="dateDesc">Plus récents</label>
           <input type="checkbox" id="dateDesc" formControlName="DescDate"/>
         </div>
         <div>

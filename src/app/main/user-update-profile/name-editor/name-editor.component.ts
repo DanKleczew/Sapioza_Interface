@@ -21,15 +21,16 @@ import {HttpErrorResponse} from "@angular/common/http";
   styleUrl: '../../common-stylesheets/form-components.scss'
 })
 export class NameEditorComponent implements OnInit {
+
+  @Input()
+  userId!: number;
+
   constructor(private connectionService: ConnectionService,
               private router: Router,
               private userService: UserService,
               private bannerService: BannerService,
               ) {
   }
-
-  @Input()
-  userId!: number;
 
   protected formUserProfile: FormGroup = new FormGroup({
     firstName: new FormControl('', [Validators.required]),

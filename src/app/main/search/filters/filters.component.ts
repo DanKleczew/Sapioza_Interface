@@ -21,7 +21,7 @@ export class FiltersComponent {
     keywords: new FormControl(''),
     revue: new FormControl(''),
     DOI: new FormControl(''),
-    field: new FormControl(''),
+    field: new FormControl('all'),
     AscDate: new FormControl(''),
     DescDate: new FormControl(''),
     limit: new FormControl('', [Validators.min(1)]),

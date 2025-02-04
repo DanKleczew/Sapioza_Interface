@@ -37,15 +37,15 @@ export class UserDeleteComponent {
     confirmPassword: new FormControl('',Validators.required)
     })
 
-  public swapModal(): void {
+  protected swapModal(): void {
     this.showModal = !this.showModal;
   }
 
-  public deleteUser(): void {
+  protected askDeleteUser(): void {
     this.showModal = true;
   }
 
-  public confirmDeleteUser(): void {
+  protected confirmDeleteUser(): void {
     if(this.confirmDeleteForm.invalid){
       this.swapModal();
       this.bannerService.showBanner('Veuillez remplir correctement les champs du formulaire', BannerType.WARNING);
