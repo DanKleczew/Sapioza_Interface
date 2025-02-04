@@ -76,7 +76,7 @@ export class NameEditorComponent implements OnInit {
           next: () => {
             this.connectionService.updateTokenInfo(this.userId);
             this.bannerService.showPersistentBanner("Vos informations ont été modifiées avec succès", BannerType.SUCCESS);
-            this.router.navigate(['/user/profile/' + this.connectionService.getTokenInfo().id]);
+            this.router.navigate(['/profile/' + this.connectionService.getTokenInfo().id]);
           },
           error: () => {
             // Theoretically impossible
