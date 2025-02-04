@@ -1,4 +1,5 @@
 .banner {
+  padding: 0 1vw;
   height: 5vh;
   display: flex;
   justify-content: center;
@@ -6,7 +7,22 @@
   font: 1.5em 'Roboto', sans-serif;
   border-top: 1px solid var(--primary-white);
   color: var(--primary-white);
-  cursor: pointer;
+
+  p {
+    flex-grow: 1;
+    text-align: center;
+  }
+  span {
+    position: absolute;
+    right: 1vw;
+    cursor: pointer;
+    user-select: none;
+    font-size: 1.5em;
+  }
+
+  span:hover {
+    color: var(--secondary-red)
+  }
 }
 
 .success {
