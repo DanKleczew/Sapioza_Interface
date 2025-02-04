@@ -1,12 +1,10 @@
-<div class="fullscreen-container">
-  <div class="filters-container">
-    <app-filters (filtersEvent)="queryPapers($event)"></app-filters>
-  </div>
-  <div class="results-container">
-    @if (papers){
-      <app-paper-list [papersMetaData]="papers">Aucun papier ne correspond à vos critères</app-paper-list>
-    } @else {
-      <app-loading>Chargement des papiers</app-loading>
-    }
-  </div>
+<div class="filters-container">
+  <app-filters (filtersEvent)="queryPapers($event)"></app-filters>
+</div>
+<div class="results-container">
+  @if (papers){
+    <app-paper-list [papersMetaData]="papers">Aucun papier ne correspond à vos critères</app-paper-list>
+  } @else {
+    <app-loading>Chargement des papiers</app-loading>
+  }
 </div>

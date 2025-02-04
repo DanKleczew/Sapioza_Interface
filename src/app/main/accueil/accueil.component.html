@@ -1,20 +1,18 @@
 <div class="text-container">
-  <h1>Bienvenue sur Sapioza : la plateforme sociale de partage de connaissances scientifiques</h1>
+  <h1>Bienvenue sur <i>Sapioza</i> : la plateforme sociale de partage de connaissances scientifiques</h1>
   <p>Cherchez des articles, publiez les vôtres et interagissez avec la communauté</p>
 </div>
-<div class="tendances-container">
-  <p class="tendances-title">
-    Articles récents :
-  </p>
-  <div class="paper-container">
-    @if (papers){
+<h3>
+  Articles récents :
+</h3>
+<div class="paper-container">
+  @if (papers){
     <app-paper-list [papersMetaData]="papers">
       Aucun article récent
     </app-paper-list>
-    }
-    @else {
-      <app-loading>Chargement des articles récents</app-loading>
-    }
-  </div>
+  }
+  @else {
+    <app-loading>Chargement des articles récents</app-loading>
+  }
 </div>
 

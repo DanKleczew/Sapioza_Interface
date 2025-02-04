@@ -1,10 +1,12 @@
 <div class="title-container">
   <h1>Vos notifications</h1>
-  <h2>Retrouvez ici les articles récemment publiés par les auteurs que vous suivez</h2>
+  <h3>Retrouvez ici les articles récemment publiés par les auteurs que vous suivez</h3>
 </div>
 <div class="notification-container">
 @if (paperMetaData){
-  <app-paper-list [papersMetaData]="paperMetaData">Aucune notification. Abonnez vous à des auteurs et leurs dernières publications seront listées ici !</app-paper-list>
+  <app-paper-list [papersMetaData]="paperMetaData">
+    Aucune notification. Abonnez vous à des auteurs et leurs dernières publications seront listées ici !
+  </app-paper-list>
 } @else {
   <app-loading>Chargement de vos notifications</app-loading>
 }

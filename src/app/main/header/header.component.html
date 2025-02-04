@@ -6,8 +6,12 @@
         <app-rich-button link="/create" icon="/feather.png">Créer</app-rich-button>
         <app-rich-button link="/search" icon="/magnifying.png">Rechercher</app-rich-button>
       @if (this.connectionService.isLogged()){
-        <app-icon-button [isHardRedirect]="true" link="/abonnements" icon="/bell.png"></app-icon-button>
+        <app-icon-button [isHardRedirect]="true"
+                         link="/abonnements" icon="/bell.png">
+        </app-icon-button>
       }
-        <app-icon-button [isHardRedirect]="true" [link]="connectionService.getConnectionRoute()" icon="/person.png"></app-icon-button>
+        <app-icon-button [isHardRedirect]="true"
+                         [link]="connectionService.getConnectionRoute()" icon="/person.png">
+        </app-icon-button>
     </nav>
 </div>

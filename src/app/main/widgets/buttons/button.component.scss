@@ -1,44 +1,49 @@
 .button-container {
-    display: flex;
-    align-items: center;
-    height: 50px;
-    cursor: pointer;
-    background-color: var(--primary-red);
-    border-radius: 25px;
-    border: 1px inset var(--primary-white);
-    transition: background-color 0.5s ease;
-    margin-left: 25px;
-    margin-right: 25px;
-    padding-left: 20px;
-    padding-right: 20px;
-    color: var(--primary-white);
-    user-select: none;
-    font-family: var(--links-font), system-ui;
+  height: 50px;
+  margin: 0 25px;
+  padding: 0 20px;
+
+  display: flex;
+  align-items: center;
+
+  border-radius: 25px;
+  border: 1px inset var(--primary-white);
+
+  font-family: var(--links-font), system-ui;
+
+  background-color: var(--primary-red);
+  color: var(--primary-white);
+
+  cursor: pointer;
+  transition: background-color 0.5s ease;
+  user-select: none;
 }
 
 .button-container:hover {
-    background-color: var(--secondary-red);
+  background-color: var(--secondary-red);
 }
 
 
 .classique {
-
-    justify-content: center;
+  justify-content: center;
 }
 
 .rich {
-    justify-content: space-between;
-    gap: 20px;
+  justify-content: space-between;
+  gap: 20px;
 }
 
 .icon {
-    justify-content: center;
-    border-radius: 100%;
-    padding: 0;
-    width: 50px;
+  width: 50px;
+  padding: 0;
+
+  justify-content: center;
+
+  border-radius: 100%;
 }
 
 img {
-    height: 40px;
-    filter: invert(0.8);
+  height: 40px;
+
+  filter: invert(0.8);
 }

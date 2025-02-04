@@ -1,28 +1,32 @@
 .header-container {
-  display: flex;
   height: 10vh;
-  background-color: var(--primary-grey);
+  margin-bottom: 3vh;
+
+  display: flex;
   justify-content: space-between;
   align-items: center;
+
+  background-color: var(--primary-grey);
   border-bottom: 1px solid var(--primary-white);
-}
 
-.sapioza-title {
-  font-size: 60px;
-  margin-left: 20px;
-  font-family: var(--title-font), system-ui;
-}
+  .sapioza-title {
+    margin-left: 20px;
+    font-size: 60px;
 
-a {
-  text-decoration: none;
-  color: var(--primary-green);
-}
+    font-family: var(--title-font), system-ui;
 
-.navigation {
-  width:50%;
-  height: 100%;
-  display: flex;
-  justify-content: right;
-  align-items: center;
-  flex-direction: row;
+    a {
+      text-decoration: none;
+      color: var(--primary-green);
+    }
+  }
+
+  .navigation {
+    height: 100%;
+
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    flex-direction: row;
+  }
 }

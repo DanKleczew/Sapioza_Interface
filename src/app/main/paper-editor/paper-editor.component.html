@@ -1,52 +1,50 @@
-<div class="fullscreen-container">
-  <form [formGroup]="formEditor">
-    <div class="editor-title">
-      @if (this.paperId !== null) {
-        <h1>Modification d'un article</h1>
-      } @else {
-        <h1>Création d'un article</h1>
-      }
-      <div class="title-input">
-        <p>Nom de l'article :</p>
-        <input formControlName="title">
-      </div>
+<form [formGroup]="formEditor">
+  <div class="editor-title">
+    @if (this.paperId !== null) {
+      <h1>Modification d'un article</h1>
+    } @else {
+      <h1>Création d'un article</h1>
+    }
+    <div class="title-input">
+      <p>Nom de l'article :</p>
+      <input formControlName="title">
     </div>
+  </div>
 
-    <div class="metadata-container">
-      <div class="inner-container">
-        <div class="sub-container labels">
-          <p>Domaine :</p>
-          <p>Journal :</p>
-          <p>DOI :</p>
-        </div>
-        <div class="sub-container inputs">
-          <select formControlName="field">
-            @for (field of fields; track field) {
-              <option value="{{field}}">{{field | paperField}}</option>
-            }
-          </select>
-          <input type="text" formControlName="revue">
-          <input type="text" formControlName="DOI">
-        </div>
+  <div class="metadata-container">
+    <div class="inner-container">
+      <div class="sub-container labels">
+        <p>Domaine :</p>
+        <p>Journal :</p>
+        <p>DOI :</p>
       </div>
-      <div class="inner-container">
-        <div class="sub-container labels">
-          <p>Mots clés :</p>
-          <p>Abstract :</p>
-        </div>
-        <div class="sub-container inputs">
-          <input type="text" placeholder="Cryptography, Blind Signature, E-Voting" formControlName="keywords">
-          <textarea class="abstract" formControlName="abstract_"></textarea>
-        </div>
+      <div class="sub-container inputs">
+        <select formControlName="field">
+          @for (field of fields; track field) {
+            <option value="{{field}}">{{field | paperField}}</option>
+          }
+        </select>
+        <input type="text" formControlName="revue">
+        <input type="text" formControlName="DOI">
       </div>
     </div>
+    <div class="inner-container">
+      <div class="sub-container labels">
+        <p>Mots clés :</p>
+        <p>Abstract :</p>
+      </div>
+      <div class="sub-container inputs">
+        <input type="text" placeholder="Cryptography, Blind Signature, E-Voting" formControlName="keywords">
+        <textarea class="abstract" formControlName="abstract_"></textarea>
+      </div>
+    </div>
+  </div>
 
-    <div class="body-container">
-        <label for="corps">Corps de l'article</label>
-        <textarea id="corps" class="body" formControlName="body"></textarea>
-      <div class="submit-container">
-        <button (click)="submit()" [disabled]="formEditor.invalid">Générer le pdf et publier</button>
-      </div>
-    </div>
-  </form>
-</div>
+  <div class="body-container">
+    <label for="corps">Corps de l'article</label>
+    <textarea id="corps" class="body" formControlName="body"></textarea>
+  </div>
+  <div class="submit-container">
+    <button (click)="submit()" [disabled]="formEditor.invalid">Générer le pdf et publier</button>
+  </div>
+</form>

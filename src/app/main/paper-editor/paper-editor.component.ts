@@ -33,7 +33,7 @@ export class PaperEditorComponent implements OnInit{
     title:      new FormControl('', [Validators.required, Validators.maxLength(100)]),
     field:      new FormControl('', Validators.required ),
     revue:      new FormControl('', Validators.required),
-    DOI:        new FormControl('', [Validators.required, Validators.pattern('/^https?:\\/\\/')]),
+    DOI:        new FormControl('', Validators.required),
     keywords:   new FormControl('', Validators.required),
     abstract_:  new FormControl('', [Validators.required, Validators.maxLength(300)]),
     body:       new FormControl('', Validators.required)

@@ -1,21 +1,27 @@
 .text-container {
   height: 25vh;
   width: 100%;
+
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: center;
+  gap: 1vh;
   align-content: center;
 }
 
-p, h1 {
+p, h1, h3 {
   width: 100%;
   text-align: center;
-  color: var(--primary-white)
+  color: var(--primary-white);
+
+  i {
+    color: var(--primary-green);
+  }
 }
 
 .paper-container {
   margin-top: 10vh;
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: center;
 }

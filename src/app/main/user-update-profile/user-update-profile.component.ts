@@ -18,7 +18,7 @@ import {LoadingComponent} from "../widgets/loading/loading.component";
     LoadingComponent
   ],
   templateUrl: './user-update-profile.component.html',
-  styleUrls: ['./user-update-profile.component.scss', '../common-stylesheets/dual-form-component.scss'],
+  styleUrls: ['../common-stylesheets/dual-form-component.scss'],
 })
 export class UserUpdateProfileComponent implements OnInit{
 

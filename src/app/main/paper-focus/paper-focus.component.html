@@ -1,83 +1,84 @@
-<div class="fullscreen-container">
-  @if (this.paperMetaData){
-    <div class="paper-title">
-      <h1>{{paperMetaData!.paperDTO.title}}</h1>
-    </div>
+@if (this.paperMetaData) {
+  <div class="paper-title">
+    <h1>{{paperMetaData!.paperDTO.title}}</h1>
+  </div>
 
-    <div class="paper-content">
-      <div class="paper-abstract">
-        <h2>Abstract</h2>
-        <div class="reader">
-          <p>
-            {{paperMetaData!.paperDTO.abstract_}}
-          </p>
-        </div>
-      </div>
-      <div class="paper-metadata">
-        <h2>Informations</h2>
-        <table>
-          <tr>
-            <td>Auteur</td> <td>{{paperMetaData!.userInfoDTO.firstName + " " +  paperMetaData!.userInfoDTO.lastName}}</td>
-          </tr>
-          <tr>
-            <td>Domaine</td> <td>{{paperMetaData!.paperDTO.field | paperField}}</td>
-          </tr>
-          <tr>
-            <td>Publication originelle</td> <td>{{paperMetaData!.paperDTO.publishedIn}}</td>
-          </tr>
-          <tr>
-            <td>Publié sur Sapioza le</td> <td>{{paperMetaData!.paperDTO.publicationDate | isoToFrenchDate}}</td>
-          </tr>
-          <tr>
-            <td>Mots clés</td> <td>{{ paperMetaData!.paperDTO.keywords }}</td>
-          </tr>
-          <tr>
-            <td>DOI</td> <td>{{ paperMetaData!.paperDTO.DOI}}</td>
-          </tr>
-        </table>
+  <div class="paper-content">
+    <div class="paper-abstract">
+      <h2>Abstract</h2>
+      <div class="reader">
+        <p>
+          {{paperMetaData!.paperDTO.abstract_}}
+        </p>
       </div>
     </div>
+    <div class="paper-metadata">
+      <h2>Informations</h2>
+      <table>
+        <tr>
+          <td>Auteur</td>
+          <td>{{paperMetaData!.userInfoDTO.firstName + " " + paperMetaData!.userInfoDTO.lastName}}</td>
+        </tr>
+        <tr>
+          <td>Domaine</td>
+          <td>{{paperMetaData!.paperDTO.field | paperField}}</td>
+        </tr>
+        <tr>
+          <td>Publication originelle</td>
+          <td>{{paperMetaData!.paperDTO.publishedIn}}</td>
+        </tr>
+        <tr>
+          <td>Publié sur Sapioza le</td>
+          <td>{{paperMetaData!.paperDTO.publicationDate | isoToFrenchDate}}</td>
+        </tr>
+        <tr>
+          <td>Mots clés</td>
+          <td>{{paperMetaData!.paperDTO.keywords}}</td>
+        </tr>
+        <tr>
+          <td>DOI</td>
+          <td>{{paperMetaData!.paperDTO.DOI}}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
 
-    <div class="bottom-line">
-      <div class="pdf-button">
-        <app-button (click)="openArticle()">Voir l'article complet</app-button>
+  <div class="bottom-line">
+    <div class="pdf-button">
+      <app-button (click)="openArticle()">Voir l'article complet</app-button>
+    </div>
+
+    <div class="paper-social">
+      <div class="opinions">
+        <div class="labeled-button">
+          <app-icon-button [icon]="'/like.png'" (click)="changeOpinion(true)"></app-icon-button>
+          <p [class.liked]="hasLiked">{{likes}}</p>
+        </div>
+        <div class="labeled-button">
+          <app-icon-button [icon]="'/dislike.png'" (click)="changeOpinion(false)"></app-icon-button>
+          <p [class.disliked]="hasDisliked">{{dislikes}}</p>
+        </div>
       </div>
+        <app-button (click)="this.router.navigate(['/comments/' + this.paperId]);">Voir les commentaires</app-button>
+    </div>
 
-      <div class="paper-social">
-        <div class="opinions">
-          <div class="labeled-button">
-            <app-icon-button [icon]="'/like.png'" (click)="changeOpinion(true)"></app-icon-button>
-            <p [class.liked]="hasLiked">{{ likes }}</p>
-          </div>
-          <div class="labeled-button">
-            <app-icon-button [icon]="'/dislike.png'" (click)="changeOpinion(false)"></app-icon-button>
-            <p [class.disliked]="hasDisliked">{{ dislikes }}</p>
-          </div>
-        </div>
-        <div class="reviews">
-          <app-button (click)="this.router.navigate(['/comments/' + this.paperId]);" >Voir les commentaires</app-button>
-        </div>
+
+  </div>
+  @if (!this.connectionService.isLogged()) {
+    <div class="buttons-container">
+      <div class="login-necessary-button">
+        <app-button [link]="'/connection'">Se connecter pour réagir</app-button>
       </div>
     </div>
-    @if (!this.connectionService.isLogged()){
-      <div class="single-button-container">
-        <div class="login-button">
-          <app-button [link]="'/connection'">Se connecter pour réagir</app-button>
-        </div>
-      </div>
-    } @else if (isOwnPaper){
-      <div class="buttons-container">
-        <div class="login-button">
-          <app-button [link]="'/update/' + this.paperId">Modifier l'article</app-button>
-        </div>
-        <div class="login-button">
-          <app-button (click)="deletePaper()">Supprimer l'article</app-button>
-        </div>
-      </div>
-    }
-  } @else {
-    <div class="loading">
-      <app-loading>Chargement des informations du papier</app-loading>
+  } @else if (isOwnPaper) {
+    <div class="buttons-container">
+      <app-button [link]="'/update/' + this.paperId">Modifier l'article</app-button>
+      <app-button (click)="deletePaper()">Supprimer l'article</app-button>
     </div>
   }
-</div>
+} @else {
+  <div class="loading">
+    <app-loading>Chargement des informations du papier</app-loading>
+  </div>
+}
+

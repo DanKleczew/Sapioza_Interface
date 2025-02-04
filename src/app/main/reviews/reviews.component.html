@@ -1,22 +1,14 @@
- <div class="fullscreen-container">
-   @if (reviews){
-    <div class="paper-title">
-      <h1>{{ this.title }} - Commentaires </h1>
-    </div>
-    <div class="comments-container">
-    @if (!this.hasCommented && this.connectionService.isLogged()) {
-      <form [formGroup]="formComment">
-        <div class="add-comment">
-          <textarea id="comment" placeholder="Ajoutez un commentaire" formControlName="comment"></textarea>
-          <button (click)="submit()">Commenter</button>
-        </div>
-      </form>
-    }
+@if (reviews) {
+  <div class="paper-title">
+    <h1>{{this.title}} - Commentaires </h1>
+  </div>
+
+  <div class="comments-container">
     <div class="comments">
       <div class="comments-title">
         <h2>Commentaires</h2>
       </div>
-      @for (richReview of reviews; track richReview.review.authorId){
+      @for (richReview of reviews; track richReview.review.authorId) {
         <div class="comment">
           <div class="comment-author">
             <a [href]="'/profile/' + richReview.review.authorId">{{richReview.authorFullName}}</a>
@@ -28,17 +20,33 @@
       } @empty {
         <div class="empty-comments">
           <p>Aucun commentaire, donnez votre avis !</p>
-          @if(!this.connectionService.isLogged()){
+          @if (!this.connectionService.isLogged()) {
             <app-button [link]="'/connection'">Connectez vous pour commenter</app-button>
           }
         </div>
-          }
-      </div>
+      }
     </div>
-    <app-button [link]="'/article/' + this.paperId">Retourner à l'article</app-button>
+
+    @if (!this.hasCommented && this.connectionService.isLogged()) {
+
+      <h3>Laissez un commentaire !</h3>
+
+      <form [formGroup]="formComment">
+        <div class="add-comment">
+          <textarea id="comment" placeholder="Ajoutez un commentaire" formControlName="comment"></textarea>
+          <button (click)="submit()">Commenter</button>
+        </div>
+      </form>
+    }
+
+  </div>
+  <div class="return-button-container">
+    <div class="return-button">
+      <app-button [link]="'/article/' + this.paperId">Retourner à l'article</app-button>
+    </div>
+  </div>
 } @else {
-     <div class="loading">
-      <app-loading>Chargement des commentaires</app-loading>
-    </div>
+  <div class="loading">
+    <app-loading>Chargement des commentaires</app-loading>
+  </div>
 }
- </div>
