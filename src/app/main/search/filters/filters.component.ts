@@ -36,7 +36,7 @@ export class FiltersComponent {
 
   protected findPapers(){
     if (this.formFilters.invalid){
-      this.bannerService.showBanner("Veuillez précisez une limite positive de papiers", BannerType.WARNING);
+      this.bannerService.showBanner("La limite du nombre de papiers est invalide", BannerType.WARNING);
       return;
     }
     let filters : Filter = {
