@@ -1,24 +1,24 @@
-<form [formGroup]="formUserRegister">
-  <div class="form-body">
-    <div class="form-field">
-      <label for="firstNameRegister">Prénom</label>
-      <label for="lastNameRegister">Nom</label>
-      <label for="emailRegister">Email</label>
-      <label for="passwordRegister">Mot de passe</label>
-      <label for="confirmPasswordRegister">Confirmez le mot de passe</label>
+<div class="form-container">
+  <form [formGroup]="formUserRegister">
+    <div class="form-body">
+      <div class="form-field">
+        <label for="firstNameRegister">Prénom</label>
+        <label for="lastNameRegister">Nom</label>
+        <label for="emailRegister">Email</label>
+        <label for="passwordRegister">Mot de passe</label>
+        <label for="confirmPasswordRegister">Confirmez le mot de passe</label>
 
+      </div>
+      <div class="form-field">
+        <input type="text" id="firstNameRegister" formControlName="firstNameRegister">
+        <input type="text" id="lastNameRegister" formControlName="lastNameRegister">
+        <input type="email" id="emailRegister" formControlName="emailRegister">
+        <input type="password" id="passwordRegister" formControlName="passwordRegister">
+        <input type="password" id="confirmPasswordRegister" formControlName="confirmPasswordRegister">
+      </div>
     </div>
-    <div class="form-field">
-      <input type="text" id="firstNameRegister" formControlName="firstNameRegister">
-      <input type="text" id="lastNameRegister" formControlName="lastNameRegister">
-      <input type="email" id="emailRegister" formControlName="emailRegister">
-      <input type="password" id="passwordRegister" formControlName="passwordRegister">
-      <input type="password" id="confirmPasswordRegister" formControlName="confirmPasswordRegister">
+    <div class="form-submit">
+      <button type="submit" (click)="onSubmitRegister()" [disabled]="!formUserRegister.valid">S'enregistrer</button>
     </div>
-  </div>
-  <div class="form-submit">
-    <button type="submit" (click)="onSubmitRegister()" [disabled]="!formUserRegister.valid">S'enregistrer</button>
-  </div>
-</form>
-
-
+  </form>
+</div>

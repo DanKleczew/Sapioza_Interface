@@ -18,7 +18,7 @@ import {HttpErrorResponse} from "@angular/common/http";
         ReactiveFormsModule
     ],
   templateUrl: './login.component.html',
-  styleUrls: ['../form-components.scss',]
+  styleUrls: ['../../common-stylesheets/form-components.scss',]
 })
 export class LoginComponent {
 

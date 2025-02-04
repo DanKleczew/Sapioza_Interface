@@ -7,12 +7,14 @@ import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/
 import {BannerService} from "../../../Services/banner.service";
 import {BannerType} from "../../../Constantes/banner-type";
 import {Router} from "@angular/router";
+import {ButtonComponent} from "../../widgets/buttons/button/button.component";
 
 @Component({
   selector: 'app-user-delete',
   standalone: true,
   imports: [
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ButtonComponent
   ],
   templateUrl: './user-delete.component.html',
   styleUrl: './user-delete.component.scss'

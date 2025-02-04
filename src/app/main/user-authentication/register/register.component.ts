@@ -14,7 +14,7 @@ import {ConnectionService} from "../../../Services/connection.service";
     ReactiveFormsModule
   ],
   templateUrl: './register.component.html',
-  styleUrls: ['../form-components.scss']
+  styleUrls: ['../../common-stylesheets/form-components.scss']
 })
 export class RegisterComponent {
 

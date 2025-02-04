@@ -1,4 +1,16 @@
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 5vh;
+  border-radius: 15px;
+  border: 1px inset var(--primary-red);
+  background-color: var(--darker-grey);
+  padding: 10%;
+  width: 30vw;
+}
+
 .form-body {
+  color: var(--primary-white);
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -41,9 +53,8 @@
     height: 3vh;
     background-color: var(--primary-grey);
     color: var(--secondary-red);
-    width: 50%;
     border: 1px inset var(--secondary-red);
-    padding: 1px;
+    padding: 5px;
     border-radius: 25px;
     transition: border-color 0.5s ease-in-out, color 0.5s ease-in-out;
   }

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ConnectionService} from "../../../Services/connection.service";
@@ -8,6 +8,7 @@ import {NameUpdateData} from "../../../Interfaces/updateUser/name-update-data";
 import {FirstNameUpdateData} from "../../../Interfaces/updateUser/first-name-update-data";
 import {BannerService} from "../../../Services/banner.service";
 import {BannerType} from "../../../Constantes/banner-type";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-name-editor',
@@ -17,103 +18,77 @@ import {BannerType} from "../../../Constantes/banner-type";
         ReactiveFormsModule
     ],
   templateUrl: './name-editor.component.html',
-  styleUrl: './name-editor.component.scss'
+  styleUrl: '../../common-stylesheets/form-components.scss'
 })
-export class NameEditorComponent implements OnInit{
+export class NameEditorComponent implements OnInit {
   constructor(private connectionService: ConnectionService,
               private router: Router,
-              private route: ActivatedRoute,
               private userService: UserService,
               private bannerService: BannerService,
               ) {
   }
 
-  protected userTokenInfo ?: TokenData;
-  protected formUserProfile!: FormGroup;
+  @Input()
+  userId!: number;
+
+  protected formUserProfile: FormGroup = new FormGroup({
+    firstName: new FormControl('', [Validators.required]),
+    lastName: new FormControl('', [Validators.required]),
+    password: new FormControl('', [Validators.required])
+  });
 
   ngOnInit() {
-    this.connectionService.updateTokenInfo(Number(localStorage.getItem('idSapioza')));
-    this.route.paramMap.subscribe(params => {
-      let id = Number(params.get('userId'));
-      let tokenInfo = this.connectionService.getTokenInfo();
-      if (tokenInfo?.id !== id) {
-        this.router.navigate(['connection']);
-      }
-      this.userTokenInfo = tokenInfo;
-    });
-    this.initializeForm();
-    this.userService.userInfo(this.userTokenInfo!.id).subscribe(user => {
-
-      let tokenData: TokenData = {
-        name: user.name,
-        firstName: user.firstName,
-        uuid: this.userTokenInfo!.uuid,
-        id: this.userTokenInfo!.id
-      }
-      this.connectionService.saveToken(tokenData);
-      this.updateForm(tokenData,user.email);
-    })
+    this.fillForm(this.connectionService.getTokenInfo());
   }
 
-  initializeForm():void{
-    this.formUserProfile = new FormGroup({
-      firstName: new FormControl('', [Validators.required]),
-      lastName: new FormControl('', [Validators.required]),
-      email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('1234', [Validators.required]),
-    });
-  }
 
-  updateForm(tokenData: TokenData, email: string):void{
+  private fillForm(tokenData: TokenData): void {
     this.formUserProfile.patchValue({
       firstName: tokenData.firstName,
       lastName: tokenData.name,
-      email: email
     })
   }
-  updateFormAfterSubmit():void{
-    this.formUserProfile.patchValue({
-      firstName: localStorage.getItem('firstNameSapioza'),
-      lastName: localStorage.getItem('nameSapioza')
-    });
+
+  protected onSubmit(): void {
+    if (this.formUserProfile.invalid){
+      this.bannerService.showBanner('Veuillez remplir correctement les champs du formulaire', BannerType.WARNING)
+    }
+
+    const nameUpdateData : NameUpdateData = {
+      id: this.userId,
+      password: this.formUserProfile.get('password')!.value,
+      name: this.formUserProfile.get('lastName')!.value
+    }
+    const firstNameUpdateData: FirstNameUpdateData = {
+      id: this.userId,
+      password: this.formUserProfile.get('password')!.value,
+      firstName: this.formUserProfile.get('firstName')!.value
+    };
+
+    this.doUpdate(nameUpdateData, firstNameUpdateData);
   }
 
-
-  onSubmit():void{
-    let nameUpdateData : NameUpdateData = {
-      id: this.userTokenInfo!.id,
-      password: this.formUserProfile.value.password,
-      name: this.formUserProfile.value.lastName
-    }
-    this.userService.updateName(nameUpdateData).subscribe({
+  private doUpdate(lastNameData: NameUpdateData, firstNameData: FirstNameUpdateData): void{
+    this.userService.updateName(lastNameData).subscribe({
       next: ()=> {
-        localStorage.setItem('nameSapioza', this.formUserProfile.value.lastName);
-        let firstNameUpdateData: FirstNameUpdateData = {
-          id: this.userTokenInfo!.id,
-          password: this.formUserProfile.value.password,
-          firstName: this.formUserProfile.value.firstName
-        };
-        this.userService.updateFirstName(firstNameUpdateData).subscribe({
+        this.userService.updateFirstName(firstNameData).subscribe({
           next: () => {
-            localStorage.setItem('firstNameSapioza', this.formUserProfile.value.firstName);
-            console.log(localStorage.getItem('firstNameSapioza'));
-            this.bannerService.showPersistentBannerWithLife("Your update have been updated with success", BannerType.SUCCESS,3);
-            this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
-              this.router.navigate(['/user/profile/'+this.connectionService.getTokenInfo().id]);
-            });
-            return;
+            this.connectionService.updateTokenInfo(this.userId);
+            this.bannerService.showPersistentBanner("Vos informations ont été modifiées avec succès", BannerType.SUCCESS);
+            this.router.navigate(['/user/profile/' + this.connectionService.getTokenInfo().id]);
           },
           error: () => {
-            this.bannerService.showBanner("Error while processing the firstName update", BannerType.ERROR);
+            // Theoretically impossible
+            this.bannerService.showBanner("Il y a eu un problème pendant l'enregistrement de votre prénom", BannerType.ERROR);
           }
         });
       },
-        error: error => {
+      error: (error: HttpErrorResponse) => {
         if(error.status == 403){
-          this.bannerService.showBanner("Your Email and Password do not match", BannerType.ERROR);
+          this.bannerService.showBanner("Votre mot de passe est incorrect", BannerType.WARNING);
           return;
         }
-        this.bannerService.showBanner("Error while processing the lastName update", BannerType.ERROR);
+        this.bannerService.showBanner("Il y a eu un problème pendant la modification de vos informations", BannerType.ERROR);
       }
     });
   }

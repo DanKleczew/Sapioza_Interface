@@ -1,16 +1,18 @@
-<form [formGroup]="formLogin">
-  <div class="form-body">
-    <div class="form-field">
-      <label for="email">Email</label>
-      <label for="password">Password</label>
+<div class="form-container">
+  <form [formGroup]="formLogin">
+    <div class="form-body">
+      <div class="form-field">
+        <label for="email">Email</label>
+        <label for="password">Password</label>
+      </div>
+      <div class="form-field">
+        <input type="email" id="email" formControlName="email">
+        <input type="password" id="password" formControlName="password">
+      </div>
     </div>
-    <div class="form-field">
-      <input type="email" id="email" formControlName="email">
-      <input type="password" id="password" formControlName="password">
+    <div class="form-submit">
+      <button type="button" (click)="onSubmitLogin()" [disabled]="!formLogin.valid">Se connecter</button>
     </div>
-  </div>
-  <div class="form-submit">
-    <button type="button" (click)="onSubmitLogin()" [disabled]="!formLogin.valid">Se connecter</button>
-  </div>
   </form>
+</div>
 

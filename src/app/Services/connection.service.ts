@@ -47,10 +47,8 @@ export class ConnectionService {
     if(tokenData.uuid == "null" || tokenData.name == "null" || tokenData.firstName == "null") {
       return true;
     }
-    if(tokenData.uuid == "" || tokenData.name == "" || tokenData.firstName == "" || tokenData.id == 0) {
-      return true;
-    }
-    return false;
+    return tokenData.uuid == "" || tokenData.name == "" || tokenData.firstName == "" || tokenData.id == 0;
+
   }
 
   logout():void {
@@ -85,9 +83,8 @@ export class ConnectionService {
   }
 
   updateTokenInfo(userId: number): void {
-    console.log(userId);
     this.userService.userInfo(userId).subscribe(user => {
-      let tokenData: TokenData = {
+      const tokenData: TokenData = {
         name: user.name,
         firstName: user.firstName,
         uuid: this.getTokenInfo().uuid,
@@ -96,6 +93,7 @@ export class ConnectionService {
       this.saveToken(tokenData);
     });
   }
+
   getConnectionRoute(): string {
     if(this.isLogged()) {
       return '/profile/' + this.getTokenInfo()!.id;

@@ -1,6 +1,20 @@
-<app-name-editor></app-name-editor>
-
-<br>
-<br>
-<app-password-editor></app-password-editor>
-<app-user-delete></app-user-delete>
+<div class="fullscreen-container">
+  @if (this.valid){
+  <h1>Modification de vos informations personnelles</h1>
+  <div class="dual-form">
+    <div>
+      <h2>Modification de votre identité</h2>
+      <app-name-editor [userId]="userId"></app-name-editor>
+    </div>
+    <div>
+      <h2>Changement de mot de passe</h2>
+      <app-password-editor [userId]="userId"></app-password-editor>
+    </div>
+  </div>
+  <div class="delete-button">
+    <app-user-delete></app-user-delete>
+  </div>
+  } @else {
+    <app-loading>Vérification de vos informations, veuillez patienter</app-loading>
+  }
+</div>

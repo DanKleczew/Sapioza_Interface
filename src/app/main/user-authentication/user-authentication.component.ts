@@ -16,7 +16,7 @@ import {BannerType} from "../../Constantes/banner-type";
     RegisterComponent
   ],
   templateUrl: './user-authentication.component.html',
-  styleUrl: './user-authentication.component.scss'
+  styleUrl: '../common-stylesheets/dual-form-component.scss'
 })
 export class UserAuthenticationComponent implements OnInit{
   constructor(private connectionService: ConnectionService,
