@@ -4,6 +4,8 @@ import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/
 import {Filter} from "../../../Interfaces/filter";
 import {FieldsEnum} from "../../../Constantes/Fields";
 import {PaperFieldPipe} from "../../../Pipe/paper-field.pipe";
+import {BannerService} from "../../../Services/banner.service";
+import {BannerType} from "../../../Constantes/banner-type";
 
 @Component({
   selector: 'app-filters',
@@ -14,6 +16,9 @@ import {PaperFieldPipe} from "../../../Pipe/paper-field.pipe";
 })
 export class FiltersComponent {
   @Output() filtersEvent = new EventEmitter<Filter>();
+
+  constructor(private bannerService: BannerService) {
+  }
 
   formFilters = new FormGroup({
     title: new FormControl(''),
@@ -30,6 +35,10 @@ export class FiltersComponent {
   protected fields : string[] = FieldsEnum;
 
   protected findPapers(){
+    if (this.formFilters.invalid){
+      this.bannerService.showBanner("Veuillez précisez une limite positive de papiers", BannerType.WARNING);
+      return;
+    }
     let filters : Filter = {
       title: this.formFilters.get('title')?.value,
       abstract_: this.formFilters.get('abstract_')?.value,
