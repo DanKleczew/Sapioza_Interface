@@ -18,12 +18,16 @@
 
         </select>
         <div>
-          <label for="dateAsc">Plus anciens</label>
-          <input type="checkbox" id="dateAsc" formControlName="AscDate"/>
+          <label class="checkbox-container">Plus anciens
+            <input type="checkbox" id="dateAsc" formControlName="AscDate"/>
+            <span class="checkbox-replacement"></span>
+          </label>
         </div>
         <div>
-          <label for="dateDesc">Plus récents</label>
-          <input type="checkbox" id="dateDesc" formControlName="DescDate"/>
+          <label class="checkbox-container">Plus récents
+            <input type="checkbox" id="dateDesc" formControlName="DescDate"/>
+            <span class="checkbox-replacement"></span>
+          </label>
         </div>
         <div>
           <label for="limit">Limit</label>

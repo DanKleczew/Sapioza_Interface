@@ -31,15 +31,15 @@ export class FiltersComponent {
 
   protected findPapers(){
     let filters : Filter = {
-      title: this.formFilters.getRawValue().title,
-      abstract_: this.formFilters.getRawValue().abstract_,
-      keywords: this.formFilters.getRawValue().keywords,
-      revue: this.formFilters.getRawValue().revue,
-      DOI: this.formFilters.getRawValue().DOI,
-      researchField: this.formFilters.getRawValue().field,
-      AscDate: Boolean(this.formFilters.getRawValue().AscDate),
-      DescDate: Boolean(this.formFilters.getRawValue().DescDate),
-      limit: Number(this.formFilters.getRawValue().limit)
+      title: this.formFilters.get('title')?.value,
+      abstract_: this.formFilters.get('abstract_')?.value,
+      keywords: this.formFilters.get('keywords')?.value,
+      revue: this.formFilters.get('revue')?.value,
+      DOI: this.formFilters.get('DOI')?.value,
+      researchField: this.formFilters.get('field')?.value,
+      AscDate: this.formFilters.get('AscDate')?.value ? Boolean(this.formFilters.get('AscDate')?.value) : null,
+      DescDate: this.formFilters.get('DescDate')?.value ? Boolean(this.formFilters.get('DescDate')?.value) : null,
+      limit: this.formFilters.get('limit')?.value ? Number(this.formFilters.get('limit')?.value): null
     }
     this.filtersEvent.emit(filters);
   }
