@@ -51,11 +51,11 @@
     <div class="paper-social">
       <div class="opinions">
         <div class="labeled-button">
-          <app-icon-button [icon]="'/like.png'" (click)="changeOpinion(true)"></app-icon-button>
+          <app-icon-button [icon]="'like.png'" (click)="changeOpinion(true)"></app-icon-button>
           <p [class.liked]="hasLiked">{{likes}}</p>
         </div>
         <div class="labeled-button">
-          <app-icon-button [icon]="'/dislike.png'" (click)="changeOpinion(false)"></app-icon-button>
+          <app-icon-button [icon]="'dislike.png'" (click)="changeOpinion(false)"></app-icon-button>
           <p [class.disliked]="hasDisliked">{{dislikes}}</p>
         </div>
       </div>
