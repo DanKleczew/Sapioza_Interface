@@ -1,9 +1,7 @@
-@if (link) {
-  <a routerLink={{link}}>
-    <div class="button-container icon">
+@if (this.link) {
+    <div class="button-container icon" (click)="redirection()">
       <figure><img src="{{icon}}"></figure>
     </div>
-  </a>
 } @else {
   <div class="button-container icon">
     <figure><img src="{{icon}}"></figure>

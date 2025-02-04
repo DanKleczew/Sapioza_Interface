@@ -13,16 +13,13 @@
     padding-right: 20px;
     color: var(--primary-white);
     user-select: none;
+    font-family: var(--links-font), system-ui;
 }
 
 .button-container:hover {
     background-color: var(--secondary-red);
 }
 
-a {
-    text-decoration: none;
-    font-family: var(--links-font), system-ui;
-}
 
 .classique {
 

@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import {TestComponent} from "../test/test.component";
 import {AccueilComponent} from "../main/accueil/accueil.component";
 import {SearchComponent} from "../main/search/search.component";
 import {UserProfileComponent} from "../main/user-profile/user-profile.component";
@@ -12,7 +11,6 @@ import {NotificationsComponent} from "../main/notifications/notifications.compon
 
 export const routes: Routes = [
 
-  { path: 'test', component: TestComponent },
   { path: 'accueil', component: AccueilComponent },
   { path: 'search', component: SearchComponent},
   { path: 'article/:paperId', component: PaperFocusComponent},

@@ -1,9 +1,7 @@
-@if (this.link !== undefined) {
-  <a routerLink="{{link}}">
-    <div class="button-container classique">
+@if (this.link) {
+  <div class="button-container classique" (click)="redirection()">
       <ng-container [ngTemplateOutlet]="content"></ng-container>
-    </div>
-  </a>
+  </div>
 } @else {
   <div class="button-container classique">
     <ng-container [ngTemplateOutlet]="content"></ng-container>

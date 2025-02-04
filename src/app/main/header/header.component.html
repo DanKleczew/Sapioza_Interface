@@ -8,6 +8,6 @@
       @if (this.connectionService.isLogged()){
         <app-icon-button link="/abonnements" icon="/bell.png"></app-icon-button>
       }
-        <app-icon-button [link]="connectionService.getConnectionRoute()" icon="/person.png"></app-icon-button>
+        <app-icon-button [isHardRedirect]="true" [link]="connectionService.getConnectionRoute()" icon="/person.png"></app-icon-button>
     </nav>
 </div>
