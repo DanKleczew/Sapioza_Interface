@@ -1,24 +1,29 @@
 <app-button (click)="deleteUser()">Supprimer votre compte</app-button>
-{{showModal}}
+
 @if (showModal){
   <div id="myModal" class="modal">
-    <!-- Modal content -->
     <div class="modal-content">
-      <span class="close">&times;</span>
-      <form [formGroup]="confirmDeleteForm">
-        <div class="form-body">
-          <div class="form-field">
-            <label for="password">Password</label>
-            <input type="password" id="password" formControlName="password">
+      <span class="close" (click)="swapModal()">&times;</span>
+      <div class="form-container">
+        <form [formGroup]="confirmDeleteForm">
+
+          <div class="form-body">
+            <div class="form-field">
+              <label for="password">Mot de passe</label>
+              <label for="confirmPassword">Confirmez votre mot de passe</label>
+            </div>
+            <div class="form-field">
+              <input type="password" id="password" formControlName="password">
+              <input type="password" id="confirmPassword" formControlName="confirmPassword">
+            </div>
           </div>
-          <div class="form-field">
-            <label for="confirmPassword">confirmPassword</label>
-            <input type="password" id="confirmPassword" formControlName="confirmPassword">
+
+          <div class="form-submit">
+            <button (click)="confirmDeleteUser()" [disabled]="!confirmDeleteForm.valid">
+              Supprimer définitivement votre compte</button>
           </div>
-          <button (click)="confirmDeleteUser()" [disabled]="!confirmDeleteForm.valid">Delete</button>
-          <button (click)="swapModal()">Cancel</button>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   </div>
 }

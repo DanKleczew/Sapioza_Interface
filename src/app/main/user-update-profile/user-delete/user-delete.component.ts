@@ -1,7 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {UserService} from "../../../Services/user.service";
 import {ConnectionService} from "../../../Services/connection.service";
-import {TokenData} from "../../../Interfaces/token-data";
 import {DeleteUserData} from "../../../Interfaces/updateUser/delete-user-data";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {BannerService} from "../../../Services/banner.service";
@@ -17,60 +16,69 @@ import {ButtonComponent} from "../../widgets/buttons/button/button.component";
     ButtonComponent
   ],
   templateUrl: './user-delete.component.html',
-  styleUrl: './user-delete.component.scss'
+  styleUrls: ['./user-delete.component.scss', '../../common-stylesheets/form-components.scss']
 })
-export class UserDeleteComponent implements OnInit{
+export class UserDeleteComponent {
+
+  @Input()
+  userId!: number;
+
+  protected showModal: boolean = false;
+
   constructor(private userService: UserService,
               private connectionService: ConnectionService,
               private bannerService: BannerService,
               private router: Router) {
   }
 
-  protected showModal!: boolean;
-  private user!: TokenData;
-
-  ngOnInit() {
-    this.connectionService.checkAccess();
-    this.user = this.connectionService.getTokenInfo();
-  }
 
   confirmDeleteForm: FormGroup = new FormGroup({
     password : new FormControl('',Validators.required),
     confirmPassword: new FormControl('',Validators.required)
     })
 
-  public swapModal():void{
+  public swapModal(): void {
     this.showModal = !this.showModal;
   }
 
-  public deleteUser():void{
+  public deleteUser(): void {
     this.showModal = true;
   }
 
-  public confirmDeleteUser():void{
-    if(this.confirmDeleteForm.get("password")!.value != this.confirmDeleteForm.get("confirmPassword")!.value){
-      this.bannerService.showBanner("The Password and Confirm Password do not match", BannerType.ERROR);
+  public confirmDeleteUser(): void {
+    if(this.confirmDeleteForm.invalid){
       this.swapModal();
+      this.bannerService.showBanner('Veuillez remplir correctement les champs du formulaire', BannerType.WARNING);
+      return;
+    }
+    if(this.confirmDeleteForm.get("password")!.value != this.confirmDeleteForm.get("confirmPassword")!.value){
+      this.swapModal();
+      this.bannerService.showBanner("Vos mots de passe ne correspondent pas, veuillez réessayer", BannerType.WARNING);
       return;
     }
 
-    let deleteUser : DeleteUserData = {
-      id: this.user.id,
-      password: this.confirmDeleteForm.get("password")!.value as string
-    }
+    const deleteUser : DeleteUserData = {
+      id: this.userId,
+      password: this.confirmDeleteForm.get("password")!.value
+    };
+    this.doDelete(deleteUser);
+  }
 
-    this.userService.deleteAccount(deleteUser).subscribe({
+  private doDelete(deleteUserData: DeleteUserData){
+    this.userService.deleteAccount(deleteUserData).subscribe({
       next: () => {
-        this.bannerService.showPersistentBanner("Your account has been deleted", BannerType.SUCCESS);
+        this.bannerService.showPersistentBanner("Votre compte a été supprimé avec succès.", BannerType.SUCCESS);
         this.connectionService.logout();
         this.router.navigate(['/']);
       },
       error: error => {
+        this.swapModal();
         if (error.status == 403) {
-          this.bannerService.showBanner("Incorrect password. Please try again", BannerType.ERROR);
+          this.bannerService.showBanner("Mauvais mot de passe, veuillez réessayer", BannerType.WARNING);
           return;
         }
-        this.bannerService.showBanner("An error occurred while deleting your account", BannerType.ERROR);
+        this.bannerService.showBanner("Une erreur s'est produite pendant la suppression de votre compte",
+          BannerType.ERROR);
       }
     });
   }

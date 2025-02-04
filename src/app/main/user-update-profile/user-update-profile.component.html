@@ -12,7 +12,7 @@
     </div>
   </div>
   <div class="delete-button">
-    <app-user-delete></app-user-delete>
+    <app-user-delete [userId]="userId"></app-user-delete>
   </div>
   } @else {
     <app-loading>Vérification de vos informations, veuillez patienter</app-loading>
