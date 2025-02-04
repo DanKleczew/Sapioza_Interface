@@ -39,7 +39,7 @@ export class FiltersComponent {
       this.bannerService.showBanner("La limite du nombre de papiers est invalide", BannerType.WARNING);
       return;
     }
-    this.bannerService.bannerCountdownTick(); // To remove the banner after a new search
+    this.bannerService.hideBanner();
 
     let filters : Filter = {
       title: this.formFilters.get('title')?.value,
